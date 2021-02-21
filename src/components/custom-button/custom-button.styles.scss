@@ -1,0 +1,18 @@
+@import '../../styles/colors.scss';
+
+.custom-button {
+  padding: 10px;
+  border: 1px solid $primary;
+  background-color: white;
+  border-radius: 5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: $dark;
+
+  transition: all 0.1s ease;
+
+  &:hover {
+    background-color: $primary;
+    color: white;
+  }
+}

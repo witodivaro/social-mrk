@@ -1,9 +1,14 @@
 @import '../../styles/colors.scss';
 
-.register {
+.home {
   width: 100%;
 
   &__form {
+    margin: 0 auto;
+  }
+
+  &__card {
+    padding: 20px;
     margin: 0 auto;
     margin-top: 20px;
     width: 80%;
@@ -11,13 +16,18 @@
   }
 }
 
-.form {
+.register {
   &__header {
+    margin: 0;
     text-align: center;
-    color: $black;
+    color: $exhausted;
   }
 
   .form-input {
+    margin-top: 15px;
+  }
+
+  .custom-button {
     margin-top: 15px;
   }
 }

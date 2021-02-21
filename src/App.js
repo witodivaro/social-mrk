@@ -4,7 +4,7 @@ import Header from './components/header/header.component';
 import aminGoma from './apis/amin-goma';
 import axios from 'axios';
 
-import RegisterPage from './pages/register-page/register-page.component';
+import HomePage from './pages/home-page/home-page.component';
 
 import './App.scss';
 
@@ -15,7 +15,7 @@ const App = () => {
     <div className="app">
       <Header />
       <Switch>
-        <Route exact path="/" component={RegisterPage} />
+        <Route exact path="/" component={HomePage} />
       </Switch>
     </div>
   );

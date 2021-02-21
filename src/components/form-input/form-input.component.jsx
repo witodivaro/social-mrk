@@ -2,7 +2,6 @@ import { useRef, useState } from 'react';
 import './form-input.styles.scss';
 
 const FormInput = ({ label, value, ...props }) => {
-  const [labelShrink, setLabelShrink] = useState(!!value);
   const labelRef = useRef();
 
   return (
@@ -11,7 +10,7 @@ const FormInput = ({ label, value, ...props }) => {
       <label
         htmlFor={label}
         ref={labelRef}
-        className={`label ${labelShrink ? 'shrink' : ''}`}
+        className={`label ${value ? 'shrink' : ''}`}
       >
         {label}
       </label>
