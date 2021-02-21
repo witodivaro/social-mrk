@@ -1,0 +1,16 @@
+@import './styles/fonts';
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: $Rubik;
+}
