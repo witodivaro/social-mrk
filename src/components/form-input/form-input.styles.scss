@@ -1,0 +1,47 @@
+@import '../../styles/colors.scss';
+
+@mixin shrink {
+  top: -8px;
+  font-size: 12px;
+}
+
+.form-input {
+  position: relative;
+  width: 100%;
+  display: flex;
+  border: 1px solid $primary;
+  border-radius: 5px;
+  background-color: #fff;
+
+  label {
+    position: absolute;
+    top: 3px;
+    left: 4px;
+    color: $primary;
+    cursor: text;
+    padding: 0 5px;
+    background-color: #fff;
+    transition: all 0.2s ease;
+
+    &.shrink {
+      @include shrink;
+    }
+  }
+
+  input {
+    width: 100%;
+    padding: 5px;
+    border: none;
+    background: none;
+    font-size: 14px;
+    color: $primary;
+
+    &:focus {
+      outline: none;
+
+      ~ label {
+        @include shrink;
+      }
+    }
+  }
+}
