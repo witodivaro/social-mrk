@@ -1,14 +1,14 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import './form-input.styles.scss';
 
-const FormInput = ({ label, value, ...props }) => {
+const FormInput = ({ name, label, value, ...props }) => {
   const labelRef = useRef();
 
   return (
     <div className="form-input">
-      <input id={label} {...props} />
+      <input id={name} name={name} {...props} />
       <label
-        htmlFor={label}
+        htmlFor={name}
         ref={labelRef}
         className={`label ${value ? 'shrink' : ''}`}
       >

@@ -10,25 +10,27 @@ import useInputs from '../../hooks/use-inputs';
 
 const Register = () => {
   const [inputs, onInputChange] = useInputs({
-    username: '',
-    email: '',
-    password: '',
-    passwordConfirm: '',
+    registerUsername: '',
+    registerEmail: '',
+    registerPassword: '',
+    registerPasswordConfirm: '',
   });
 
-  const registerHandler = (e) => {
+  const registerHandler = async (e) => {
     e.preventDefault();
 
-    if (inputs.password !== inputs.passwordConfirm) {
+    if (inputs.registerPassword !== inputs.registerPasswordConfirm) {
       alert('Passwords dont match');
       return;
     }
 
-    register({
-      username: inputs.username,
-      email: inputs.email,
-      password: inputs.password,
-    }).then((res) => console.log(res));
+    const response = await register({
+      username: inputs.registerUsername,
+      email: inputs.registerEmail,
+      password: inputs.registerPassword,
+    });
+
+    console.log(response);
   };
 
   return (
@@ -37,33 +39,33 @@ const Register = () => {
         <h3 className="register__header">Станьте социалом прямо сейчас!</h3>
         <FormInput
           label="Логин"
-          name="username"
+          name="registerUsername"
           type="text"
-          value={inputs.username}
+          value={inputs.registerUsername}
           onChange={onInputChange}
           required
         />
         <FormInput
           label="Почта"
-          name="email"
+          name="registerEmail"
           type="email"
-          value={inputs.email}
+          value={inputs.registerEmail}
           onChange={onInputChange}
           required
         />
         <FormInput
           label="Пароль"
-          name="password"
+          name="registerPassword"
           type="password"
-          value={inputs.password}
+          value={inputs.registerPassword}
           onChange={onInputChange}
           required
         />
         <FormInput
           label="Подтвердите пароль"
-          name="passwordConfirm"
+          name="registerPasswordConfirm"
           type="password"
-          value={inputs.passwordConfirm}
+          value={inputs.registerPasswordConfirm}
           onChange={onInputChange}
           required
         />
