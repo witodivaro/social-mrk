@@ -26,11 +26,7 @@ function* getHandledAuthErrors(error) {
       text: ERROR_CONFIG.NETWORK.SERVER_FAIL.text,
     });
   } else if (error.response.status === 400) {
-    yield errors.push({
-      type: ERROR_CONFIG.LOGIN.wrongCredentials.type,
-      text: ERROR_CONFIG.LOGIN.wrongCredentials.text,
-    });
-  } else {
+    console.log(error.response.data);
     for (const errorName of Object.keys(error.response.data.error)) {
       let error = null;
 
@@ -46,6 +42,12 @@ function* getHandledAuthErrors(error) {
           error = {
             type: ERROR_CONFIG.REGISTER.emailTaken.type,
             text: ERROR_CONFIG.REGISTER.emailTaken.text,
+          };
+          break;
+        case 'credentials':
+          error = {
+            type: ERROR_CONFIG.LOGIN.wrongCredentials.type,
+            text: ERROR_CONFIG.LOGIN.wrongCredentials.text,
           };
           break;
       }

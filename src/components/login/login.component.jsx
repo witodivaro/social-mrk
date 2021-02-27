@@ -24,6 +24,7 @@ const Login = () => {
 
   const loginHandler = async (e) => {
     e.preventDefault();
+    setError('');
 
     dispatch(
       signInStart({ username: inputs.username, password: inputs.password })
