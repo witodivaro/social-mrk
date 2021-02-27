@@ -7,8 +7,11 @@ import CustomButton from '../custom-button/custom-button.component';
 
 import login from '../../apis/login';
 import useInputs from '../../hooks/use-inputs';
+import { useDispatch } from 'react-redux';
+import { setToken } from '../../redux/user/user.actions';
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [inputs, onInputChange] = useInputs({
     username: '',
     password: '',
@@ -25,15 +28,23 @@ const Login = () => {
         username: inputs.username,
         password: inputs.password,
       });
+
+      dispatch(setToken(response.data.token));
     } catch (error) {
-      switch (error.response.status) {
-        case 500:
-          setError(
-            'Возникли проблемы с сетью, проверьте подключение и попробуйте еще раз.'
-          );
-          break;
-        case 400:
-          setError('Логин или пароль введён неверно. Попробуйте ещё раз.');
+      if (!error.response) {
+        setError(
+          'Возникли проблемы с сетью, проверьте подключение и попробуйте еще раз.'
+        );
+      } else {
+        switch (error.response.status) {
+          case 500:
+            setError(
+              'Возникли проблемы с сетью, проверьте подключение и попробуйте еще раз.'
+            );
+            break;
+          case 400:
+            setError('Логин или пароль введён неверно. Попробуйте ещё раз.');
+        }
       }
     }
   };

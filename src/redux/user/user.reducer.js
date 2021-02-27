@@ -9,9 +9,8 @@ const initialState = {
 
 const userReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case UserActionTypes.ADD_TOKEN:
+    case UserActionTypes.SET_TOKEN:
       if (payload === state.token) return state;
-
       return {
         ...state,
         token: payload,

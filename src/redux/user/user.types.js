@@ -1,3 +1,5 @@
 const userActionTypes = {
-  ADD_TOKEN: 'user/ADD_TOKEN',
+  SET_TOKEN: 'user/SET_TOKEN',
 };
+
+export default userActionTypes;

@@ -13,6 +13,7 @@ const ErrorConfig = {
   emailExists: 'Эта почта уже используется',
   incorrectPassword: 'Пароль может содержать только латинские буквы и цифры.',
   passwordDontMatch: 'Пароли не совпадают',
+  networkFail: 'Проверьте подключение к сети и попробуйте снова.',
 };
 
 const Register = () => {
@@ -54,34 +55,37 @@ const Register = () => {
         email: inputs.registerEmail,
         password: inputs.registerPassword,
       });
-
-      if (response.data.error) {
-        for (const errorName of Object.keys(response.data.error)) {
-          let errorText = '';
-          switch (errorName) {
-            case 'username':
-              errorText = ErrorConfig.usernameExists;
-              break;
-            case 'email':
-              errorText = ErrorConfig.emailExists;
-              break;
-            case 'password':
-              errorText = ErrorConfig.incorrectPassword;
-              break;
-            default:
-              break;
-          }
+    } catch (error) {
+      switch (error.response.status) {
+        case 500:
           setErrors((errors) => ({
             ...errors,
-            [errorName]: errorText,
+            external: ErrorConfig.networkFail,
           }));
-        }
+          break;
+        case 400:
+          const errorData = error.response.data.error;
+          for (const errorName of Object.keys(errorData)) {
+            let errorText = '';
+            switch (errorName) {
+              case 'username':
+                errorText = ErrorConfig.usernameExists;
+                break;
+              case 'email':
+                errorText = ErrorConfig.emailExists;
+                break;
+              case 'password':
+                errorText = ErrorConfig.incorrectPassword;
+                break;
+              default:
+                break;
+            }
+            setErrors((errors) => ({
+              ...errors,
+              [errorName]: errorText,
+            }));
+          }
       }
-    } catch (error) {
-      setErrors((errors) => ({
-        ...errors,
-        external: error.message,
-      }));
     }
   };
 
