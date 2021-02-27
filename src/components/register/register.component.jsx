@@ -1,5 +1,5 @@
 import './register.styles.scss';
-import React from 'react';
+import React, { useState } from 'react';
 
 import register from '../../apis/register';
 import Card from '../card/card.component';
@@ -7,6 +7,13 @@ import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
 import useInputs from '../../hooks/use-inputs';
+
+const ErrorConfig = {
+  usernameExists: 'Этот логин занят.',
+  emailExists: 'Эта почта уже используется',
+  incorrectPassword: 'Пароль может содержать только латинские буквы и цифры.',
+  passwordDontMatch: 'Пароли не совпадают',
+};
 
 const Register = () => {
   const [inputs, onInputChange] = useInputs({
@@ -16,11 +23,27 @@ const Register = () => {
     registerPasswordConfirm: '',
   });
 
+  const [errors, setErrors] = useState({
+    username: '',
+    password: '',
+    email: '',
+    passwordConfirm: '',
+  });
+
   const registerHandler = async (e) => {
     e.preventDefault();
+    setErrors({
+      username: '',
+      password: '',
+      email: '',
+      passwordConfirm: '',
+    });
 
     if (inputs.registerPassword !== inputs.registerPasswordConfirm) {
-      alert('Passwords dont match');
+      setErrors({
+        ...errors,
+        passwordConfirm: ErrorConfig.passwordDontMatch,
+      });
       return;
     }
 
@@ -30,7 +53,28 @@ const Register = () => {
       password: inputs.registerPassword,
     });
 
-    console.log(response);
+    if (response.data.error) {
+      for (const errorName of Object.keys(response.data.error)) {
+        let errorText = '';
+        switch (errorName) {
+          case 'username':
+            errorText = ErrorConfig.usernameExists;
+            break;
+          case 'email':
+            errorText = ErrorConfig.emailExists;
+            break;
+          case 'password':
+            errorText = ErrorConfig.incorrectPassword;
+            break;
+          default:
+            break;
+        }
+        setErrors((errors) => ({
+          ...errors,
+          [errorName]: errorText,
+        }));
+      }
+    }
   };
 
   return (
@@ -42,6 +86,7 @@ const Register = () => {
           name="registerUsername"
           type="text"
           value={inputs.registerUsername}
+          error={errors.username}
           onChange={onInputChange}
           required
         />
@@ -50,6 +95,7 @@ const Register = () => {
           name="registerEmail"
           type="email"
           value={inputs.registerEmail}
+          error={errors.email}
           onChange={onInputChange}
           required
         />
@@ -58,6 +104,7 @@ const Register = () => {
           name="registerPassword"
           type="password"
           value={inputs.registerPassword}
+          error={errors.password}
           onChange={onInputChange}
           required
         />
@@ -66,6 +113,7 @@ const Register = () => {
           name="registerPasswordConfirm"
           type="password"
           value={inputs.registerPasswordConfirm}
+          error={errors.passwordConfirm}
           onChange={onInputChange}
           required
         />

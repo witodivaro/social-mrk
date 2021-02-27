@@ -1,8 +1,13 @@
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import './form-input.styles.scss';
 
-const FormInput = ({ name, label, value, ...props }) => {
+const FormInput = ({ name, label, value, error, ...props }) => {
   const labelRef = useRef();
+
+  const renderedError = useMemo(
+    () => (error ? <p className="error">{error}</p> : null),
+    [error]
+  );
 
   return (
     <div className="form-input">
@@ -14,6 +19,7 @@ const FormInput = ({ name, label, value, ...props }) => {
       >
         {label}
       </label>
+      {renderedError}
     </div>
   );
 };
