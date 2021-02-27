@@ -1,5 +1,5 @@
 import './login.styles.scss';
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 
 import Card from '../card/card.component';
 import FormInput from '../form-input/form-input.component';
@@ -14,21 +14,40 @@ const Login = () => {
     password: '',
   });
 
+  const [error, setError] = useState('');
+
   const loginHandler = async (e) => {
     e.preventDefault();
+    setError('');
 
-    const response = await login({
-      username: inputs.username,
-      password: inputs.password,
-    });
-
-    console.log(response);
+    try {
+      const response = await login({
+        username: inputs.username,
+        password: inputs.password,
+      });
+    } catch (error) {
+      switch (error.response.status) {
+        case 500:
+          setError(
+            'Возникли проблемы с сетью, проверьте подключение и попробуйте еще раз.'
+          );
+          break;
+        case 400:
+          setError('Логин или пароль введён неверно. Попробуйте ещё раз.');
+      }
+    }
   };
+
+  const renderedError = useMemo(
+    () => (error ? <p className="login__error">{error}</p> : null),
+    [error]
+  );
 
   return (
     <Card className="login">
       <form className="login__form" onSubmit={loginHandler}>
         <h3 className="login__header">Вход</h3>
+        {renderedError}
         <FormInput
           label="Логин"
           name="username"

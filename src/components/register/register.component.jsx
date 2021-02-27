@@ -37,6 +37,7 @@ const Register = () => {
       password: '',
       email: '',
       passwordConfirm: '',
+      external: '',
     });
 
     if (inputs.registerPassword !== inputs.registerPasswordConfirm) {
@@ -47,33 +48,40 @@ const Register = () => {
       return;
     }
 
-    const response = await register({
-      username: inputs.registerUsername,
-      email: inputs.registerEmail,
-      password: inputs.registerPassword,
-    });
+    try {
+      const response = await register({
+        username: inputs.registerUsername,
+        email: inputs.registerEmail,
+        password: inputs.registerPassword,
+      });
 
-    if (response.data.error) {
-      for (const errorName of Object.keys(response.data.error)) {
-        let errorText = '';
-        switch (errorName) {
-          case 'username':
-            errorText = ErrorConfig.usernameExists;
-            break;
-          case 'email':
-            errorText = ErrorConfig.emailExists;
-            break;
-          case 'password':
-            errorText = ErrorConfig.incorrectPassword;
-            break;
-          default:
-            break;
+      if (response.data.error) {
+        for (const errorName of Object.keys(response.data.error)) {
+          let errorText = '';
+          switch (errorName) {
+            case 'username':
+              errorText = ErrorConfig.usernameExists;
+              break;
+            case 'email':
+              errorText = ErrorConfig.emailExists;
+              break;
+            case 'password':
+              errorText = ErrorConfig.incorrectPassword;
+              break;
+            default:
+              break;
+          }
+          setErrors((errors) => ({
+            ...errors,
+            [errorName]: errorText,
+          }));
         }
-        setErrors((errors) => ({
-          ...errors,
-          [errorName]: errorText,
-        }));
       }
+    } catch (error) {
+      setErrors((errors) => ({
+        ...errors,
+        external: error.message,
+      }));
     }
   };
 
@@ -117,6 +125,9 @@ const Register = () => {
           onChange={onInputChange}
           required
         />
+        {errors.external ? (
+          <p className="register__error">{errors.external}</p>
+        ) : null}
         <CustomButton type="submit">Зарегистрироваться</CustomButton>
       </form>
     </Card>
