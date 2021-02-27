@@ -10,13 +10,14 @@ const initialState = {
 
 const userReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case UserActionTypes.SET_TOKEN:
+    case UserActionTypes.SIGN_IN_SUCCESS:
       if (payload === state.token) return state;
       return {
         ...state,
         token: payload,
       };
 
+    case UserActionTypes.SIGN_IN_FAILURE:
     case UserActionTypes.SIGN_UP_FAILURE:
       return {
         ...state,

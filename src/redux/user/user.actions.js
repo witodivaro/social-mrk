@@ -18,3 +18,18 @@ export const signUpFailure = (errors) => ({
 export const signUpSuccess = () => ({
   type: UserActionTypes.SIGN_UP_SUCCESS,
 });
+
+export const signInStart = ({ username, password }) => ({
+  type: UserActionTypes.SIGN_IN_START,
+  payload: { username, password },
+});
+
+export const signInSuccess = (token) => ({
+  type: UserActionTypes.SIGN_IN_SUCCESS,
+  payload: token,
+});
+
+export const signInFailure = (errors) => ({
+  type: UserActionTypes.SIGN_IN_FAILURE,
+  payload: errors,
+});

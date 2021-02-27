@@ -1,14 +1,15 @@
 import './login.styles.scss';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import Card from '../card/card.component';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
-import login from '../../apis/login';
 import useInputs from '../../hooks/use-inputs';
-import { useDispatch } from 'react-redux';
-import { setToken } from '../../redux/user/user.actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAuthErrors } from '../../redux/user/user.selectors';
+import { ERROR_CONFIG } from '../../config/errors';
+import { signInStart } from '../../redux/user/user.actions';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -17,37 +18,26 @@ const Login = () => {
     password: '',
   });
 
+  const authErrors = useSelector(selectAuthErrors);
+
   const [error, setError] = useState('');
 
   const loginHandler = async (e) => {
     e.preventDefault();
-    setError('');
 
-    try {
-      const response = await login({
-        username: inputs.username,
-        password: inputs.password,
-      });
-
-      dispatch(setToken(response.data.token));
-    } catch (error) {
-      if (!error.response) {
-        setError(
-          'Возникли проблемы с сетью, проверьте подключение и попробуйте еще раз.'
-        );
-      } else {
-        switch (error.response.status) {
-          case 500:
-            setError(
-              'Возникли проблемы с сетью, проверьте подключение и попробуйте еще раз.'
-            );
-            break;
-          case 400:
-            setError('Логин или пароль введён неверно. Попробуйте ещё раз.');
-        }
-      }
-    }
+    dispatch(
+      signInStart({ username: inputs.username, password: inputs.password })
+    );
   };
+
+  useEffect(() => {
+    authErrors.forEach((error) => {
+      switch (error.type) {
+        case ERROR_CONFIG.LOGIN.wrongCredentials.type:
+          setError(ERROR_CONFIG.LOGIN.wrongCredentials.text);
+      }
+    });
+  }, [authErrors]);
 
   const renderedError = useMemo(
     () => (error ? <p className="login__error">{error}</p> : null),
