@@ -1,33 +1,9 @@
-@import '../../styles/colors.scss';
-
 .home {
+  padding: 1px;
   width: 100%;
 
-  &__form {
+  &__auth {
     margin: 0 auto;
-  }
-
-  &__card {
-    padding: 20px;
-    margin: 0 auto;
-    margin-top: 20px;
-    width: 80%;
     max-width: 500px;
-  }
-}
-
-.register {
-  &__header {
-    margin: 0;
-    text-align: center;
-    color: $exhausted;
-  }
-
-  .form-input {
-    margin-top: 15px;
-  }
-
-  .custom-button {
-    margin-top: 15px;
   }
 }

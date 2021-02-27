@@ -3,5 +3,11 @@
 .card {
   border: 1px solid $primary;
   border-radius: 20px;
-  box-shadow: 0 0 20px 0px $primary;
+  box-shadow: 0 0 10px 0px $primary;
+  transition: box-shadow 0.2s ease;
+  background-color: white;
+
+  &:hover {
+    box-shadow: 0 0 20px 0px $primary;
+  }
 }

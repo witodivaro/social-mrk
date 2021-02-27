@@ -1,0 +1,27 @@
+@import '../../styles/colors';
+
+.login {
+  padding: 20px;
+  margin: 0 auto;
+  margin-top: 20px;
+  width: 80%;
+  max-width: 500px;
+
+  &__form {
+    margin: 0 auto;
+  }
+
+  &__header {
+    margin: 0;
+    text-align: center;
+    color: $exhausted;
+  }
+
+  .form-input {
+    margin-top: 15px;
+  }
+
+  .custom-button {
+    margin-top: 15px;
+  }
+}
