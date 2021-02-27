@@ -1,22 +1,20 @@
 import './register.styles.scss';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import register from '../../apis/register';
 import Card from '../card/card.component';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
 import useInputs from '../../hooks/use-inputs';
-
-const ErrorConfig = {
-  usernameExists: 'Этот логин занят.',
-  emailExists: 'Эта почта уже используется',
-  incorrectPassword: 'Пароль может содержать только латинские буквы и цифры.',
-  passwordDontMatch: 'Пароли не совпадают',
-  networkFail: 'Проверьте подключение к сети и попробуйте снова.',
-};
+import { signUpStart } from '../../redux/user/user.actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAuthErrors } from '../../redux/user/user.selectors';
+import { ERROR_CONFIG, ERROR_TYPES } from '../../config/errors';
 
 const Register = () => {
+  const dispatch = useDispatch();
+  const authErrors = useSelector(selectAuthErrors);
+
   const [inputs, onInputChange] = useInputs({
     registerUsername: '',
     registerEmail: '',
@@ -26,67 +24,54 @@ const Register = () => {
 
   const [errors, setErrors] = useState({
     username: '',
-    password: '',
     email: '',
+    password: '',
     passwordConfirm: '',
   });
+
+  useEffect(() => {
+    authErrors.forEach((error) => {
+      switch (error.type) {
+        case ERROR_TYPES.registerEmail:
+          setErrors((errors) => ({
+            ...errors,
+            email: error.text,
+          }));
+          break;
+        case ERROR_TYPES.registerUsername:
+          setErrors((errors) => ({
+            ...errors,
+            username: error.text,
+          }));
+          break;
+      }
+    });
+  }, [authErrors]);
 
   const registerHandler = async (e) => {
     e.preventDefault();
     setErrors({
       username: '',
-      password: '',
       email: '',
+      password: '',
       passwordConfirm: '',
-      external: '',
     });
 
     if (inputs.registerPassword !== inputs.registerPasswordConfirm) {
       setErrors({
         ...errors,
-        passwordConfirm: ErrorConfig.passwordDontMatch,
+        passwordConfirm: ERROR_CONFIG.REGISTER.passwordsDontMatch.text,
       });
       return;
     }
 
-    try {
-      const response = await register({
+    dispatch(
+      signUpStart({
         username: inputs.registerUsername,
         email: inputs.registerEmail,
         password: inputs.registerPassword,
-      });
-    } catch (error) {
-      switch (error.response.status) {
-        case 500:
-          setErrors((errors) => ({
-            ...errors,
-            external: ErrorConfig.networkFail,
-          }));
-          break;
-        case 400:
-          const errorData = error.response.data.error;
-          for (const errorName of Object.keys(errorData)) {
-            let errorText = '';
-            switch (errorName) {
-              case 'username':
-                errorText = ErrorConfig.usernameExists;
-                break;
-              case 'email':
-                errorText = ErrorConfig.emailExists;
-                break;
-              case 'password':
-                errorText = ErrorConfig.incorrectPassword;
-                break;
-              default:
-                break;
-            }
-            setErrors((errors) => ({
-              ...errors,
-              [errorName]: errorText,
-            }));
-          }
-      }
-    }
+      })
+    );
   };
 
   return (
@@ -129,9 +114,6 @@ const Register = () => {
           onChange={onInputChange}
           required
         />
-        {errors.external ? (
-          <p className="register__error">{errors.external}</p>
-        ) : null}
         <CustomButton type="submit">Зарегистрироваться</CustomButton>
       </form>
     </Card>

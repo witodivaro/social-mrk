@@ -5,6 +5,7 @@ import localStorage from 'redux-persist/lib/storage';
 const initialState = {
   currentUser: null,
   token: '',
+  authErrors: [],
 };
 
 const userReducer = (state = initialState, { type, payload }) => {
@@ -14,6 +15,12 @@ const userReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         token: payload,
+      };
+
+    case UserActionTypes.SIGN_UP_FAILURE:
+      return {
+        ...state,
+        authErrors: payload,
       };
 
     default:

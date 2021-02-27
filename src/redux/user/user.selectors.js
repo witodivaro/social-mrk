@@ -8,3 +8,8 @@ export const selectCurrentUser = createSelector(
 );
 
 export const selectToken = createSelector(selectUser, (user) => user.token);
+
+export const selectAuthErrors = createSelector(
+  selectUser,
+  (user) => user.authErrors
+);

@@ -9,7 +9,6 @@ import { selectToken } from './redux/user/user.selectors';
 
 const App = () => {
   const token = useSelector(selectToken);
-  console.log(token);
 
   return (
     <div className="app">
