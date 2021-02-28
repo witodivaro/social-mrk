@@ -2,7 +2,6 @@ import UserActionTypes from './user.types';
 import { persistReducer } from 'redux-persist';
 import localStorage from 'redux-persist/lib/storage';
 import AUTH_STATES from '../../config/auth-states';
-import userActionTypes from './user.types';
 
 const initialState = {
   currentUser: null,

@@ -41,4 +41,10 @@
 
     @include spinCenterMixin;
   }
+
+  &__success {
+    margin: 0;
+    text-align: center;
+    color: $primary;
+  }
 }

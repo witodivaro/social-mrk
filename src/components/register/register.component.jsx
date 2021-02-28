@@ -131,6 +131,11 @@ const Register = () => {
 
   const renderContent = () => {
     switch (authState) {
+      case AUTH_STATES.SIGN_UP_SUCCESS:
+        return (
+          <p className="register__success">Вы успешно зарегистрировались!</p>
+        );
+
       case AUTH_STATES.SIGNING_UP:
         return (
           <>
