@@ -39,7 +39,7 @@ const UserPage = () => {
           </header>
         </section>
         <main className="user__main">
-          <UserFriends />
+          <UserFriends className="user__friends" />
           <section className="user__posts posts">
             <h3 className="posts__title">Posts</h3>
             <div className="posts__list">

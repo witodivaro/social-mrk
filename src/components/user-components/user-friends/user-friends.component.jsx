@@ -39,7 +39,7 @@ const users = [
 
 const SHOWN_FRIENDS_COUNT = 5;
 
-const UserFriends = () => {
+const UserFriends = ({ className }) => {
   const [showFriends, setShowFriends] = useState(false);
   const [shownFriendsCount, setShownFriendsCount] = useState(
     SHOWN_FRIENDS_COUNT
@@ -70,7 +70,7 @@ const UserFriends = () => {
   );
 
   return (
-    <article className="friends">
+    <article className={`friends ${className}`}>
       <h3 className="friends__title" onClick={toggleFriendsShowHandler}>
         Friends ({users.length})
       </h3>
