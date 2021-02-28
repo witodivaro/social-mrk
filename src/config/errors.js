@@ -1,46 +1,36 @@
-export const ERROR_TYPES = {
-  registerUsername: 'register-username',
-  registerEmail: 'register-email',
-  registerInvalidPassword: 'register-invalid-password',
-  registerPasswordConfirm: 'register-password-confirm',
-  loginWrongCredentials: 'login-wrong-credentials',
-  networkServerFail: 'network-server-fail',
-  networkClientFail: 'network-client-fail',
-};
-
 export const ERROR_CONFIG = {
-  REGISTER: {
-    usernameTaken: {
+  SIGN_UP: {
+    USERNAME_TAKEN: {
       text: 'Данный логин уже занят.',
-      type: ERROR_TYPES.registerUsername,
+      type: 'SIGN_UP/USERNAME_TAKEN',
     },
-    emailTaken: {
+    EMAIL_TAKEN: {
       text: 'Эта почта уже занята.',
-      type: ERROR_TYPES.registerEmail,
+      type: 'SIGN_UP/EMAIL_TAKEN',
     },
-    invalidPassword: {
+    INVALID_PASSWORD: {
       text: 'Введите корректный пароль.',
-      type: ERROR_TYPES.registerInvalidPassword,
+      type: 'SIGN_UP/INVALID_PASSWORD',
     },
-    passwordsDontMatch: {
+    PASSWORDS_DONT_MATCH: {
       text: 'Пароли не совпадают.',
-      type: ERROR_TYPES.registerPasswordConfirm,
+      type: 'SIGN_UP/PASSWORDS_DONT_MATCH',
     },
   },
-  LOGIN: {
-    wrongCredentials: {
+  SIGN_IN: {
+    WRONG_CREDENTIALS: {
       text: 'Неправильный логин или пароль.',
-      type: ERROR_TYPES.loginWrongCredentials,
+      type: 'SIGN_IN/WRONG_CREDENTITLAS',
     },
   },
   NETWORK: {
     SERVER_FAIL: {
       text: 'Возникли проблемы с сервером. Попробуйте ещё раз попозже.',
-      type: ERROR_TYPES.networkServerFail,
+      type: 'NETOWRK/SERVER_FAIL',
     },
     CLIENT_FAIL: {
       text: 'Проверьте подключение к сети и попробуйте ещё раз.',
-      type: ERROR_TYPES.networkClientFail,
+      type: 'NETWORK/CLIENT_FAIL',
     },
   },
 };

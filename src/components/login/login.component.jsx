@@ -8,7 +8,7 @@ import CustomButton from '../custom-button/custom-button.component';
 import useInputs from '../../hooks/use-inputs';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  selectAuthErrors,
+  selectSignInErrors,
   selectSignInState,
 } from '../../redux/user/user.selectors';
 import { ERROR_CONFIG } from '../../config/errors';
@@ -25,7 +25,7 @@ const Login = () => {
   });
   const signInState = useSelector(selectSignInState);
 
-  const authErrors = useSelector(selectAuthErrors);
+  const signInErrors = useSelector(selectSignInErrors);
 
   const [error, setError] = useState('');
 
@@ -39,54 +39,60 @@ const Login = () => {
   };
 
   useEffect(() => {
-    authErrors.forEach((error) => {
+    signInErrors.forEach((error) => {
       switch (error.type) {
-        case ERROR_CONFIG.LOGIN.wrongCredentials.type:
-          setError(ERROR_CONFIG.LOGIN.wrongCredentials.text);
+        case ERROR_CONFIG.SIGN_IN.WRONG_CREDENTIALS.type:
+          setError(ERROR_CONFIG.SIGN_IN.WRONG_CREDENTIALS.text);
+          break;
         case ERROR_CONFIG.NETWORK.SERVER_FAIL.type:
           setError(ERROR_CONFIG.NETWORK.SERVER_FAIL.text);
+          break;
         case ERROR_CONFIG.NETWORK.CLIENT_FAIL.type:
           setError(ERROR_CONFIG.NETWORK.CLIENT_FAIL.text);
+          break;
       }
     });
-  }, [authErrors]);
+  }, [signInErrors]);
 
-  const renderedError = useMemo(
-    () => (error ? <p className="login__error">{error}</p> : null),
-    [error]
-  );
+  console.log(error);
+  const renderedError = useMemo(() => {
+    console.log(error);
+    return error ? <p className="login__error">{error}</p> : null;
+  }, [error]);
 
-  const renderSignInForm = (disabled = false) => (
-    <form
-      className={`login__form ${disabled ? 'disabled' : ''}`}
-      onSubmit={loginHandler}
-    >
-      <h3 className="login__header">Вход</h3>
-      {renderedError}
-      <FormInput
-        label="Логин"
-        name="username"
-        type="text"
-        value={inputs.username}
-        onChange={onInputChange}
-        disabled={disabled}
-        required
-      />
-      <FormInput
-        label="Пароль"
-        name="password"
-        type="password"
-        value={inputs.password}
-        onChange={onInputChange}
-        disabled={disabled}
-        required
-      />
+  const renderSignInForm = (disabled = false) => {
+    return (
+      <form
+        className={`login__form ${disabled ? 'disabled' : ''}`}
+        onSubmit={loginHandler}
+      >
+        <h3 className="login__header">Вход</h3>
+        {renderedError}
+        <FormInput
+          label="Логин"
+          name="username"
+          type="text"
+          value={inputs.username}
+          onChange={onInputChange}
+          disabled={disabled}
+          required
+        />
+        <FormInput
+          label="Пароль"
+          name="password"
+          type="password"
+          value={inputs.password}
+          onChange={onInputChange}
+          disabled={disabled}
+          required
+        />
 
-      <CustomButton disabled={disabled} type="submit">
-        Войти
-      </CustomButton>
-    </form>
-  );
+        <CustomButton disabled={disabled} type="submit">
+          Войти
+        </CustomButton>
+      </form>
+    );
+  };
 
   const renderContent = () => {
     switch (signInState) {

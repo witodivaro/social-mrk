@@ -1,5 +1,5 @@
 import './register.styles.scss';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Card from '../card/card.component';
 import FormInput from '../form-input/form-input.component';
@@ -9,16 +9,16 @@ import useInputs from '../../hooks/use-inputs';
 import { signUpStart } from '../../redux/user/user.actions';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  selectAuthErrors,
+  selectSignUpErrors,
   selectSignUpState,
 } from '../../redux/user/user.selectors';
-import { ERROR_CONFIG, ERROR_TYPES } from '../../config/errors';
+import { ERROR_CONFIG } from '../../config/errors';
 import { SIGN_UP_STATES } from '../../config/auth-states';
 import { FaSpinner } from 'react-icons/fa';
 
 const Register = () => {
   const dispatch = useDispatch();
-  const authErrors = useSelector(selectAuthErrors);
+  const signUpErrors = useSelector(selectSignUpErrors);
   const signUpState = useSelector(selectSignUpState);
 
   const [inputs, onInputChange] = useInputs({
@@ -36,23 +36,23 @@ const Register = () => {
   });
 
   useEffect(() => {
-    authErrors.forEach((error) => {
+    signUpErrors.forEach((error) => {
       switch (error.type) {
-        case ERROR_TYPES.registerEmail:
+        case ERROR_CONFIG.SIGN_UP.EMAIL_TAKEN.type:
           setErrors((errors) => ({
             ...errors,
-            email: error.text,
+            email: ERROR_CONFIG.SIGN_UP.EMAIL_TAKEN.text,
           }));
           break;
-        case ERROR_TYPES.registerUsername:
+        case ERROR_CONFIG.SIGN_UP.USERNAME_TAKEN.type:
           setErrors((errors) => ({
             ...errors,
-            username: error.text,
+            username: ERROR_CONFIG.SIGN_UP.USERNAME_TAKEN.text,
           }));
           break;
       }
     });
-  }, [authErrors]);
+  }, [signUpErrors]);
 
   const registerHandler = async (e) => {
     e.preventDefault();
@@ -66,7 +66,7 @@ const Register = () => {
     if (inputs.registerPassword !== inputs.registerPasswordConfirm) {
       setErrors({
         ...errors,
-        passwordConfirm: ERROR_CONFIG.REGISTER.passwordsDontMatch.text,
+        passwordConfirm: ERROR_CONFIG.SIGN_UP.PASSWORDS_DONT_MATCH.text,
       });
       return;
     }

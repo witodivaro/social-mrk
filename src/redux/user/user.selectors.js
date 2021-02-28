@@ -9,9 +9,14 @@ export const selectCurrentUser = createSelector(
 
 export const selectToken = createSelector(selectUser, (user) => user.token);
 
-export const selectAuthErrors = createSelector(
+export const selectSignInErrors = createSelector(
   selectUser,
-  (user) => user.authErrors
+  (user) => user.signInErrors
+);
+
+export const selectSignUpErrors = createSelector(
+  selectUser,
+  (user) => user.signUpErrors
 );
 
 export const selectSignUpState = createSelector(

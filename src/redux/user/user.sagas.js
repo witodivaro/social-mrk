@@ -12,7 +12,7 @@ import {
 } from './user.actions';
 import userActionTypes from './user.types';
 
-function* getHandledAuthErrors(error) {
+function* getHandledNetworkErrors(error) {
   const errors = [];
 
   if (!error.response) {
@@ -25,31 +25,51 @@ function* getHandledAuthErrors(error) {
       type: ERROR_CONFIG.NETWORK.SERVER_FAIL.type,
       text: ERROR_CONFIG.NETWORK.SERVER_FAIL.text,
     });
-  } else if (error.response.status === 400) {
-    console.log(error.response.data);
+  }
+
+  return errors;
+}
+
+function* getHandledSignUpErrors(error) {
+  const errors = yield getHandledNetworkErrors(error);
+
+  if (error.response && error.response.status === 400) {
     for (const errorName of Object.keys(error.response.data.error)) {
       let error = null;
 
       switch (errorName) {
         case 'username':
           error = {
-            type: ERROR_CONFIG.REGISTER.usernameTaken.type,
-            text: ERROR_CONFIG.REGISTER.usernameTaken.text,
+            type: ERROR_CONFIG.SIGN_UP.USERNAME_TAKEN.type,
           };
           break;
 
         case 'email':
           error = {
-            type: ERROR_CONFIG.REGISTER.emailTaken.type,
-            text: ERROR_CONFIG.REGISTER.emailTaken.text,
+            type: ERROR_CONFIG.SIGN_UP.EMAIL_TAKEN.type,
           };
           break;
+      }
+
+      yield errors.push(error);
+    }
+  }
+
+  return errors;
+}
+
+function* getHandledSignInErrors(error) {
+  const errors = yield getHandledNetworkErrors(error);
+
+  if (error.response && error.response.status === 400) {
+    for (const errorName of Object.keys(error.response.data.error)) {
+      let error = null;
+
+      switch (errorName) {
         case 'credentials':
           error = {
-            type: ERROR_CONFIG.LOGIN.wrongCredentials.type,
-            text: ERROR_CONFIG.LOGIN.wrongCredentials.text,
+            type: ERROR_CONFIG.SIGN_IN.WRONG_CREDENTIALS.type,
           };
-          break;
       }
 
       yield errors.push(error);
@@ -71,7 +91,7 @@ function* signIn({ payload }) {
 
     yield put(signInSuccess(token));
   } catch (error) {
-    const errors = yield getHandledAuthErrors(error);
+    const errors = yield getHandledSignInErrors(error);
 
     yield put(signInFailure(errors));
   }
@@ -88,7 +108,7 @@ function* signUp({ payload }) {
 
     yield put(signUpSuccess());
   } catch (error) {
-    const errors = yield getHandledAuthErrors(error);
+    const errors = yield getHandledSignUpErrors(error);
 
     yield put(signUpFailure(errors));
   }

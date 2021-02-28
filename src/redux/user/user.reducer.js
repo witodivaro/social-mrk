@@ -6,7 +6,8 @@ import { SIGN_UP_STATES, SIGN_IN_STATES } from '../../config/auth-states';
 const initialState = {
   currentUser: null,
   token: '',
-  authErrors: [],
+  signInErrors: [],
+  signUpErrors: [],
   signUpState: '',
   signInState: '',
 };
@@ -41,14 +42,14 @@ const userReducer = (state = initialState, { type, payload }) => {
     case UserActionTypes.SIGN_IN_FAILURE:
       return {
         ...state,
-        authErrors: payload,
+        signInErrors: payload,
         signInState: SIGN_IN_STATES.FAILURE,
       };
 
     case UserActionTypes.SIGN_UP_FAILURE:
       return {
         ...state,
-        authErrors: payload,
+        signUpErrors: payload,
         signUpState: SIGN_UP_STATES.FAILURE,
       };
 
