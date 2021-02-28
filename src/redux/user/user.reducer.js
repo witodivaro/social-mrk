@@ -13,17 +13,23 @@ const initialState = {
 
 const userReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case UserActionTypes.SIGN_IN_SUCCESS:
-      if (payload === state.token) return state;
-      return {
-        ...state,
-        token: payload,
-      };
-
     case UserActionTypes.SIGN_UP_START:
       return {
         ...state,
         signUpState: SIGN_UP_STATES.SIGNING,
+      };
+
+    case UserActionTypes.SIGN_IN_START:
+      return {
+        ...state,
+        signInState: SIGN_IN_STATES.SIGNING,
+      };
+
+    case UserActionTypes.SIGN_IN_SUCCESS:
+      return {
+        ...state,
+        token: payload,
+        signInState: SIGN_IN_STATES.SUCCESS,
       };
 
     case UserActionTypes.SIGN_UP_SUCCESS:
@@ -38,6 +44,7 @@ const userReducer = (state = initialState, { type, payload }) => {
         authErrors: payload,
         signInState: SIGN_IN_STATES.FAILURE,
       };
+
     case UserActionTypes.SIGN_UP_FAILURE:
       return {
         ...state,
