@@ -1,6 +1,8 @@
 @import '../../styles/colors.scss';
+@import '../../styles/animations.scss';
 
 .register {
+  position: relative;
   padding: 20px;
   margin: 0 auto;
   margin-top: 20px;
@@ -29,5 +31,14 @@
 
   .custom-button {
     margin-top: 15px;
+  }
+
+  &__spinner {
+    position: absolute;
+    top: calc(50% - 25px);
+    left: calc(50% - 25px);
+    color: $primary;
+
+    @include spinCenterMixin;
   }
 }

@@ -30,4 +30,12 @@
       color: $primary;
     }
   }
+
+  &[disabled] {
+    opacity: 0.6;
+
+    &:hover {
+      cursor: default;
+    }
+  }
 }

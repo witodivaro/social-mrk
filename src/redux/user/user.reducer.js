@@ -1,11 +1,14 @@
 import UserActionTypes from './user.types';
 import { persistReducer } from 'redux-persist';
 import localStorage from 'redux-persist/lib/storage';
+import AUTH_STATES from '../../config/auth-states';
+import userActionTypes from './user.types';
 
 const initialState = {
   currentUser: null,
   token: '',
   authErrors: [],
+  authState: '',
 };
 
 const userReducer = (state = initialState, { type, payload }) => {
@@ -17,11 +20,24 @@ const userReducer = (state = initialState, { type, payload }) => {
         token: payload,
       };
 
+    case UserActionTypes.SIGN_UP_START:
+      return {
+        ...state,
+        authState: AUTH_STATES.SIGNING_UP,
+      };
+
+    case UserActionTypes.SIGN_UP_SUCCESS:
+      return {
+        ...state,
+        authState: AUTH_STATES.SIGN_UP_SUCCESS,
+      };
+
     case UserActionTypes.SIGN_IN_FAILURE:
     case UserActionTypes.SIGN_UP_FAILURE:
       return {
         ...state,
         authErrors: payload,
+        authState: AUTH_STATES.SIGN_UP_FAILURE,
       };
 
     default:

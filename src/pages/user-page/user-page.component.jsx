@@ -1,6 +1,6 @@
 import './user-page.styles.scss';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import CustomButton from '../../components/custom-button/custom-button.component';
 
@@ -13,10 +13,10 @@ import getUser from '../../apis/get-user';
 const UserPage = () => {
   const match = useRouteMatch();
   const token = useSelector(selectToken);
-  useEffect(() => {
-    const pageId = match.params.userId;
-    getUser(token, pageId).then((res) => console.log(res));
-  }, []);
+  //   useEffect(() => {
+  //     const pageId = match.params.userId;
+  //     getUser(token, pageId).then((res) => console.log(res));
+  //   }, []);
 
   return (
     <div className="user">
