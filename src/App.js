@@ -2,6 +2,7 @@ import { Switch, Route } from 'react-router-dom';
 import Header from './components/header/header.component';
 
 import HomePage from './pages/home-page/home-page.component';
+import UserPage from './pages/user-page/user-page.component';
 
 import './App.scss';
 import { useSelector } from 'react-redux';
@@ -15,6 +16,7 @@ const App = () => {
       <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />
+        <Route exact path="/id:userId" component={UserPage} />
       </Switch>
     </div>
   );

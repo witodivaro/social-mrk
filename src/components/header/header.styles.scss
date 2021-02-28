@@ -3,11 +3,14 @@
 @import '../../styles/fonts';
 
 .header {
+  position: relative;
+  z-index: 1;
+
   width: 100%;
   background-color: $primary;
 
   color: white;
-  box-shadow: 0 0px 5px 2px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0px 5px 0px rgba(0, 0, 0, 0.7);
 
   &__wrapper {
     width: 100%;
