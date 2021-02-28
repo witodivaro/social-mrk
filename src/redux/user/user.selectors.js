@@ -14,7 +14,12 @@ export const selectAuthErrors = createSelector(
   (user) => user.authErrors
 );
 
-export const selectAuthState = createSelector(
+export const selectSignUpState = createSelector(
   selectUser,
-  (user) => user.authState
+  (user) => user.signUpState
+);
+
+export const selectSignInState = createSelector(
+  selectUser,
+  (user) => user.signInState
 );

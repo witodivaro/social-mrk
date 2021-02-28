@@ -1,7 +1,11 @@
-const AUTH_STATES = {
-  SIGNING_UP: 'signing-up',
-  SIGN_UP_SUCCESS: 'sign-up-success',
-  SIGN_UP_FAILURE: 'sign-up-failure',
+export const SIGN_UP_STATES = {
+  SIGNING: 'sign-up-signing',
+  SUCCESS: 'sign-up-success',
+  FAILURE: 'sign-up-failure',
 };
 
-export default AUTH_STATES;
+export const SIGN_IN_STATES = {
+  SIGNING: 'sign-in-signing',
+  SUCCESS: 'sign-in-success',
+  FAILURE: 'sign-in-failure',
+};

@@ -10,16 +10,16 @@ import { signUpStart } from '../../redux/user/user.actions';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectAuthErrors,
-  selectAuthState,
+  selectSignUpState,
 } from '../../redux/user/user.selectors';
 import { ERROR_CONFIG, ERROR_TYPES } from '../../config/errors';
-import AUTH_STATES from '../../config/auth-states';
+import { SIGN_UP_STATES } from '../../config/auth-states';
 import { FaSpinner } from 'react-icons/fa';
 
 const Register = () => {
   const dispatch = useDispatch();
   const authErrors = useSelector(selectAuthErrors);
-  const authState = useSelector(selectAuthState);
+  const signUpState = useSelector(selectSignUpState);
 
   const [inputs, onInputChange] = useInputs({
     registerUsername: '',
@@ -130,13 +130,13 @@ const Register = () => {
   );
 
   const renderContent = () => {
-    switch (authState) {
-      case AUTH_STATES.SIGN_UP_SUCCESS:
+    switch (signUpState) {
+      case SIGN_UP_STATES.SUCCESS:
         return (
           <p className="register__success">Вы успешно зарегистрировались!</p>
         );
 
-      case AUTH_STATES.SIGNING_UP:
+      case SIGN_UP_STATES.SIGNING:
         return (
           <>
             {renderRegisterForm(true)}
