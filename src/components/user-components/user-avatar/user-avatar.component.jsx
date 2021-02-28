@@ -1,7 +1,7 @@
 import './user-avatar.styles.scss';
 
 import React from 'react';
-import { ReactComponent as NoAvatar } from '../../assets/images/no-avatar.svg';
+import { ReactComponent as NoAvatar } from '../../../assets/images/no-avatar.svg';
 
 const UserAvatar = () => {
   return (

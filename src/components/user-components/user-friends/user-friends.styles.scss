@@ -1,0 +1,41 @@
+@import '../../../styles/variables.scss';
+
+.friends {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  &__title {
+    user-select: none;
+    margin: 0;
+    cursor: pointer;
+
+    @media (min-width: $tablet-width) {
+      cursor: default;
+    }
+  }
+
+  &__list {
+    width: 100%;
+    display: none;
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 0;
+    list-style-type: none;
+
+    @media (min-width: $tablet-width) {
+      display: block;
+    }
+
+    &.show {
+      display: block;
+    }
+  }
+
+  &__show-more-container {
+    margin: 0;
+    width: 100%;
+    display: flex;
+    justify-content: stretch;
+  }
+}

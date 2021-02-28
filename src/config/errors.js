@@ -11,7 +11,7 @@ export const ERROR_TYPES = {
 export const ERROR_CONFIG = {
   REGISTER: {
     usernameTaken: {
-      text: 'Данный логин уже занят',
+      text: 'Данный логин уже занят.',
       type: ERROR_TYPES.registerUsername,
     },
     emailTaken: {
