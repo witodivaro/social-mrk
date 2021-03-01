@@ -1,37 +1,37 @@
-import './login.styles.scss';
-import React, { useEffect, useMemo, useState } from 'react';
+import "./login.styles.scss";
+import React, { useEffect, useMemo, useState } from "react";
 
-import Card from '../card/card.component';
-import FormInput from '../form-input/form-input.component';
-import CustomButton from '../custom-button/custom-button.component';
+import Card from "../card/card.component";
+import FormInput from "../form-input/form-input.component";
+import CustomButton from "../custom-button/custom-button.component";
 
-import useInputs from '../../hooks/use-inputs';
-import { useDispatch, useSelector } from 'react-redux';
+import useInputs from "../../hooks/use-inputs";
+import { useDispatch, useSelector } from "react-redux";
 import {
   selectSignInErrors,
   selectSignInState,
-} from '../../redux/user/user.selectors';
-import { ERROR_CONFIG } from '../../config/errors';
-import { signInStart } from '../../redux/user/user.actions';
-import { SIGN_IN_STATES } from '../../config/auth-states';
+} from "../../redux/user/user.selectors";
+import { ERROR_CONFIG } from "../../config/errors";
+import { signInStart } from "../../redux/user/user.actions";
+import { SIGN_IN_STATES } from "../../config/auth-states";
 
-import { FaSpinner } from 'react-icons/fa';
+import { FaSpinner } from "react-icons/fa";
 
 const Login = () => {
   const dispatch = useDispatch();
   const [inputs, onInputChange] = useInputs({
-    username: '',
-    password: '',
+    username: "",
+    password: "",
   });
   const signInState = useSelector(selectSignInState);
 
   const signInErrors = useSelector(selectSignInErrors);
 
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const loginHandler = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     dispatch(
       signInStart({ username: inputs.username, password: inputs.password })
@@ -54,16 +54,14 @@ const Login = () => {
     });
   }, [signInErrors]);
 
-  console.log(error);
   const renderedError = useMemo(() => {
-    console.log(error);
     return error ? <p className="login__error">{error}</p> : null;
   }, [error]);
 
   const renderSignInForm = (disabled = false) => {
     return (
       <form
-        className={`login__form ${disabled ? 'disabled' : ''}`}
+        className={`login__form ${disabled ? "disabled" : ""}`}
         onSubmit={loginHandler}
       >
         <h3 className="login__header">Вход</h3>

@@ -1,22 +1,21 @@
-import './user-page.styles.scss';
+import "./user-page.styles.scss";
 
-import React, { useEffect, useMemo, useState } from 'react';
-import { useRouteMatch } from 'react-router-dom';
-import CustomButton from '../../components/custom-button/custom-button.component';
+import React, { useEffect, useMemo, useState } from "react";
+import { useRouteMatch } from "react-router-dom";
+import CustomButton from "../../components/custom-button/custom-button.component";
 
-import UserAvatar from '../../components/user-components/user-avatar/user-avatar.component';
-import UserFriends from '../../components/user-components/user-friends/user-friends.component';
-import { useSelector } from 'react-redux';
-import { selectToken } from '../../redux/user/user.selectors';
-import getUser from '../../apis/get-user';
-import socialMrk from '../../apis/social-mrk';
+import UserAvatar from "../../components/user-components/user-avatar/user-avatar.component";
+import UserFriends from "../../components/user-components/user-friends/user-friends.component";
+import { useSelector } from "react-redux";
+import { selectToken } from "../../redux/user/user.selectors";
+import getUser from "../../apis/get-user";
 
 const UserPage = () => {
   const match = useRouteMatch();
   const token = useSelector(selectToken);
 
-  const [username, setUsername] = useState('');
-  const [status, setStatus] = useState('');
+  const [username, setUsername] = useState("");
+  const [status, setStatus] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -25,18 +24,6 @@ const UserPage = () => {
       setUsername(res.data.username);
       setStatus(res.data.status);
       setIsLoading(false);
-
-      socialMrk.post(
-        'user_profile/change-user-profile/',
-        {
-          status: 'Я лучший в мире',
-        },
-        {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        }
-      );
     });
   }, []);
 
