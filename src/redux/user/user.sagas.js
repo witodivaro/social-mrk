@@ -1,16 +1,16 @@
-import { takeLatest, put, all, call, delay } from 'redux-saga/effects';
-import login from '../../apis/login';
-import register from '../../apis/register';
+import { takeLatest, put, all, call, delay } from "redux-saga/effects";
+import login from "../../apis/login";
+import register from "../../apis/register";
 
-import { ERROR_CONFIG } from '../../config/errors';
+import { ERROR_CONFIG } from "../../config/errors";
 
 import {
   signInFailure,
   signInSuccess,
   signUpFailure,
   signUpSuccess,
-} from './user.actions';
-import userActionTypes from './user.types';
+} from "./user.actions";
+import userActionTypes from "./user.types";
 
 function* getHandledNetworkErrors(error) {
   const errors = [];
@@ -38,13 +38,13 @@ function* getHandledSignUpErrors(error) {
       let error = null;
 
       switch (errorName) {
-        case 'username':
+        case "username":
           error = {
             type: ERROR_CONFIG.SIGN_UP.USERNAME_TAKEN.type,
           };
           break;
 
-        case 'email':
+        case "email":
           error = {
             type: ERROR_CONFIG.SIGN_UP.EMAIL_TAKEN.type,
           };
@@ -66,7 +66,7 @@ function* getHandledSignInErrors(error) {
       let error = null;
 
       switch (errorName) {
-        case 'credentials':
+        case "credentials":
           error = {
             type: ERROR_CONFIG.SIGN_IN.WRONG_CREDENTIALS.type,
           };
