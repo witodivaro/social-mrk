@@ -1,14 +1,13 @@
-import "./user-avatar.styles.scss";
+import './user-avatar.styles.scss';
 
-import React, { useRef, useState } from "react";
-import { ReactComponent as NoAvatar } from "../../../assets/images/no-avatar.svg";
-import changeUser from "../../../apis/change-user";
-import { useSelector } from "react-redux";
-import { selectToken } from "../../../redux/user/user.selectors";
+import React, { useRef, useState } from 'react';
+import { ReactComponent as NoAvatar } from '../../../assets/images/no-avatar.svg';
+import changeUser from '../../../apis/change-user';
+import { useSelector } from 'react-redux';
+import { selectToken } from '../../../redux/user/user.selectors';
 
-const UserAvatar = () => {
+const UserAvatar = ({ imageSource }) => {
   const inputRef = useRef();
-  const [imageSource, setImageSource] = useState();
   const token = useSelector(selectToken);
 
   const fileChangeHandler = (e) => {
@@ -26,8 +25,8 @@ const UserAvatar = () => {
   const renderedImage = imageSource ? (
     <img className="avatar__img" src={imageSource} />
   ) : (
-      <NoAvatar className="avatar__svg" />
-    );
+    <NoAvatar className="avatar__svg" />
+  );
 
   return (
     <p className="avatar">
