@@ -14,6 +14,17 @@ const initialState = {
 
 const userReducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case UserActionTypes.SIGN_OUT:
+      return {
+        ...state,
+        token: '',
+        currentUser: null,
+        signInErrors: null,
+        signUpErrors: null,
+        signUpState: '',
+        signInState: '',
+      };
+
     case UserActionTypes.SIGN_UP_START:
       return {
         ...state,

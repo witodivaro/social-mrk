@@ -1,8 +1,8 @@
+import UserPageActionTypes from '../user-page/user-page.types';
 import UserActionTypes from './user.types';
 
-export const setToken = (token) => ({
-  type: UserActionTypes.SET_TOKEN,
-  payload: token,
+export const signOut = () => ({
+  type: UserActionTypes.SIGN_OUT,
 });
 
 export const signUpStart = ({ email, password, username }) => ({
@@ -36,16 +36,15 @@ export const signInFailure = (errors) => ({
 
 export const getCurrentUserStart = (token) => ({
   type: UserActionTypes.GET_CURRENT_USER_START,
-  payload: token
-})
+  payload: token,
+});
 
 export const getCurrentUserSuccess = (currentUser) => ({
   type: UserActionTypes.GET_CURRENT_USER_SUCCESS,
-  payload: currentUser
-})
+  payload: currentUser,
+});
 
 export const getCurrentUserFailure = (error) => ({
   type: UserActionTypes.GET_CURRENT_USER_FAILURE,
-  payload: error
-})
-
+  payload: error,
+});

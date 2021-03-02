@@ -64,4 +64,31 @@
       opacity: 0.5;
     }
   }
+
+  &__button {
+    position: relative;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &::after {
+      transition: all 0.2s ease;
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      background-color: #fff;
+      height: 1px;
+    }
+
+    &:hover::after {
+      width: 100%;
+    }
+
+    &:active {
+      opacity: 0.5;
+    }
+  }
 }

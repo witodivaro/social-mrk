@@ -24,8 +24,6 @@ const UserPage = ({ match }) => {
   const userPageUser = useSelector(selectUserPageUser);
   const userPageState = useSelector(selectUserPageState);
 
-  console.log(userPageState);
-
   const onUserImageChange = () => {};
 
   const { userId } = match.params;

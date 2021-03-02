@@ -1,13 +1,13 @@
-import "./App.scss";
-import { Switch, Route, Redirect } from "react-router-dom";
-import { useCallback, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { selectToken, selectCurrentUser } from "./redux/user/user.selectors";
-import { getCurrentUserStart } from "./redux/user/user.actions";
+import './App.scss';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { useCallback, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectToken, selectCurrentUser } from './redux/user/user.selectors';
+import { getCurrentUserStart } from './redux/user/user.actions';
 
-import Header from "./components/header/header.component";
-import HomePage from "./pages/home-page/home-page.component";
-import UserPage from "./pages/user-page/user-page.component";
+import Header from './components/header/header.component';
+import HomePage from './pages/home-page/home-page.component';
+import UserPage from './pages/user-page/user-page.component';
 
 const App = () => {
   const token = useSelector(selectToken);
@@ -15,7 +15,7 @@ const App = () => {
   const currentUser = useSelector(selectCurrentUser);
 
   const renderHomePage = useCallback(
-    props => {
+    (props) => {
       if (currentUser) {
         return <Redirect to={`/id${currentUser.id}`} />;
       }
@@ -23,6 +23,17 @@ const App = () => {
       return <HomePage {...props} />;
     },
     [currentUser]
+  );
+
+  const renderUserPage = useCallback(
+    (props) => {
+      if (token) {
+        return <UserPage {...props} />;
+      }
+
+      return <Redirect to="/" />;
+    },
+    [token]
   );
 
   useEffect(() => {
@@ -36,7 +47,7 @@ const App = () => {
       <Header />
       <Switch>
         <Route exact path="/" render={renderHomePage} />
-        <Route exact path="/id:userId" component={UserPage} />
+        <Route exact path="/id:userId" render={renderUserPage} />
       </Switch>
     </div>
   );
