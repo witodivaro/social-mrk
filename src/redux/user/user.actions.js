@@ -33,3 +33,19 @@ export const signInFailure = (errors) => ({
   type: UserActionTypes.SIGN_IN_FAILURE,
   payload: errors,
 });
+
+export const getCurrentUserStart = (token) => ({
+  type: UserActionTypes.GET_CURRENT_USER_START,
+  payload: token
+})
+
+export const getCurrentUserSuccess = (currentUser) => ({
+  type: UserActionTypes.GET_CURRENT_USER_SUCCESS,
+  payload: currentUser
+})
+
+export const getCurrentUserFailure = (error) => ({
+  type: UserActionTypes.GET_CURRENT_USER_FAILURE,
+  payload: error
+})
+

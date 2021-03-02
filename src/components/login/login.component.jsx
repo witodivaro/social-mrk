@@ -12,7 +12,7 @@ import {
   selectSignInState,
 } from "../../redux/user/user.selectors";
 import { ERROR_CONFIG } from "../../config/errors";
-import { signInStart } from "../../redux/user/user.actions";
+import { signInStart, getCurrentUserStart } from "../../redux/user/user.actions";
 import { SIGN_IN_STATES } from "../../config/auth-states";
 
 import { FaSpinner } from "react-icons/fa";

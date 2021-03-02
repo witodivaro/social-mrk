@@ -1,6 +1,7 @@
 import { takeLatest, put, all, call, delay } from "redux-saga/effects";
 import login from "../../apis/login";
 import register from "../../apis/register";
+import getUser from '../../apis/get-user'
 
 import { ERROR_CONFIG } from "../../config/errors";
 
@@ -8,9 +9,12 @@ import {
   signInFailure,
   signInSuccess,
   signUpFailure,
-  signUpSuccess
+  signUpSuccess,
+  getCurrentUserStart,
+  getCurrentUserSuccess,
+  getCurrentUserFailure
 } from "./user.actions";
-import userActionTypes from "./user.types";
+import UserActionTypes from "./user.types";
 
 function getHandledNetworkErrors(error) {
   const errors = [];
@@ -114,14 +118,29 @@ function* signUp({ payload }) {
   }
 }
 
+function* getCurrentUser({ payload: token }) {
+  try {
+    const response = yield getUser(token, 0);
+    const currentUser = response.data.user
+
+    yield put(getCurrentUserSuccess(currentUser))
+  } catch (error) {
+    put(getCurrentUserFailure(error))
+  }
+}
+
 function* onSignUpStart() {
-  yield takeLatest(userActionTypes.SIGN_UP_START, signUp);
+  yield takeLatest(UserActionTypes.SIGN_UP_START, signUp);
 }
 
 function* onSignInStart() {
-  yield takeLatest(userActionTypes.SIGN_IN_START, signIn);
+  yield takeLatest(UserActionTypes.SIGN_IN_START, signIn);
+}
+
+function* onGetCurrentUserStart() {
+  yield takeLatest(UserActionTypes.GET_CURRENT_USER_START, getCurrentUser)
 }
 
 export function* userSagas() {
-  yield all([call(onSignUpStart), call(onSignInStart)]);
+  yield all([call(onSignUpStart), call(onSignInStart), call(onGetCurrentUserStart)]);
 }

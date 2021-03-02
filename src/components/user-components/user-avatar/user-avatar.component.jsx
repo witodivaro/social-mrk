@@ -26,8 +26,8 @@ const UserAvatar = () => {
   const renderedImage = imageSource ? (
     <img className="avatar__img" src={imageSource} />
   ) : (
-    <NoAvatar className="avatar__svg" />
-  );
+      <NoAvatar className="avatar__svg" />
+    );
 
   return (
     <p className="avatar">
