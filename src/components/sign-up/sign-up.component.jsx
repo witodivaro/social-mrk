@@ -1,20 +1,20 @@
-import "./sign-up.styles.scss";
-import React, { useEffect, useState } from "react";
+import './sign-up.styles.scss';
+import React, { useEffect, useState } from 'react';
 
-import Card from "../card/card.component";
-import FormInput from "../form-input/form-input.component";
-import CustomButton from "../custom-button/custom-button.component";
+import Card from '../card/card.component';
+import FormInput from '../form-input/form-input.component';
+import CustomButton from '../custom-button/custom-button.component';
 
-import useInputs from "../../hooks/use-inputs";
-import { signUpStart } from "../../redux/user/user.actions";
-import { useDispatch, useSelector } from "react-redux";
+import useInputs from '../../hooks/use-inputs';
+import { signUpStart } from '../../redux/user/user.actions';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   selectSignUpErrors,
-  selectSignUpState
-} from "../../redux/user/user.selectors";
-import { ERROR_CONFIG } from "../../config/errors";
-import { SIGN_UP_STATES } from "../../config/auth-states";
-import { FaSpinner } from "react-icons/fa";
+  selectSignUpState,
+} from '../../redux/user/user.selectors';
+import { ERROR_CONFIG } from '../../config/errors';
+import { SIGN_UP_STATES } from '../../config/auth-states';
+import { FaSpinner } from 'react-icons/fa';
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -22,57 +22,26 @@ const SignUp = () => {
   const signUpState = useSelector(selectSignUpState);
 
   const [inputs, onInputChange] = useInputs({
-    registerUsername: "",
-    registerEmail: "",
-    registerPassword: "",
-    registerPasswordConfirm: ""
+    registerUsername: '',
+    registerEmail: '',
+    registerPassword: '',
+    registerPasswordConfirm: '',
   });
 
-  const [errors, setErrors] = useState({
-    username: "",
-    email: "",
-    password: "",
-    passwordConfirm: "",
-    network: ""
+  const [localErrors, setLocalErrors] = useState({
+    passwordConfirm: '',
   });
 
-  useEffect(() => {
-    signUpErrors.forEach(error => {
-      switch (error.type) {
-        case ERROR_CONFIG.SIGN_UP.EMAIL_TAKEN.type:
-          setErrors(errors => ({
-            ...errors,
-            email: ERROR_CONFIG.SIGN_UP.EMAIL_TAKEN.text
-          }));
-          break;
-        case ERROR_CONFIG.SIGN_UP.USERNAME_TAKEN.type:
-          setErrors(errors => ({
-            ...errors,
-            username: ERROR_CONFIG.SIGN_UP.USERNAME_TAKEN.text
-          }));
-          break;
-        case ERROR_CONFIG.NETWORK.CLIENT_FAIL.type:
-          setErrors(errors => ({
-            ...errors,
-            network: ERROR_CONFIG.NETWORK.CLIENT_FAIL.text
-          }));
-      }
-    });
-  }, [signUpErrors]);
-
-  const registerHandler = async e => {
+  const registerHandler = async (e) => {
     e.preventDefault();
-    setErrors({
-      username: "",
-      email: "",
-      password: "",
-      passwordConfirm: ""
+    setLocalErrors({
+      passwordConfirm: '',
     });
 
     if (inputs.registerPassword !== inputs.registerPasswordConfirm) {
-      setErrors({
-        ...errors,
-        passwordConfirm: ERROR_CONFIG.SIGN_UP.PASSWORDS_DONT_MATCH.text
+      setLocalErrors({
+        ...localErrors,
+        passwordConfirm: [ERROR_CONFIG.SIGN_UP.PASSWORDS_DONT_MATCH.text],
       });
       return;
     }
@@ -81,16 +50,17 @@ const SignUp = () => {
       signUpStart({
         username: inputs.registerUsername,
         email: inputs.registerEmail,
-        password: inputs.registerPassword
+        password: inputs.registerPassword,
       })
     );
   };
 
-  const renderedError = errors.network ? (
-    <p className="sign-up__error">{errors.network}</p>
-  ) : null;
+  const renderedError =
+    signUpErrors?.network.length > 0 ? (
+      <p className="sign-up__error">{signUpErrors.network}</p>
+    ) : null;
 
-  const renderRegisterForm = (disabled = false) => (
+  const renderSignUpForm = (disabled = false) => (
     <form className="sign-up__form" onSubmit={registerHandler}>
       <h3 className="sign-up__header">Станьте социалом прямо сейчас!</h3>
       {renderedError}
@@ -99,7 +69,7 @@ const SignUp = () => {
         name="registerUsername"
         type="text"
         value={inputs.registerUsername}
-        error={errors.username}
+        errors={signUpErrors?.username}
         onChange={onInputChange}
         disabled={disabled}
         required
@@ -109,7 +79,7 @@ const SignUp = () => {
         name="registerEmail"
         type="email"
         value={inputs.registerEmail}
-        error={errors.email}
+        errors={signUpErrors?.email}
         onChange={onInputChange}
         disabled={disabled}
         required
@@ -119,7 +89,7 @@ const SignUp = () => {
         name="registerPassword"
         type="password"
         value={inputs.registerPassword}
-        error={errors.password}
+        errors={signUpErrors?.password}
         onChange={onInputChange}
         disabled={disabled}
         required
@@ -129,7 +99,7 @@ const SignUp = () => {
         name="registerPasswordConfirm"
         type="password"
         value={inputs.registerPasswordConfirm}
-        error={errors.passwordConfirm}
+        errors={localErrors?.passwordConfirm}
         onChange={onInputChange}
         disabled={disabled}
         required
@@ -150,12 +120,12 @@ const SignUp = () => {
       case SIGN_UP_STATES.SIGNING:
         return (
           <>
-            {renderRegisterForm(true)}
+            {renderSignUpForm(true)}
             <FaSpinner className="sign-up__spinner" size={50} />
           </>
         );
       default:
-        return renderRegisterForm();
+        return renderSignUpForm();
     }
   };
 

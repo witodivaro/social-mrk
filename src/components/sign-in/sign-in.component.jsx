@@ -1,67 +1,68 @@
-import "./sign-in.styles.scss";
-import React, { useEffect, useMemo, useState } from "react";
+import './sign-in.styles.scss';
+import React, { useMemo, useState } from 'react';
 
-import Card from "../card/card.component";
-import FormInput from "../form-input/form-input.component";
-import CustomButton from "../custom-button/custom-button.component";
+import Card from '../card/card.component';
+import FormInput from '../form-input/form-input.component';
+import CustomButton from '../custom-button/custom-button.component';
 
-import useInputs from "../../hooks/use-inputs";
-import { useDispatch, useSelector } from "react-redux";
+import useInputs from '../../hooks/use-inputs';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   selectSignInErrors,
-  selectSignInState
-} from "../../redux/user/user.selectors";
-import { ERROR_CONFIG } from "../../config/errors";
-import { signInStart } from "../../redux/user/user.actions";
-import { SIGN_IN_STATES } from "../../config/auth-states";
+  selectSignInState,
+} from '../../redux/user/user.selectors';
+import { signInStart } from '../../redux/user/user.actions';
+import { SIGN_IN_STATES } from '../../config/auth-states';
 
-import { FaSpinner } from "react-icons/fa";
+import { FaSpinner } from 'react-icons/fa';
 
 const SignIn = () => {
   const dispatch = useDispatch();
   const [inputs, onInputChange] = useInputs({
-    username: "",
-    password: ""
+    username: '',
+    password: '',
   });
   const signInState = useSelector(selectSignInState);
-
   const signInErrors = useSelector(selectSignInErrors);
 
-  const [error, setError] = useState("");
+  const [localErrors, setLocalErrors] = useState([]);
 
-  const loginHandler = async e => {
+  const loginHandler = async (e) => {
     e.preventDefault();
-    setError("");
+    setLocalErrors([]);
 
     dispatch(
       signInStart({ username: inputs.username, password: inputs.password })
     );
   };
 
-  useEffect(() => {
-    signInErrors.forEach(error => {
-      switch (error.type) {
-        case ERROR_CONFIG.SIGN_IN.WRONG_CREDENTIALS.type:
-          setError(ERROR_CONFIG.SIGN_IN.WRONG_CREDENTIALS.text);
-          break;
-        case ERROR_CONFIG.NETWORK.SERVER_FAIL.type:
-          setError(ERROR_CONFIG.NETWORK.SERVER_FAIL.text);
-          break;
-        case ERROR_CONFIG.NETWORK.CLIENT_FAIL.type:
-          setError(ERROR_CONFIG.NETWORK.CLIENT_FAIL.text);
-          break;
-      }
-    });
-  }, [signInErrors]);
-
   const renderedError = useMemo(() => {
-    return error ? <p className="login__error">{error}</p> : null;
-  }, [error]);
+    let allErrors = [];
+    if (localErrors) {
+      localErrors.forEach((error) => allErrors.push(error));
+    }
+
+    if (signInErrors) {
+      Object.values(signInErrors).forEach((errors) => {
+        if (errors.length > 0) {
+          errors.forEach((error) => allErrors.push(error));
+        }
+      });
+    }
+
+    return (
+      <p className="login__error">
+        {allErrors.map((error) => (
+          <React.Fragment key={`ERROR ${error}`}>{error}</React.Fragment>
+        ))}
+      </p>
+    );
+  }, [localErrors, signInErrors]);
 
   const renderSignInForm = (disabled = false) => {
     return (
       <form
-        className={`login__form ${disabled ? "disabled" : ""}`}
+        className={`login__form ${disabled ? 'disabled' : ''}`}
         onSubmit={loginHandler}
       >
         <h3 className="login__header">Вход</h3>

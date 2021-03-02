@@ -1,9 +1,9 @@
-import { takeLatest, put, all, call } from "redux-saga/effects";
-import login from "../../apis/login";
-import signUp from "../../apis/sign-up";
-import getUser from "../../apis/get-user";
+import { takeLatest, put, all, call } from 'redux-saga/effects';
+import login from '../../apis/login';
+import signUp from '../../apis/sign-up';
+import getUser from '../../apis/get-user';
 
-import { ERROR_CONFIG } from "../../config/errors";
+import { ERROR_CONFIG } from '../../config/errors';
 
 import {
   signInFailure,
@@ -11,23 +11,19 @@ import {
   signUpFailure,
   signUpSuccess,
   getCurrentUserSuccess,
-  getCurrentUserFailure
-} from "./user.actions";
-import UserActionTypes from "./user.types";
+  getCurrentUserFailure,
+} from './user.actions';
+import UserActionTypes from './user.types';
 
 function getHandledNetworkErrors(error) {
-  const errors = [];
+  const errors = {};
+
+  errors.network = [];
 
   if (!error.response) {
-    errors.push({
-      type: ERROR_CONFIG.NETWORK.CLIENT_FAIL.type,
-      text: ERROR_CONFIG.NETWORK.CLIENT_FAIL.text
-    });
+    errors.network.push(ERROR_CONFIG.NETWORK.CLIENT_FAIL.text);
   } else if (error.response.status === 500) {
-    errors.push({
-      type: ERROR_CONFIG.NETWORK.SERVER_FAIL.type,
-      text: ERROR_CONFIG.NETWORK.SERVER_FAIL.text
-    });
+    errors.network.push(ERROR_CONFIG.NETWORK.SERVER_FAIL.text);
   }
 
   return errors;
@@ -36,25 +32,22 @@ function getHandledNetworkErrors(error) {
 function getHandledSignUpErrors(error) {
   const errors = getHandledNetworkErrors(error);
 
+  Object.assign(errors, {
+    username: [],
+    email: [],
+  });
+
   if (error.response && error.response.status === 400) {
     for (const errorName of Object.keys(error.response.data.error)) {
-      let error = null;
-
       switch (errorName) {
-        case "username":
-          error = {
-            type: ERROR_CONFIG.SIGN_UP.USERNAME_TAKEN.type
-          };
+        case 'username':
+          errors.username.push(ERROR_CONFIG.SIGN_UP.USERNAME_TAKEN.text);
           break;
 
-        case "email":
-          error = {
-            type: ERROR_CONFIG.SIGN_UP.EMAIL_TAKEN.type
-          };
+        case 'email':
+          errors.email.push(ERROR_CONFIG.SIGN_UP.EMAIL_TAKEN.text);
           break;
       }
-
-      errors.push(error);
     }
   }
 
@@ -62,20 +55,18 @@ function getHandledSignUpErrors(error) {
 }
 
 function getHandledSignInErrors(error) {
-  const errors = getHandledNetworkErrors(error);
+  let errors = getHandledNetworkErrors(error);
+
+  Object.assign(errors, {
+    credentials: [],
+  });
 
   if (error.response && error.response.status === 400) {
     for (const errorName of Object.keys(error.response.data.error)) {
-      let error = null;
-
       switch (errorName) {
-        case "credentials":
-          error = {
-            type: ERROR_CONFIG.SIGN_IN.WRONG_CREDENTIALS.type
-          };
+        case 'credentials':
+          errors.credentials.push(ERROR_CONFIG.SIGN_IN.WRONG_CREDENTIALS.text);
       }
-
-      errors.push(error);
     }
   }
 
@@ -87,7 +78,7 @@ function* signInStart({ payload }) {
     const { username, password } = yield payload;
     const response = yield login({
       username,
-      password
+      password,
     });
 
     const token = yield response.data.token;
@@ -106,7 +97,7 @@ function* signUpStart({ payload }) {
     yield signUp({
       username,
       password,
-      email
+      email,
     });
 
     yield put(signUpSuccess());
@@ -144,6 +135,6 @@ export function* userSagas() {
   yield all([
     call(onSignUpStart),
     call(onSignInStart),
-    call(onGetCurrentUserStart)
+    call(onGetCurrentUserStart),
   ]);
 }

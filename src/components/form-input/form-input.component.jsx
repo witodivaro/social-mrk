@@ -1,12 +1,15 @@
 import { useMemo, useRef } from 'react';
 import './form-input.styles.scss';
 
-const FormInput = ({ name, label, value, error, disabled, ...props }) => {
+const FormInput = ({ name, label, value, errors, disabled, ...props }) => {
   const labelRef = useRef();
 
   const renderedError = useMemo(
-    () => (error ? <p className="error">{error}</p> : null),
-    [error]
+    () =>
+      errors?.length > 0 ? (
+        <p className="error">{errors.map((error) => error)}</p>
+      ) : null,
+    [errors]
   );
 
   return (
