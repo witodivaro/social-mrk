@@ -1,14 +1,14 @@
-import './home-page.styles.scss';
+import "./home-page.styles.scss";
 
-import Register from '../../components/register/register.component';
-import Login from '../../components/login/login.component';
+import SignUp from "../../components/sign-up/sign-up.component";
+import SignIn from "../../components/sign-in/sign-in.component";
 
 const HomePage = () => {
   return (
     <div className="home">
       <div className="home__auth">
-        <Login />
-        <Register />
+        <SignIn />
+        <SignUp />
       </div>
     </div>
   );

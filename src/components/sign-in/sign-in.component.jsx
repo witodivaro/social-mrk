@@ -1,4 +1,4 @@
-import "./login.styles.scss";
+import "./sign-in.styles.scss";
 import React, { useEffect, useMemo, useState } from "react";
 
 import Card from "../card/card.component";
@@ -9,19 +9,19 @@ import useInputs from "../../hooks/use-inputs";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectSignInErrors,
-  selectSignInState,
+  selectSignInState
 } from "../../redux/user/user.selectors";
 import { ERROR_CONFIG } from "../../config/errors";
-import { signInStart, getCurrentUserStart } from "../../redux/user/user.actions";
+import { signInStart } from "../../redux/user/user.actions";
 import { SIGN_IN_STATES } from "../../config/auth-states";
 
 import { FaSpinner } from "react-icons/fa";
 
-const Login = () => {
+const SignIn = () => {
   const dispatch = useDispatch();
   const [inputs, onInputChange] = useInputs({
     username: "",
-    password: "",
+    password: ""
   });
   const signInState = useSelector(selectSignInState);
 
@@ -29,7 +29,7 @@ const Login = () => {
 
   const [error, setError] = useState("");
 
-  const loginHandler = async (e) => {
+  const loginHandler = async e => {
     e.preventDefault();
     setError("");
 
@@ -39,7 +39,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    signInErrors.forEach((error) => {
+    signInErrors.forEach(error => {
       switch (error.type) {
         case ERROR_CONFIG.SIGN_IN.WRONG_CREDENTIALS.type:
           setError(ERROR_CONFIG.SIGN_IN.WRONG_CREDENTIALS.text);
@@ -115,4 +115,4 @@ const Login = () => {
   return <Card className="login">{renderContent()}</Card>;
 };
 
-export default Login;
+export default SignIn;

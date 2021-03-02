@@ -1,7 +1,7 @@
-import { takeLatest, put, all, call, delay } from "redux-saga/effects";
+import { takeLatest, put, all, call } from "redux-saga/effects";
 import login from "../../apis/login";
-import register from "../../apis/register";
-import getUser from '../../apis/get-user'
+import signUp from "../../apis/sign-up";
+import getUser from "../../apis/get-user";
 
 import { ERROR_CONFIG } from "../../config/errors";
 
@@ -10,7 +10,6 @@ import {
   signInSuccess,
   signUpFailure,
   signUpSuccess,
-  getCurrentUserStart,
   getCurrentUserSuccess,
   getCurrentUserFailure
 } from "./user.actions";
@@ -83,7 +82,7 @@ function getHandledSignInErrors(error) {
   return errors;
 }
 
-function* signIn({ payload }) {
+function* signInStart({ payload }) {
   try {
     const { username, password } = yield payload;
     const response = yield login({
@@ -101,10 +100,10 @@ function* signIn({ payload }) {
   }
 }
 
-function* signUp({ payload }) {
+function* signUpStart({ payload }) {
   try {
     const { username, password, email } = yield payload;
-    yield register({
+    yield signUp({
       username,
       password,
       email
@@ -121,26 +120,30 @@ function* signUp({ payload }) {
 function* getCurrentUser({ payload: token }) {
   try {
     const response = yield getUser(token, 0);
-    const currentUser = response.data.user
+    const currentUser = response.data.user;
 
-    yield put(getCurrentUserSuccess(currentUser))
+    yield put(getCurrentUserSuccess(currentUser));
   } catch (error) {
-    put(getCurrentUserFailure(error))
+    put(getCurrentUserFailure(error));
   }
 }
 
 function* onSignUpStart() {
-  yield takeLatest(UserActionTypes.SIGN_UP_START, signUp);
+  yield takeLatest(UserActionTypes.SIGN_UP_START, signUpStart);
 }
 
 function* onSignInStart() {
-  yield takeLatest(UserActionTypes.SIGN_IN_START, signIn);
+  yield takeLatest(UserActionTypes.SIGN_IN_START, signInStart);
 }
 
 function* onGetCurrentUserStart() {
-  yield takeLatest(UserActionTypes.GET_CURRENT_USER_START, getCurrentUser)
+  yield takeLatest(UserActionTypes.GET_CURRENT_USER_START, getCurrentUser);
 }
 
 export function* userSagas() {
-  yield all([call(onSignUpStart), call(onSignInStart), call(onGetCurrentUserStart)]);
+  yield all([
+    call(onSignUpStart),
+    call(onSignInStart),
+    call(onGetCurrentUserStart)
+  ]);
 }

@@ -1,4 +1,4 @@
-import "./register.styles.scss";
+import "./sign-up.styles.scss";
 import React, { useEffect, useState } from "react";
 
 import Card from "../card/card.component";
@@ -10,13 +10,13 @@ import { signUpStart } from "../../redux/user/user.actions";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectSignUpErrors,
-  selectSignUpState,
+  selectSignUpState
 } from "../../redux/user/user.selectors";
 import { ERROR_CONFIG } from "../../config/errors";
 import { SIGN_UP_STATES } from "../../config/auth-states";
 import { FaSpinner } from "react-icons/fa";
 
-const Register = () => {
+const SignUp = () => {
   const dispatch = useDispatch();
   const signUpErrors = useSelector(selectSignUpErrors);
   const signUpState = useSelector(selectSignUpState);
@@ -25,7 +25,7 @@ const Register = () => {
     registerUsername: "",
     registerEmail: "",
     registerPassword: "",
-    registerPasswordConfirm: "",
+    registerPasswordConfirm: ""
   });
 
   const [errors, setErrors] = useState({
@@ -33,46 +33,46 @@ const Register = () => {
     email: "",
     password: "",
     passwordConfirm: "",
-    network: "",
+    network: ""
   });
 
   useEffect(() => {
-    signUpErrors.forEach((error) => {
+    signUpErrors.forEach(error => {
       switch (error.type) {
         case ERROR_CONFIG.SIGN_UP.EMAIL_TAKEN.type:
-          setErrors((errors) => ({
+          setErrors(errors => ({
             ...errors,
-            email: ERROR_CONFIG.SIGN_UP.EMAIL_TAKEN.text,
+            email: ERROR_CONFIG.SIGN_UP.EMAIL_TAKEN.text
           }));
           break;
         case ERROR_CONFIG.SIGN_UP.USERNAME_TAKEN.type:
-          setErrors((errors) => ({
+          setErrors(errors => ({
             ...errors,
-            username: ERROR_CONFIG.SIGN_UP.USERNAME_TAKEN.text,
+            username: ERROR_CONFIG.SIGN_UP.USERNAME_TAKEN.text
           }));
           break;
         case ERROR_CONFIG.NETWORK.CLIENT_FAIL.type:
-          setErrors((errors) => ({
+          setErrors(errors => ({
             ...errors,
-            network: ERROR_CONFIG.NETWORK.CLIENT_FAIL.text,
+            network: ERROR_CONFIG.NETWORK.CLIENT_FAIL.text
           }));
       }
     });
   }, [signUpErrors]);
 
-  const registerHandler = async (e) => {
+  const registerHandler = async e => {
     e.preventDefault();
     setErrors({
       username: "",
       email: "",
       password: "",
-      passwordConfirm: "",
+      passwordConfirm: ""
     });
 
     if (inputs.registerPassword !== inputs.registerPasswordConfirm) {
       setErrors({
         ...errors,
-        passwordConfirm: ERROR_CONFIG.SIGN_UP.PASSWORDS_DONT_MATCH.text,
+        passwordConfirm: ERROR_CONFIG.SIGN_UP.PASSWORDS_DONT_MATCH.text
       });
       return;
     }
@@ -81,18 +81,18 @@ const Register = () => {
       signUpStart({
         username: inputs.registerUsername,
         email: inputs.registerEmail,
-        password: inputs.registerPassword,
+        password: inputs.registerPassword
       })
     );
   };
 
   const renderedError = errors.network ? (
-    <p className="register__error">{errors.network}</p>
+    <p className="sign-up__error">{errors.network}</p>
   ) : null;
 
   const renderRegisterForm = (disabled = false) => (
-    <form className="register__form" onSubmit={registerHandler}>
-      <h3 className="register__header">Станьте социалом прямо сейчас!</h3>
+    <form className="sign-up__form" onSubmit={registerHandler}>
+      <h3 className="sign-up__header">Станьте социалом прямо сейчас!</h3>
       {renderedError}
       <FormInput
         label="Логин"
@@ -144,14 +144,14 @@ const Register = () => {
     switch (signUpState) {
       case SIGN_UP_STATES.SUCCESS:
         return (
-          <p className="register__success">Вы успешно зарегистрировались!</p>
+          <p className="sign-up__success">Вы успешно зарегистрировались!</p>
         );
 
       case SIGN_UP_STATES.SIGNING:
         return (
           <>
             {renderRegisterForm(true)}
-            <FaSpinner className="register__spinner" size={50} />
+            <FaSpinner className="sign-up__spinner" size={50} />
           </>
         );
       default:
@@ -159,7 +159,7 @@ const Register = () => {
     }
   };
 
-  return <Card className="register">{renderContent()}</Card>;
+  return <Card className="sign-up">{renderContent()}</Card>;
 };
 
-export default Register;
+export default SignUp;
