@@ -8,30 +8,30 @@ import {
   signInFailure,
   signInSuccess,
   signUpFailure,
-  signUpSuccess,
+  signUpSuccess
 } from "./user.actions";
 import userActionTypes from "./user.types";
 
-function* getHandledNetworkErrors(error) {
+function getHandledNetworkErrors(error) {
   const errors = [];
 
   if (!error.response) {
-    yield errors.push({
+    errors.push({
       type: ERROR_CONFIG.NETWORK.CLIENT_FAIL.type,
-      text: ERROR_CONFIG.NETWORK.CLIENT_FAIL.text,
+      text: ERROR_CONFIG.NETWORK.CLIENT_FAIL.text
     });
   } else if (error.response.status === 500) {
-    yield errors.push({
+    errors.push({
       type: ERROR_CONFIG.NETWORK.SERVER_FAIL.type,
-      text: ERROR_CONFIG.NETWORK.SERVER_FAIL.text,
+      text: ERROR_CONFIG.NETWORK.SERVER_FAIL.text
     });
   }
 
   return errors;
 }
 
-function* getHandledSignUpErrors(error) {
-  const errors = yield getHandledNetworkErrors(error);
+function getHandledSignUpErrors(error) {
+  const errors = getHandledNetworkErrors(error);
 
   if (error.response && error.response.status === 400) {
     for (const errorName of Object.keys(error.response.data.error)) {
@@ -40,26 +40,26 @@ function* getHandledSignUpErrors(error) {
       switch (errorName) {
         case "username":
           error = {
-            type: ERROR_CONFIG.SIGN_UP.USERNAME_TAKEN.type,
+            type: ERROR_CONFIG.SIGN_UP.USERNAME_TAKEN.type
           };
           break;
 
         case "email":
           error = {
-            type: ERROR_CONFIG.SIGN_UP.EMAIL_TAKEN.type,
+            type: ERROR_CONFIG.SIGN_UP.EMAIL_TAKEN.type
           };
           break;
       }
 
-      yield errors.push(error);
+      errors.push(error);
     }
   }
 
   return errors;
 }
 
-function* getHandledSignInErrors(error) {
-  const errors = yield getHandledNetworkErrors(error);
+function getHandledSignInErrors(error) {
+  const errors = getHandledNetworkErrors(error);
 
   if (error.response && error.response.status === 400) {
     for (const errorName of Object.keys(error.response.data.error)) {
@@ -68,11 +68,11 @@ function* getHandledSignInErrors(error) {
       switch (errorName) {
         case "credentials":
           error = {
-            type: ERROR_CONFIG.SIGN_IN.WRONG_CREDENTIALS.type,
+            type: ERROR_CONFIG.SIGN_IN.WRONG_CREDENTIALS.type
           };
       }
 
-      yield errors.push(error);
+      errors.push(error);
     }
   }
 
@@ -84,7 +84,7 @@ function* signIn({ payload }) {
     const { username, password } = yield payload;
     const response = yield login({
       username,
-      password,
+      password
     });
 
     const token = yield response.data.token;
@@ -103,7 +103,7 @@ function* signUp({ payload }) {
     yield register({
       username,
       password,
-      email,
+      email
     });
 
     yield put(signUpSuccess());
