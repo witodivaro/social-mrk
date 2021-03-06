@@ -27,7 +27,6 @@ function* getUserPage({ payload: id }) {
 }
 
 function* refreshPage() {
-  console.log('refresh page');
   const currentPageId = yield select(selectUserPageId);
 
   yield put(getUserStart(currentPageId));

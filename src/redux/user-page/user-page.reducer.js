@@ -5,6 +5,7 @@ const initialState = {
   user: null,
   error: '',
   state: '',
+  avatarModalShown: false,
 };
 
 const userPageReducer = (state = initialState, { payload, type }) => {
@@ -27,6 +28,12 @@ const userPageReducer = (state = initialState, { payload, type }) => {
         ...state,
         error: payload,
         state: GET_USER_STATES.FAILURE,
+      };
+
+    case UserPageActionTypes.TOGGLE_AVATAR_MODAL_SHOWN:
+      return {
+        ...state,
+        avatarModalShown: !state.avatarModalShown,
       };
 
     default:

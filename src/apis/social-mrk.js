@@ -3,7 +3,7 @@ import { store } from '../redux/store';
 
 const fetchClient = () => {
   const socialMrk = axios.create({
-    baseURL: 'http://bcaaa6b499c4.ngrok.io',
+    baseURL: 'http://f10417a9e81c.ngrok.io',
   });
 
   socialMrk.interceptors.request.use((config) => {

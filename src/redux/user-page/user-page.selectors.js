@@ -21,3 +21,8 @@ export const selectUserPageId = createSelector(
   selectUserPageUser,
   (user) => user.id
 );
+
+export const selectAvatarModalShown = createSelector(
+  selectUserPage,
+  (userPage) => userPage.avatarModalShown
+);

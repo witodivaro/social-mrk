@@ -25,17 +25,6 @@ const App = () => {
     [currentUser]
   );
 
-  const renderUserPage = useCallback(
-    (props) => {
-      if (token) {
-        return <UserPage {...props} />;
-      }
-
-      return <Redirect to="/" />;
-    },
-    [token]
-  );
-
   useEffect(() => {
     if (token) {
       dispatch(getCurrentUserStart(token));
@@ -43,11 +32,11 @@ const App = () => {
   }, [token]);
 
   return (
-    <div className="app">
+    <div className="app" style={{ overflowY: 'hidden' }}>
       <Header />
       <Switch>
         <Route exact path="/" render={renderHomePage} />
-        <Route exact path="/id:userId" render={renderUserPage} />
+        <Route exact path="/id:userId" component={UserPage} />
       </Switch>
     </div>
   );

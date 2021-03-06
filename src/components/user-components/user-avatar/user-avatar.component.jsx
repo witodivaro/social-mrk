@@ -4,24 +4,10 @@ import React, { useRef } from 'react';
 import { ReactComponent as NoAvatar } from '../../../assets/images/no-avatar.svg';
 import { changeUserStart } from '../../../redux/user/user.actions';
 import { useDispatch } from 'react-redux';
+import { toggleAvatarModalShown } from '../../../redux/user-page/user-page.actions';
 
 const UserAvatar = ({ imageSource }) => {
-  const inputRef = useRef();
   const dispatch = useDispatch();
-
-  const fileChangeHandler = (e) => {
-    const reader = new FileReader();
-
-    reader.onload = async () => {
-      dispatch(
-        changeUserStart({
-          image: reader.result,
-        })
-      );
-    };
-
-    reader.readAsDataURL(e.target.files[0]);
-  };
 
   const renderedImage = imageSource ? (
     <img className="avatar__img" src={imageSource} />
@@ -29,16 +15,13 @@ const UserAvatar = ({ imageSource }) => {
     <NoAvatar className="avatar__svg" />
   );
 
+  const toggleAvatarModalHandler = () => {
+    dispatch(toggleAvatarModalShown());
+  };
+
   return (
-    <p className="avatar">
+    <p className="avatar" onClick={toggleAvatarModalHandler}>
       {renderedImage}
-      <input
-        className="avatar__input"
-        type="file"
-        ref={inputRef}
-        accept="image/*"
-        onChange={fileChangeHandler}
-      />
     </p>
   );
 };

@@ -1,6 +1,6 @@
 import './user-page.styles.scss';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import CustomButton from '../../components/custom-button/custom-button.component';
 
 import UserAvatar from '../../components/user-components/user-avatar/user-avatar.component';
@@ -11,12 +11,14 @@ import {
   selectToken,
 } from '../../redux/user/user.selectors';
 import {
+  selectAvatarModalShown,
   selectUserPageState,
   selectUserPageUser,
 } from '../../redux/user-page/user-page.selectors';
 import { getUserStart } from '../../redux/user-page/user-page.actions';
 import { GET_USER_STATES } from '../../config/user-states';
-import { ReactComponent as LoadingIndicator } from '../../assets/images/infinity-loader.svg';
+import { ReactComponent as LoadingIndicator } from '../../assets/images/loader.svg';
+import UserAvatarPickerModal from '../../components/user-components/user-avatar-picker-modal/user-avatar-picker-modal.component';
 
 const UserPage = ({ match }) => {
   const token = useSelector(selectToken);
@@ -24,8 +26,7 @@ const UserPage = ({ match }) => {
   const currentUser = useSelector(selectCurrentUser);
   const userPageUser = useSelector(selectUserPageUser);
   const userPageState = useSelector(selectUserPageState);
-
-  const onUserImageChange = () => {};
+  const avatarModalShown = useSelector(selectAvatarModalShown);
 
   const { userId } = match.params;
 
@@ -33,7 +34,7 @@ const UserPage = ({ match }) => {
     dispatch(getUserStart(userId));
   }, [token, userId, getUserStart, dispatch]);
 
-  const renderContent = () => {
+  const renderContent = useCallback(() => {
     switch (userPageState) {
       case GET_USER_STATES.FETCHING:
         return (
@@ -92,9 +93,19 @@ const UserPage = ({ match }) => {
           </div>
         );
     }
-  };
+  }, [userPageState, userPageUser]);
 
-  return <div className="user">{renderContent()}</div>;
+  const renderedAvatarModal = useMemo(
+    () => (avatarModalShown ? <UserAvatarPickerModal /> : null),
+    [avatarModalShown]
+  );
+
+  return (
+    <div className="user">
+      {renderedAvatarModal}
+      {renderContent()}
+    </div>
+  );
 };
 
 export default UserPage;
