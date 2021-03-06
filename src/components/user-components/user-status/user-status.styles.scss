@@ -1,0 +1,21 @@
+@import '../../../styles/colors.scss';
+
+.user-status {
+  margin: 0;
+
+  &--editable {
+    cursor: pointer;
+    color: #aaa;
+  }
+
+  &--editing {
+    border: none;
+    background: none;
+    border-bottom: 1px solid $light;
+
+    &:focus {
+      border-bottom-color: $primary;
+      outline: none;
+    }
+  }
+}
