@@ -29,7 +29,7 @@ const UserPage = ({ match }) => {
   const { userId } = match.params;
 
   useEffect(() => {
-    dispatch(getUserStart(token, userId));
+    dispatch(getUserStart(userId));
   }, [token, userId, getUserStart, dispatch]);
 
   const renderContent = () => {

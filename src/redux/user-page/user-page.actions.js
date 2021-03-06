@@ -1,8 +1,8 @@
 import UserPageActionTypes from './user-page.types';
 
-export const getUserStart = (token, id) => ({
+export const getUserStart = (id) => ({
   type: UserPageActionTypes.GET_USER_START,
-  payload: { token, id },
+  payload: id,
 });
 
 export const getUserSuccess = (user) => ({
@@ -13,4 +13,8 @@ export const getUserSuccess = (user) => ({
 export const getUserFailure = (error) => ({
   type: UserPageActionTypes.GET_USER_FAILURE,
   payload: error,
+});
+
+export const refreshPage = () => ({
+  type: UserPageActionTypes.REFRESH_PAGE,
 });

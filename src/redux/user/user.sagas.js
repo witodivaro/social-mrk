@@ -1,4 +1,4 @@
-import { takeLatest, put, all, call } from 'redux-saga/effects';
+import { takeLatest, put, all, call, take } from 'redux-saga/effects';
 import signInAPI from '../../apis/sign-in';
 import signUpAPI from '../../apis/sign-up';
 import getUserAPI from '../../apis/get-user';
@@ -14,9 +14,11 @@ import {
   getCurrentUserFailure,
   changeUserFailure,
   changeUserSuccess,
+  getCurrentUserStart,
 } from './user.actions';
 import UserActionTypes from './user.types';
 import changeUserAPI from '../../apis/change-user';
+import { refreshPage } from '../user-page/user-page.actions';
 
 function getHandledNetworkErrors(error) {
   const errors = {};
@@ -96,7 +98,6 @@ function* signInStartSaga({ payload }) {
 
     yield put(signInSuccess(token));
   } catch (error) {
-    console.log(error);
     const errors = yield getHandledSignInErrors(error);
 
     yield put(signInFailure(errors));
@@ -137,7 +138,7 @@ function* changeUserSaga({ payload: userData }) {
       ...userData,
     });
 
-    put(changeUserSuccess());
+    yield put(changeUserSuccess());
   } catch (error) {
     put(changeUserFailure(getHandledChangeUserErrors(error)));
   }
@@ -155,6 +156,12 @@ function* onGetCurrentUserStart() {
   yield takeLatest(UserActionTypes.GET_CURRENT_USER_START, getCurrentUserSaga);
 }
 
+function* onChangeUserSuccess() {
+  yield take(UserActionTypes.CHANGE_USER_SUCCESS);
+  yield put(getCurrentUserStart());
+  yield put(refreshPage());
+}
+
 function* onChangeUserStart() {
   yield takeLatest(UserActionTypes.CHANGE_USER_START, changeUserSaga);
 }
@@ -165,5 +172,6 @@ export function* userSagas() {
     call(onSignInStart),
     call(onGetCurrentUserStart),
     call(onChangeUserStart),
+    call(onChangeUserSuccess),
   ]);
 }

@@ -16,3 +16,8 @@ export const selectUserPageState = createSelector(
   selectUserPage,
   (userPage) => userPage.state
 );
+
+export const selectUserPageId = createSelector(
+  selectUserPageUser,
+  (user) => user.id
+);
