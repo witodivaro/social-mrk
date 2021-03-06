@@ -16,6 +16,7 @@ import {
 } from '../../redux/user-page/user-page.selectors';
 import { getUserStart } from '../../redux/user-page/user-page.actions';
 import { GET_USER_STATES } from '../../config/user-states';
+import { ReactComponent as LoadingIndicator } from '../../assets/images/infinity-loader.svg';
 
 const UserPage = ({ match }) => {
   const token = useSelector(selectToken);
@@ -35,7 +36,11 @@ const UserPage = ({ match }) => {
   const renderContent = () => {
     switch (userPageState) {
       case GET_USER_STATES.FETCHING:
-        return <p>Loading...</p>;
+        return (
+          <p className="user__loading-indicator">
+            <LoadingIndicator />
+          </p>
+        );
       case GET_USER_STATES.FAILURE:
         return <p>Owibka...</p>;
       case GET_USER_STATES.SUCCESS:

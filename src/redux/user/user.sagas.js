@@ -1,4 +1,4 @@
-import { takeLatest, put, all, call, take } from 'redux-saga/effects';
+import { takeLatest, put, all, call, takeEvery } from 'redux-saga/effects';
 import signInAPI from '../../apis/sign-in';
 import signUpAPI from '../../apis/sign-up';
 import getUserAPI from '../../apis/get-user';
@@ -144,6 +144,11 @@ function* changeUserSaga({ payload: userData }) {
   }
 }
 
+function* changeUserSuccessSaga() {
+  yield put(getCurrentUserStart());
+  yield put(refreshPage());
+}
+
 function* onSignUpStart() {
   yield takeLatest(UserActionTypes.SIGN_UP_START, signUpStartSaga);
 }
@@ -157,9 +162,7 @@ function* onGetCurrentUserStart() {
 }
 
 function* onChangeUserSuccess() {
-  yield take(UserActionTypes.CHANGE_USER_SUCCESS);
-  yield put(getCurrentUserStart());
-  yield put(refreshPage());
+  yield takeEvery(UserActionTypes.CHANGE_USER_SUCCESS, changeUserSuccessSaga);
 }
 
 function* onChangeUserStart() {

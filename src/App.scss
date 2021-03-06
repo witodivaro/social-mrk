@@ -18,4 +18,6 @@ a {
 .app {
   min-height: 100vh;
   background: #eee;
+  display: flex;
+  flex-direction: column;
 }

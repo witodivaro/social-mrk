@@ -1,4 +1,11 @@
-import { all, call, take, put, select, takeLatest } from 'redux-saga/effects';
+import {
+  all,
+  call,
+  takeEvery,
+  put,
+  select,
+  takeLatest,
+} from 'redux-saga/effects';
 import {
   getUserFailure,
   getUserStart,
@@ -19,15 +26,19 @@ function* getUserPage({ payload: id }) {
   }
 }
 
+function* refreshPage() {
+  console.log('refresh page');
+  const currentPageId = yield select(selectUserPageId);
+
+  yield put(getUserStart(currentPageId));
+}
+
 function* onGetUserStart() {
   yield takeLatest(UserPageActionTypes.GET_USER_START, getUserPage);
 }
 
 function* onRefreshPage() {
-  yield take(UserPageActionTypes.REFRESH_PAGE);
-  const currentPageId = yield select(selectUserPageId);
-
-  yield put(getUserStart(currentPageId));
+  yield takeEvery(UserPageActionTypes.REFRESH_PAGE, refreshPage);
 }
 
 export function* userPageSagas() {
