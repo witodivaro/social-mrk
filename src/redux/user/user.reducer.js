@@ -1,15 +1,21 @@
 import UserActionTypes from './user.types';
 import { persistReducer } from 'redux-persist';
 import localStorage from 'redux-persist/lib/storage';
-import { SIGN_UP_STATES, SIGN_IN_STATES } from '../../config/auth-states';
+import {
+  CHANGE_USER_STATES,
+  SIGN_IN_STATES,
+  SIGN_UP_STATES,
+} from '../../config/user-states';
 
 const initialState = {
   currentUser: null,
   token: '',
   signInErrors: null,
   signUpErrors: null,
+  changeUserErrors: null,
   signUpState: '',
   signInState: '',
+  changeUserState: '',
 };
 
 const userReducer = (state = initialState, { type, payload }) => {
@@ -21,20 +27,22 @@ const userReducer = (state = initialState, { type, payload }) => {
         currentUser: null,
         signInErrors: null,
         signUpErrors: null,
+        changeUserErrors: null,
         signUpState: '',
         signInState: '',
+        changeUserState: '',
       };
 
     case UserActionTypes.SIGN_UP_START:
       return {
         ...state,
-        signUpState: SIGN_UP_STATES.SIGNING,
+        signUpState: SIGN_UP_STATES.FETCHING,
       };
 
     case UserActionTypes.SIGN_IN_START:
       return {
         ...state,
-        signInState: SIGN_IN_STATES.SIGNING,
+        signInState: SIGN_IN_STATES.FETCHING,
       };
 
     case UserActionTypes.SIGN_IN_SUCCESS:
@@ -68,6 +76,26 @@ const userReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         currentUser: payload,
+      };
+
+    case UserActionTypes.CHANGE_USER_START:
+      return {
+        ...state,
+        changeUserState: CHANGE_USER_STATES.FETCHING,
+      };
+
+    case UserActionTypes.CHANGE_USER_SUCCESS:
+      return {
+        ...state,
+        changeUserState: CHANGE_USER_STATES.SUCCESS,
+        changeUserErrors: null,
+      };
+
+    case UserActionTypes.CHANGE_USER_FAILURE:
+      return {
+        ...state,
+        changeUserState: CHANGE_USER_STATES.FAILURE,
+        changeUserErrors: payload,
       };
 
     default:

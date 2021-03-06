@@ -1,22 +1,19 @@
 import './user-avatar.styles.scss';
 
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { ReactComponent as NoAvatar } from '../../../assets/images/no-avatar.svg';
-import changeUser from '../../../apis/change-user';
-import { useSelector } from 'react-redux';
-import { selectToken } from '../../../redux/user/user.selectors';
+import { changeUserStart } from '../../../redux/user/user.actions';
 
 const UserAvatar = ({ imageSource }) => {
   const inputRef = useRef();
-  const token = useSelector(selectToken);
 
   const fileChangeHandler = (e) => {
     const reader = new FileReader();
 
-    reader.onload = () => {
-      changeUser(token, {
+    reader.onload = async () => {
+      await changeUserStart({
         image: reader.result,
-      }).then((res) => console.log(res));
+      });
     };
 
     reader.readAsDataURL(e.target.files[0]);

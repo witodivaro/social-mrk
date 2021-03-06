@@ -1,4 +1,4 @@
-import GET_USER_STATES from '../../config/get-user-states';
+import { GET_USER_STATES } from '../../config/user-states';
 import UserPageActionTypes from './user-page.types';
 
 const initialState = {

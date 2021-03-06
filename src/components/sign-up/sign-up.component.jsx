@@ -1,5 +1,5 @@
 import './sign-up.styles.scss';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import Card from '../card/card.component';
 import FormInput from '../form-input/form-input.component';
@@ -13,8 +13,8 @@ import {
   selectSignUpState,
 } from '../../redux/user/user.selectors';
 import { ERROR_CONFIG } from '../../config/errors';
-import { SIGN_UP_STATES } from '../../config/auth-states';
 import { FaSpinner } from 'react-icons/fa';
+import { SIGN_UP_STATES } from '../../config/user-states';
 
 const SignUp = () => {
   const dispatch = useDispatch();

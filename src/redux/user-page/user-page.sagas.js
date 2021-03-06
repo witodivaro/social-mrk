@@ -5,7 +5,7 @@ import getUser from '../../apis/get-user';
 
 function* getUserPage({ payload }) {
   try {
-    const { data } = yield getUser(payload.token, payload.id);
+    const { data } = yield getUser(payload.id);
     const { user } = data;
 
     yield put(getUserSuccess(user));

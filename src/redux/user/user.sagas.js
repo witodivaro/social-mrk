@@ -1,7 +1,7 @@
 import { takeLatest, put, all, call } from 'redux-saga/effects';
-import login from '../../apis/login';
-import signUp from '../../apis/sign-up';
-import getUser from '../../apis/get-user';
+import signInAPI from '../../apis/sign-in';
+import signUpAPI from '../../apis/sign-up';
+import getUserAPI from '../../apis/get-user';
 
 import { ERROR_CONFIG } from '../../config/errors';
 
@@ -12,8 +12,11 @@ import {
   signUpSuccess,
   getCurrentUserSuccess,
   getCurrentUserFailure,
+  changeUserFailure,
+  changeUserSuccess,
 } from './user.actions';
 import UserActionTypes from './user.types';
+import changeUserAPI from '../../apis/change-user';
 
 function getHandledNetworkErrors(error) {
   const errors = {};
@@ -73,10 +76,18 @@ function getHandledSignInErrors(error) {
   return errors;
 }
 
-function* signInStart({ payload }) {
+function getHandledChangeUserErrors(error) {
+  let errors = getHandledNetworkErrors(error);
+
+  // TBD
+
+  return errors;
+}
+
+function* signInStartSaga({ payload }) {
   try {
-    const { username, password } = yield payload;
-    const response = yield login({
+    const { username, password } = payload;
+    const response = yield signInAPI({
       username,
       password,
     });
@@ -85,16 +96,17 @@ function* signInStart({ payload }) {
 
     yield put(signInSuccess(token));
   } catch (error) {
+    console.log(error);
     const errors = yield getHandledSignInErrors(error);
 
     yield put(signInFailure(errors));
   }
 }
 
-function* signUpStart({ payload }) {
+function* signUpStartSaga({ payload }) {
   try {
     const { username, password, email } = yield payload;
-    yield signUp({
+    yield signUpAPI({
       username,
       password,
       email,
@@ -108,9 +120,9 @@ function* signUpStart({ payload }) {
   }
 }
 
-function* getCurrentUser({ payload: token }) {
+function* getCurrentUserSaga() {
   try {
-    const response = yield getUser(token, 0);
+    const response = yield getUserAPI(0);
     const currentUser = response.data.user;
 
     yield put(getCurrentUserSuccess(currentUser));
@@ -119,16 +131,32 @@ function* getCurrentUser({ payload: token }) {
   }
 }
 
+function* changeUserSaga({ payload: userData }) {
+  try {
+    yield changeUserAPI({
+      ...userData,
+    });
+
+    put(changeUserSuccess());
+  } catch (error) {
+    put(changeUserFailure(getHandledChangeUserErrors(error)));
+  }
+}
+
 function* onSignUpStart() {
-  yield takeLatest(UserActionTypes.SIGN_UP_START, signUpStart);
+  yield takeLatest(UserActionTypes.SIGN_UP_START, signUpStartSaga);
 }
 
 function* onSignInStart() {
-  yield takeLatest(UserActionTypes.SIGN_IN_START, signInStart);
+  yield takeLatest(UserActionTypes.SIGN_IN_START, signInStartSaga);
 }
 
 function* onGetCurrentUserStart() {
-  yield takeLatest(UserActionTypes.GET_CURRENT_USER_START, getCurrentUser);
+  yield takeLatest(UserActionTypes.GET_CURRENT_USER_START, getCurrentUserSaga);
+}
+
+function* onChangeUserStart() {
+  yield takeLatest(UserActionTypes.CHANGE_USER_START, changeUserSaga);
 }
 
 export function* userSagas() {
@@ -136,5 +164,6 @@ export function* userSagas() {
     call(onSignUpStart),
     call(onSignInStart),
     call(onGetCurrentUserStart),
+    call(onChangeUserStart),
   ]);
 }

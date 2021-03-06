@@ -15,7 +15,7 @@ import {
   selectUserPageUser,
 } from '../../redux/user-page/user-page.selectors';
 import { getUserStart } from '../../redux/user-page/user-page.actions';
-import GET_USER_STATES from '../../config/get-user-states';
+import { GET_USER_STATES } from '../../config/user-states';
 
 const UserPage = ({ match }) => {
   const token = useSelector(selectToken);
