@@ -42,7 +42,7 @@ const UserAvatar = ({ imageSource, editable }) => {
           <FaTimes size={20} />
         </button>
       ) : null,
-    [imageSource]
+    [imageSource, editable]
   );
 
   const renderedAvatarOverlay = useMemo(() =>
@@ -63,7 +63,10 @@ const UserAvatar = ({ imageSource, editable }) => {
   const renderedImage = imageSource ? (
     <img className="avatar__img" src={imageSource} />
   ) : (
-    <NoAvatar className="avatar__svg" onClick={toggleAvatarModalHandler} />
+    <NoAvatar
+      className={`avatar__svg ${editable ? 'avatar__svg--editable' : ''}`}
+      onClick={toggleAvatarModalHandler}
+    />
   );
 
   return (
