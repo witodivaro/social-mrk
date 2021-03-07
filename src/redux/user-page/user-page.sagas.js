@@ -6,34 +6,30 @@ import {
   select,
   takeLatest,
 } from 'redux-saga/effects';
-import {
-  getUserFailure,
-  getUserStart,
-  getUserSuccess,
-} from './user-page.actions';
+import * as UserPageActions from './user-page.actions';
 import UserPageActionTypes from './user-page.types';
-import getUser from '../../apis/get-user';
+import UserAPI from '../../apis/user.api';
 import { selectUserPageId } from './user-page.selectors';
 
-function* getUserPage({ payload: id }) {
+function* getUser({ payload: id }) {
   try {
-    const { data } = yield getUser(id);
+    const { data } = yield UserAPI.getUser(id);
     const { user } = data;
 
-    yield put(getUserSuccess(user));
+    yield put(UserPageActions.getUserSuccess(user));
   } catch (error) {
-    yield put(getUserFailure(error.message));
+    yield put(UserPageActions.getUserFailure(error.message));
   }
 }
 
 function* refreshPage() {
   const currentPageId = yield select(selectUserPageId);
 
-  yield put(getUserStart(currentPageId));
+  yield put(UserPageActions.getUserStart(currentPageId));
 }
 
 function* onGetUserStart() {
-  yield takeLatest(UserPageActionTypes.GET_USER_START, getUserPage);
+  yield takeLatest(UserPageActionTypes.GET_USER_START, getUser);
 }
 
 function* onRefreshPage() {
