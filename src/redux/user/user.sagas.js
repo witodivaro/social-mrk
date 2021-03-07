@@ -1,24 +1,10 @@
 import { takeLatest, put, all, call, takeEvery } from 'redux-saga/effects';
-import signInAPI from '../../apis/sign-in';
-import signUpAPI from '../../apis/sign-up';
-import getUserAPI from '../../apis/get-user';
+import UserAPI from '../../apis/user.api';
 
 import { ERROR_CONFIG } from '../../config/errors';
 
-import {
-  signInFailure,
-  signInSuccess,
-  signUpFailure,
-  signUpSuccess,
-  getCurrentUserSuccess,
-  getCurrentUserFailure,
-  changeUserFailure,
-  changeUserSuccess,
-  getCurrentUserStart,
-} from './user.actions';
+import * as UserActions from './user.actions';
 import UserActionTypes from './user.types';
-import changeUserAPI from '../../apis/change-user';
-import { refreshPage } from '../user-page/user-page.actions';
 
 function getHandledNetworkErrors(error) {
   const errors = {};
@@ -86,28 +72,28 @@ function getHandledChangeUserErrors(error) {
   return errors;
 }
 
-function* signInStartSaga({ payload }) {
+function* signIn({ payload }) {
   try {
     const { username, password } = payload;
-    const response = yield signInAPI({
+    const response = yield UserAPI.signIn({
       username,
       password,
     });
 
     const token = yield response.data.token;
 
-    yield put(signInSuccess(token));
+    yield put(UserActions.signInSuccess(token));
   } catch (error) {
     const errors = yield getHandledSignInErrors(error);
 
-    yield put(signInFailure(errors));
+    yield put(UserActions.signInFailure(errors));
   }
 }
 
-function* signUpStartSaga({ payload }) {
+function* signUp({ payload }) {
   try {
     const { username, password, email } = yield payload;
-    yield signUpAPI({
+    yield UserAPI.signUp({
       username,
       password,
       email,
@@ -117,56 +103,60 @@ function* signUpStartSaga({ payload }) {
   } catch (error) {
     const errors = yield getHandledSignUpErrors(error);
 
-    yield put(signUpFailure(errors));
+    yield put(UserActions.signUpFailure(errors));
   }
 }
 
-function* getCurrentUserSaga() {
+function* getCurrentUser() {
   try {
-    const response = yield getUserAPI(0);
+    const response = yield UserAPI.getUser(0);
     const currentUser = response.data.user;
 
-    yield put(getCurrentUserSuccess(currentUser));
+    yield put(UserActions.getCurrentUserSuccess(currentUser));
   } catch (error) {
-    put(getCurrentUserFailure(error));
+    put(UserActions.getCurrentUserFailure(error));
   }
 }
 
-function* changeUserSaga({ payload: userData }) {
+function* changeUser({ payload: userData }) {
   try {
-    yield changeUserAPI({
+    yield UserAPI.changeUser({
       ...userData,
     });
 
-    yield put(changeUserSuccess());
+    yield put(UserActions.changeUserSuccess());
   } catch (error) {
-    put(changeUserFailure(getHandledChangeUserErrors(error)));
+    const handledErrors = getHandledChangeUserErrors(error);
+    put(UserActions.changeUserFailure(handledErrors));
   }
 }
 
-function* changeUserSuccessSaga() {
-  yield put(getCurrentUserStart());
-  yield put(refreshPage());
+function* refetchUserPageAndCurrentUser() {
+  yield put(UserActions.getCurrentUserStart());
+  yield put(UserActions.refreshPage());
 }
 
 function* onSignUpStart() {
-  yield takeLatest(UserActionTypes.SIGN_UP_START, signUpStartSaga);
+  yield takeLatest(UserActionTypes.SIGN_UP_START, signUp);
 }
 
 function* onSignInStart() {
-  yield takeLatest(UserActionTypes.SIGN_IN_START, signInStartSaga);
+  yield takeLatest(UserActionTypes.SIGN_IN_START, signIn);
 }
 
 function* onGetCurrentUserStart() {
-  yield takeLatest(UserActionTypes.GET_CURRENT_USER_START, getCurrentUserSaga);
+  yield takeLatest(UserActionTypes.GET_CURRENT_USER_START, getCurrentUser);
 }
 
 function* onChangeUserSuccess() {
-  yield takeEvery(UserActionTypes.CHANGE_USER_SUCCESS, changeUserSuccessSaga);
+  yield takeEvery(
+    UserActionTypes.CHANGE_USER_SUCCESS,
+    refetchUserPageAndCurrentUser
+  );
 }
 
 function* onChangeUserStart() {
-  yield takeLatest(UserActionTypes.CHANGE_USER_START, changeUserSaga);
+  yield takeLatest(UserActionTypes.CHANGE_USER_START, changeUser);
 }
 
 export function* userSagas() {
