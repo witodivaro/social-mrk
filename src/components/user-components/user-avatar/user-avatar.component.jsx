@@ -1,27 +1,77 @@
 import './user-avatar.styles.scss';
 
-import React from 'react';
+import React, { useMemo, useCallback, useRef } from 'react';
 import { ReactComponent as NoAvatar } from '../../../assets/images/no-avatar.svg';
 import { useDispatch } from 'react-redux';
 import { toggleAvatarModalShown } from '../../../redux/user-page/user-page.actions';
+import { FaTimes } from 'react-icons/fa';
+import { changeUserStart } from '../../../redux/user/user.actions';
 
-const UserAvatar = ({ imageSource }) => {
+const UserAvatar = ({ imageSource, editable }) => {
   const dispatch = useDispatch();
+  const closeButtonRef = useRef();
+
+  const clearAvatarHandler = useCallback(() => {
+    dispatch(
+      changeUserStart({
+        image: null,
+      })
+    );
+  }, []);
+
+  const toggleAvatarModalHandler = (e) => {
+    if (closeButtonRef.current && closeButtonRef.current.contains(e.target)) {
+      return;
+    }
+
+    if (!editable) {
+      return;
+    }
+
+    dispatch(toggleAvatarModalShown());
+  };
+
+  const renderedClearButton = useMemo(
+    () =>
+      editable && imageSource ? (
+        <button
+          ref={closeButtonRef}
+          className="avatar__clear-button"
+          onClick={clearAvatarHandler}
+        >
+          <FaTimes size={20} />
+        </button>
+      ) : null,
+    [imageSource]
+  );
+
+  const renderedAvatarOverlay = useMemo(() =>
+    editable ? (
+      <p
+        className={`avatar__overlay ${
+          imageSource ? 'avatar__overlay--editable' : ''
+        }`}
+        onClick={toggleAvatarModalHandler}
+      >
+        {imageSource
+          ? 'Редактировать изображение'
+          : 'Нажмите на аватар, чтобы выбрать изображение'}
+      </p>
+    ) : null
+  );
 
   const renderedImage = imageSource ? (
     <img className="avatar__img" src={imageSource} />
   ) : (
-    <NoAvatar className="avatar__svg" />
+    <NoAvatar className="avatar__svg" onClick={toggleAvatarModalHandler} />
   );
 
-  const toggleAvatarModalHandler = () => {
-    dispatch(toggleAvatarModalShown());
-  };
-
   return (
-    <p className="avatar" onClick={toggleAvatarModalHandler}>
+    <div className={`avatar ${editable ? 'avatar--editable' : ''}`}>
       {renderedImage}
-    </p>
+      {renderedClearButton}
+      {renderedAvatarOverlay}
+    </div>
   );
 };
 

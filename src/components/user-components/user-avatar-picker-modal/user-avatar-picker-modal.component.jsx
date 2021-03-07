@@ -12,11 +12,9 @@ const UserAvatarPickerModal = () => {
 
   useEffect(() => {
     document.body.style.overflowY = 'hidden';
-    document.body.style.paddingRight = '16px';
 
     return () => {
       document.body.style.overflowY = 'unset';
-      document.body.style.paddingRight = '0';
     };
   }, []);
 
@@ -48,7 +46,7 @@ const UserAvatarPickerModal = () => {
       <div className="user-avatar-picker-modal__container">
         <div className="user-avatar-picker-modal__card">
           <header className="user-avatar-picker-modal__header">
-            <span>Pick an image</span>
+            <span>Выберите изображение</span>
             <button
               onClick={toggleAvatarModalHandler}
               className="user-avatar-picker-modal__close-button"

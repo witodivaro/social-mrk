@@ -6,13 +6,10 @@ import { getHandledNetworkErrors } from '../user/user.sagas';
 
 function* addToFriends({ payload: id }) {
   try {
-    console.log('SAGA STARTED');
     const response = yield UserAPI.addToFriends(id);
-    console.log(response);
 
     yield put(UserInteractionsActions.addToFriendsSuccess());
   } catch (error) {
-    console.log(error);
     const handledErrors = getHandledNetworkErrors(error);
 
     yield put(UserInteractionsActions.addToFriendsFailure(handledErrors));

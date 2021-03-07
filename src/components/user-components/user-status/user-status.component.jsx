@@ -32,8 +32,7 @@ const UserStatus = ({ status, editable }) => {
   };
 
   useEffect(() => {
-    if (statusRef) {
-      console.log(inputRef);
+    if (statusRef && inputRef) {
       inputRef.focus();
     }
 

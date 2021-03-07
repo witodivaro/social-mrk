@@ -80,7 +80,10 @@ const UserPage = ({ match }) => {
           <section className="user__info">
             <header className="user__header">
               <article className="user__avatar-container">
-                <UserAvatar imageSource={userPageUser.image} />
+                <UserAvatar
+                  imageSource={userPageUser.image}
+                  editable={isCurrentUser}
+                />
                 <div className="user__actions">{renderedActions}</div>
               </article>
               <div className="user__details">
@@ -90,7 +93,10 @@ const UserPage = ({ match }) => {
             </header>
           </section>
           <main className="user__main">
-            <UserFriends className="user__friends" friends={[]} />
+            <UserFriends
+              className="user__friends"
+              friends={userPageUser.friends}
+            />
             <section className="user__posts posts">
               <h3 className="posts__title">Posts</h3>
               <div className="posts__list">
@@ -129,7 +135,7 @@ const UserPage = ({ match }) => {
           </p>
         );
       case GET_USER_STATES.FAILURE:
-        return <p>Owibka...</p>;
+      // return <p>Owibka...</p>;
       case GET_USER_STATES.SUCCESS:
         return renderedUserPage;
     }
