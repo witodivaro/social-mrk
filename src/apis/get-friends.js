@@ -4,7 +4,9 @@ const getFriendsEndpoint = '/user-actions/get-friends/';
 
 const getFriends = (id) => {
   return socialMrk.get(getFriendsEndpoint, {
-    id,
+    params: {
+      id,
+    },
   });
 };
 

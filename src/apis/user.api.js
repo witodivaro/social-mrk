@@ -7,13 +7,15 @@ import getFriends from './get-friends';
 import getSubscriptions from './get-subscriptions';
 import getFriendRequests from './get-friend-requests';
 
-export default {
+const UserAPI = {
   changeUser,
   getUser,
   signIn,
   signUp,
-  addToFriends,
   getFriends,
   getSubscriptions,
   getFriendRequests,
+  addToFriends,
 };
+
+export default UserAPI;

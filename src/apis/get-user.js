@@ -1,7 +1,13 @@
 import socialMrk from './social-mrk';
 
-const createUserEndpoint = (id) => `user_profile/get/${id}/`;
+const getUserEndpoint = 'user_profile/get/';
 
-const getUser = (id) => socialMrk.get(createUserEndpoint(id));
+const getUser = (id) => {
+  return socialMrk.get(getUserEndpoint, {
+    params: {
+      id,
+    },
+  });
+};
 
 export default getUser;

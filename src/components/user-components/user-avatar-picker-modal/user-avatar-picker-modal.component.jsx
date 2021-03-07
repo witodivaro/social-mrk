@@ -62,7 +62,7 @@ const UserAvatarPickerModal = () => {
               ref={inputRef}
               id="avatar-pick"
               type="file"
-              accept="image/png, image/jpg, image/jpeg"
+              accept="image/jpeg,image/png"
               onChange={imageChangeHandler}
             />
           </p>

@@ -1,3 +1,5 @@
+@import '../../../styles/colors';
+
 .friends {
   &__item {
     margin-top: 5px;
@@ -27,6 +29,8 @@
     height: 40px;
     background-position: 0% 0%;
     background-size: cover;
+
+    fill: $primary;
 
     box-shadow: 0 0 2px 0px rgba(0, 0, 0, 0.3);
   }

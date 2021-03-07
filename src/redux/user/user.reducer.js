@@ -39,6 +39,7 @@ const userReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         signInState: SIGN_IN_STATES.FETCHING,
+        signInErrors: null,
       };
 
     case UserActionTypes.SIGN_IN_SUCCESS:
