@@ -3,6 +3,7 @@ import './user-status.styles.scss';
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { changeUserStart } from '../../../redux/user/user.actions';
+import CustomButton from '../../custom-button/custom-button.component';
 
 const UserStatus = ({ status, editable }) => {
   const dispatch = useDispatch();
@@ -21,7 +22,6 @@ const UserStatus = ({ status, editable }) => {
   };
 
   const statusSaveHandler = () => {
-    console.log(1);
     setIsEditing(false);
     dispatch(
       changeUserStart({
@@ -62,15 +62,23 @@ const UserStatus = ({ status, editable }) => {
 
   if (isEditing) {
     return (
-      <span ref={(elemRef) => setStatusRef(elemRef)} className="user-status">
+      <span
+        ref={(elemRef) => setStatusRef(elemRef)}
+        className="user-status user-status--editing"
+      >
         <input
           type="text"
-          className="user-status--editing"
           placeholder={statusText || 'Изменить статус'}
           onChange={statusChangeHandler}
           value={statusText}
         />
-        <button onClick={statusSaveHandler}>Save</button>
+        <CustomButton
+          onClick={statusSaveHandler}
+          className="user-status__save-button"
+          inverted
+        >
+          Save
+        </CustomButton>
       </span>
     );
   }

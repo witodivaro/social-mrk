@@ -42,6 +42,8 @@ const UserPage = ({ match }) => {
     );
   }, [currentUser, userPageUser]);
 
+  const addToFriendsHandler = useCallback(() => {}, [userId]);
+
   const renderedActions = useMemo(() => {
     return isCurrentUser ? (
       <CustomButton className="user__action">
@@ -76,12 +78,15 @@ const UserPage = ({ match }) => {
               </article>
               <div className="user__details">
                 <h3 className="user__name">{userPageUser.username}</h3>
-                <p className="user__status">{renderedStatus}</p>
+                {renderedStatus}
               </div>
             </header>
           </section>
           <main className="user__main">
-            <UserFriends className="user__friends" />
+            <UserFriends
+              className="user__friends"
+              friends={userPageUser.friends}
+            />
             <section className="user__posts posts">
               <h3 className="posts__title">Posts</h3>
               <div className="posts__list">
