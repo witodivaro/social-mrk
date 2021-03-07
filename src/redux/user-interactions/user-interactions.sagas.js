@@ -6,6 +6,7 @@ import { getHandledNetworkErrors } from '../user/user.sagas';
 
 function* addToFriends({ payload: id }) {
   try {
+    console.log('SAGA STARTED');
     const response = yield UserAPI.addToFriends(id);
     console.log(response);
 
@@ -19,7 +20,10 @@ function* addToFriends({ payload: id }) {
 }
 
 function* onAddToFriendsStart() {
-  takeLatest(UserInteractionsActionTypes.ADD_TO_FRIENDS_START, addToFriends);
+  yield takeLatest(
+    UserInteractionsActionTypes.ADD_TO_FRIENDS_START,
+    addToFriends
+  );
 }
 
 export default function* userInteractionsSagas() {
