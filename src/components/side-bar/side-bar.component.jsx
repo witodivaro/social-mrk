@@ -26,20 +26,20 @@ const SideBar = () => {
           </Link>
         </p>
         <p className="side-bar__link-container">
-          <Link className="side-bar__link">
-            <FaNewspaper className={'side-bar__icon'} to="/feed" />
+          <Link className="side-bar__link" to="/feed">
+            <FaNewspaper className={'side-bar__icon'} />
             <span className="side-bar__text">Новости</span>
           </Link>
         </p>
         <p className="side-bar__link-container">
-          <Link className="side-bar__link">
-            <FaEnvelope className={'side-bar__icon'} to="/messages" />
+          <Link className="side-bar__link" to="/messages">
+            <FaEnvelope className={'side-bar__icon'} />
             <span className="side-bar__text">Сообщения</span>
           </Link>
         </p>
         <p className="side-bar__link-container">
-          <Link className="side-bar__link">
-            <FaUsers className={'side-bar__icon'} to="/friends" />
+          <Link className="side-bar__link" to="/friends">
+            <FaUsers className={'side-bar__icon'} />
             <span className="side-bar__text">Друзья</span>
           </Link>
         </p>

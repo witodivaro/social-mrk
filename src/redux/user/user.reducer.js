@@ -106,7 +106,7 @@ const userReducer = (state = initialState, { type, payload }) => {
 const persistConfig = {
   key: 'token',
   storage: localStorage,
-  whitelist: ['token'],
+  whitelist: ['token', 'currentUser'],
 };
 
 export default persistReducer(persistConfig, userReducer);
