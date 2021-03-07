@@ -90,10 +90,7 @@ const UserPage = ({ match }) => {
             </header>
           </section>
           <main className="user__main">
-            <UserFriends
-              className="user__friends"
-              friends={userPageUser.friends}
-            />
+            <UserFriends className="user__friends" friends={[]} />
             <section className="user__posts posts">
               <h3 className="posts__title">Posts</h3>
               <div className="posts__list">

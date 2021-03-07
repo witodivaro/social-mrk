@@ -24,9 +24,11 @@
       background: none;
       border-bottom: 1px solid $light;
       resize: horizontal;
+      outline: none;
     }
 
     &:focus {
+      border: none;
       border-bottom-color: $primary;
       outline: none;
     }

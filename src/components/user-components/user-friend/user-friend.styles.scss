@@ -1,16 +1,21 @@
 .friends {
   &__item {
-    padding: 5px;
     margin-top: 5px;
 
     box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(0, 0, 0, 0.1);
+    }
   }
 
   &__link {
+    padding: 5px;
     align-items: center;
 
     display: flex;
-    cursor: pointer;
     color: inherit;
     text-decoration: none;
   }

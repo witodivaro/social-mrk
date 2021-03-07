@@ -15,6 +15,7 @@ const UserStatus = ({ status, editable }) => {
 
   const [isEditing, setIsEditing] = useState(false);
   const [statusRef, setStatusRef] = useState(null);
+  const [inputRef, setInputRef] = useState(null);
   const [statusText, setStatusText] = useState(status || '');
 
   const statusChangeHandler = (e) => {
@@ -31,6 +32,11 @@ const UserStatus = ({ status, editable }) => {
   };
 
   useEffect(() => {
+    if (statusRef) {
+      console.log(inputRef);
+      inputRef.focus();
+    }
+
     const bodyClickHandler = (e) => {
       if (statusRef && statusRef.contains(e.target)) {
         return;
@@ -48,7 +54,7 @@ const UserStatus = ({ status, editable }) => {
         capture: true,
       });
     };
-  }, [statusRef]);
+  }, [statusRef, inputRef]);
 
   useEffect(() => {
     if (statusRef) {
@@ -68,6 +74,7 @@ const UserStatus = ({ status, editable }) => {
       >
         <input
           type="text"
+          ref={(elemRef) => setInputRef(elemRef)}
           placeholder={statusText || 'Изменить статус'}
           onChange={statusChangeHandler}
           value={statusText}
