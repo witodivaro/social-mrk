@@ -4,6 +4,7 @@ import UserFriend from '../user-friend/user-friend.component';
 import CustomButton from '../../custom-button/custom-button.component';
 
 const SHOWN_FRIENDS_COUNT = 5;
+const TABLET_WIDTH = 700;
 
 const UserFriends = ({ friends, className }) => {
   const [showFriends, setShowFriends] = useState(false);
@@ -12,6 +13,9 @@ const UserFriends = ({ friends, className }) => {
   );
 
   const toggleFriendsShowHandler = () => {
+    if (document.body.clientWidth >= TABLET_WIDTH) {
+      return;
+    }
     setShowFriends((showFriends) => !showFriends);
   };
 
