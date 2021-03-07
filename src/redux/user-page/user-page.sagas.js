@@ -36,6 +36,6 @@ function* onRefreshPage() {
   yield takeEvery(UserPageActionTypes.REFRESH_PAGE, refreshPage);
 }
 
-export function* userPageSagas() {
+export default function* userPageSagas() {
   yield all([call(onGetUserStart), call(onRefreshPage)]);
 }

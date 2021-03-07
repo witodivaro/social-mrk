@@ -4,6 +4,7 @@ const UserPageActionTypes = {
   GET_USER_FAILURE: 'userPage/GET_USER_FAILURE',
   REFRESH_PAGE: 'userPage/REFRESH_PAGE',
   TOGGLE_AVATAR_MODAL_SHOWN: 'userPage/TOGGLE_AVATAR_MODAL_SHOWN',
+  ADD_TO_FRIENDS: 'userPage/ADD_TO_FRIENDS',
 };
 
 export default UserPageActionTypes;

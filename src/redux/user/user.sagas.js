@@ -7,7 +7,7 @@ import * as UserActions from './user.actions';
 import UserActionTypes from './user.types';
 import * as UserPageActions from '../user-page/user-page.actions';
 
-function getHandledNetworkErrors(error) {
+export function getHandledNetworkErrors(error) {
   const errors = {};
 
   errors.network = [];
@@ -160,7 +160,7 @@ function* onChangeUserStart() {
   yield takeLatest(UserActionTypes.CHANGE_USER_START, changeUser);
 }
 
-export function* userSagas() {
+export default function* userSagas() {
   yield all([
     call(onSignUpStart),
     call(onSignInStart),
