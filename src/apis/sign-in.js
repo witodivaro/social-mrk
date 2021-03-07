@@ -1,6 +1,6 @@
 import socialMrk from './social-mrk';
 
-const signInEndpoint = '/user/login/';
+const signInEndpoint = '/user/sign-in/';
 
 const signIn = ({ username, password }) => {
   return socialMrk.post(signInEndpoint, {

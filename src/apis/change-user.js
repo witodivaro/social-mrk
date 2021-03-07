@@ -1,6 +1,6 @@
 import socialMrk from './social-mrk';
 
-const changeUserEndpoint = '/user_profile/change-user-profile/';
+const changeUserEndpoint = '/user_profile/change/';
 
 const changeUser = (userData) =>
   socialMrk.post(changeUserEndpoint, {
