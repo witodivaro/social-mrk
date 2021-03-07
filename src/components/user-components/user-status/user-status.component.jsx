@@ -77,13 +77,14 @@ const UserStatus = ({ status, editable }) => {
           placeholder={statusText || 'Изменить статус'}
           onChange={statusChangeHandler}
           value={statusText}
+          maxLength={40}
         />
         <CustomButton
           onClick={statusSaveHandler}
           className="user-status__save-button"
           inverted
         >
-          Save
+          Сохранить
         </CustomButton>
       </span>
     );

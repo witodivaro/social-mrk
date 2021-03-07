@@ -8,6 +8,12 @@
   align-items: flex-start;
   font-size: 14px;
 
+  text-align: center;
+
+  @media (min-width: $tablet-width) {
+    text-align: left;
+  }
+
   &--editable {
     cursor: pointer;
     color: #aaa;

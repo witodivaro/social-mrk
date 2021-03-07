@@ -1,0 +1,79 @@
+@import '../../styles/colors';
+@import '../../styles/variables.scss';
+
+.side-bar {
+  background: #f2f2f2;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+  position: fixed;
+  bottom: 0;
+
+  width: inherit;
+  margin-right: 10px;
+
+  display: flex;
+  align-self: flex-start;
+  justify-content: space-between;
+
+  border-radius: 5px;
+
+  @media (min-width: $tablet-width) {
+    background: none;
+    box-shadow: none;
+    display: block;
+
+    position: unset;
+    bottom: unset;
+  }
+
+  &__link {
+    padding: 5px 10px;
+    display: block;
+
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: $primary;
+    font-size: 14px;
+
+    @media (min-width: $tablet-width) {
+      justify-content: unset;
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  &__text {
+    display: none;
+
+    @media (min-width: $tablet-width) {
+      margin-left: 5px;
+      display: block;
+    }
+  }
+
+  &__link-container {
+    flex: 1;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+
+    cursor: pointer;
+
+    @media (min-width: $tablet-width) {
+      display: block;
+      margin-top: 5px;
+    }
+  }
+
+  &__icon {
+    font-size: 25px;
+
+    @media (min-width: $tablet-width) {
+      font-size: 14px;
+    }
+  }
+}

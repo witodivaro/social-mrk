@@ -8,6 +8,7 @@ import { getCurrentUserStart } from './redux/user/user.actions';
 import Header from './components/header/header.component';
 import HomePage from './pages/home-page/home-page.component';
 import UserPage from './pages/user-page/user-page.component';
+import SideBar from './components/side-bar/side-bar.component';
 
 const App = () => {
   const token = useSelector(selectToken);
@@ -34,10 +35,13 @@ const App = () => {
   return (
     <div className="app" style={{ overflowY: 'hidden' }}>
       <Header />
-      <Switch>
-        <Route exact path="/" render={renderHomePage} />
-        <Route exact path="/id:userId" component={UserPage} />
-      </Switch>
+      <div className="page-wrapper">
+        <SideBar />
+        <Switch>
+          <Route exact path="/" render={renderHomePage} />
+          <Route exact path="/id:userId" component={UserPage} />
+        </Switch>
+      </div>
     </div>
   );
 };
