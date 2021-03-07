@@ -88,6 +88,15 @@
 
   &__friends {
     margin-top: 10px;
+    width: 100%;
+
+    @media (min-width: $tablet-width) {
+      width: 200px;
+    }
+
+    @media (min-width: $desktop-width) {
+      width: 250px;
+    }
   }
 
   &__action {

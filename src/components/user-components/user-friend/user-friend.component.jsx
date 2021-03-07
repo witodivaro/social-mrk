@@ -1,18 +1,29 @@
 import './user-friend.styles.scss';
-import React from 'react';
+import React, { useMemo } from 'react';
 import CustomButton from '../../custom-button/custom-button.component';
+import { ReactComponent as NoAvatar } from '../../../assets/images/no-avatar.svg';
 
 const UserFriend = ({ user }) => {
-  const { avatarUrl, username } = user;
+  const { image, username } = user;
+
+  const renderedUserAvatar = useMemo(
+    () =>
+      image ? (
+        <p
+          className="friends__avatar"
+          style={{
+            backgroundImage: `url(${image})`,
+          }}
+        />
+      ) : (
+        <NoAvatar className="friends__avatar" />
+      ),
+    [user]
+  );
 
   return (
     <li className="friends__item">
-      <p
-        className="friends__avatar"
-        style={{
-          backgroundImage: `url(${'https://images.unsplash.com/photo-1554080353-a576cf803bda?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8cGhvdG98ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80'})`,
-        }}
-      ></p>
+      {renderedUserAvatar}
       <span className="friends__name">{username}</span>
       <div className="friends__button-container">
         <CustomButton inverted className="friends__add-button">

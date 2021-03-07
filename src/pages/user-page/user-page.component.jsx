@@ -20,6 +20,7 @@ import { GET_USER_STATES } from '../../config/user-states';
 import { ReactComponent as LoadingIndicator } from '../../assets/images/loader.svg';
 import UserAvatarPickerModal from '../../components/user-components/user-avatar-picker-modal/user-avatar-picker-modal.component';
 import UserStatus from '../../components/user-components/user-status/user-status.component';
+import { addToFriendsStart } from '../../redux/user-interactions/user-interactions.actions';
 
 const UserPage = ({ match }) => {
   const token = useSelector(selectToken);
@@ -42,7 +43,9 @@ const UserPage = ({ match }) => {
     );
   }, [currentUser, userPageUser]);
 
-  const addToFriendsHandler = useCallback(() => {}, [userId]);
+  const addToFriendsHandler = useCallback(() => {
+    dispatch(addToFriendsStart(userId));
+  }, [userId]);
 
   const renderedActions = useMemo(() => {
     return isCurrentUser ? (
@@ -54,7 +57,11 @@ const UserPage = ({ match }) => {
         <CustomButton inverted className="user__action">
           Отправить сообщение
         </CustomButton>
-        <CustomButton inverted className="user__action">
+        <CustomButton
+          inverted
+          className="user__action"
+          onClick={addToFriendsHandler}
+        >
           Добавить в друзья
         </CustomButton>
       </>
