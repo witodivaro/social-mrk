@@ -15,31 +15,11 @@ const users = [
     username: 'wito divaro',
     avatarUrl: 'url',
   },
-  {
-    id: 3,
-    username: 'geniass',
-    avatarUrl: 'url',
-  },
-  {
-    id: 4,
-    username: 'geniass',
-    avatarUrl: 'url',
-  },
-  {
-    id: 5,
-    username: 'geniass',
-    avatarUrl: 'url',
-  },
-  {
-    id: 6,
-    username: 'geniass',
-    avatarUrl: 'url',
-  },
 ];
 
 const SHOWN_FRIENDS_COUNT = 5;
 
-const UserFriends = ({ className }) => {
+const UserFriends = ({ friends, className }) => {
   const [showFriends, setShowFriends] = useState(false);
   const [shownFriendsCount, setShownFriendsCount] = useState(
     SHOWN_FRIENDS_COUNT
@@ -49,8 +29,12 @@ const UserFriends = ({ className }) => {
     setShowFriends((showFriends) => !showFriends);
   };
 
+  if (friends.length === 0) {
+    return null;
+  }
+
   const renderFriends = (friendsCount) =>
-    users
+    friends
       .slice(0, friendsCount)
       .map((user) => <UserFriend key={`UF${user.id}`} user={user} />);
 
@@ -72,7 +56,7 @@ const UserFriends = ({ className }) => {
   return (
     <article className={`friends ${className}`}>
       <h3 className="friends__title" onClick={toggleFriendsShowHandler}>
-        Friends ({users.length})
+        Friends ({friends.length})
       </h3>
       {renderedFriendsList}
     </article>
