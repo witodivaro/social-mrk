@@ -25,12 +25,8 @@ const userReducer = (state = initialState, { type, payload }) => {
         ...state,
         token: '',
         currentUser: null,
-        signInErrors: null,
-        signUpErrors: null,
-        changeUserErrors: null,
         signUpState: '',
         signInState: '',
-        changeUserState: '',
       };
 
     case UserActionTypes.SIGN_UP_START:
@@ -50,12 +46,15 @@ const userReducer = (state = initialState, { type, payload }) => {
         ...state,
         token: payload,
         signInState: SIGN_IN_STATES.SUCCESS,
+        signInErrors: null,
+        signUpErrors: null,
       };
 
     case UserActionTypes.SIGN_UP_SUCCESS:
       return {
         ...state,
         signUpState: SIGN_UP_STATES.SUCCESS,
+        signUpErrors: null,
       };
 
     case UserActionTypes.SIGN_IN_FAILURE:
@@ -82,6 +81,7 @@ const userReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         changeUserState: CHANGE_USER_STATES.FETCHING,
+        changeUserErrors: null,
       };
 
     case UserActionTypes.CHANGE_USER_SUCCESS:
