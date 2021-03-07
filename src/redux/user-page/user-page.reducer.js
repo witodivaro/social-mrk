@@ -1,4 +1,5 @@
-import { GET_USER_STATES } from '../../config/user-states';
+import { CHANGE_USER_STATES, GET_USER_STATES } from '../../config/user-states';
+import UserActionTypes from '../user/user.types';
 import UserPageActionTypes from './user-page.types';
 
 const initialState = {
@@ -34,6 +35,24 @@ const userPageReducer = (state = initialState, { payload, type }) => {
       return {
         ...state,
         avatarModalShown: !state.avatarModalShown,
+      };
+
+    case UserActionTypes.CHANGE_USER_START:
+      return {
+        ...state,
+        state: CHANGE_USER_STATES.FETCHING,
+      };
+
+    case UserActionTypes.CHANGE_USER_SUCCESS:
+      return {
+        ...state,
+        state: CHANGE_USER_STATES.SUCCESS,
+      };
+
+    case UserActionTypes.CHANGE_USER_FAILURE:
+      return {
+        ...state,
+        state: CHANGE_USER_STATES.FAILURE,
       };
 
     default:

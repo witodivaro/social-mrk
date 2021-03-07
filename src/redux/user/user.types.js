@@ -1,4 +1,4 @@
-const userActionTypes = {
+const UserActionTypes = {
   SIGN_OUT: 'user/SIGN_OUT',
   SIGN_UP_START: 'user/SIGN_UP_START',
   SIGN_UP_SUCCESS: 'user/SIGN_UP_SUCCESS',
@@ -14,4 +14,4 @@ const userActionTypes = {
   CHANGE_USER_FAILURE: 'user/CHANGE_USER_FAILURE',
 };
 
-export default userActionTypes;
+export default UserActionTypes;

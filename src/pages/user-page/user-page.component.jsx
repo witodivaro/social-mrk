@@ -16,7 +16,7 @@ import {
   selectUserPageUser,
 } from '../../redux/user-page/user-page.selectors';
 import { getUserStart } from '../../redux/user-page/user-page.actions';
-import { GET_USER_STATES } from '../../config/user-states';
+import { CHANGE_USER_STATES, GET_USER_STATES } from '../../config/user-states';
 import { ReactComponent as LoadingIndicator } from '../../assets/images/loader.svg';
 import UserAvatarPickerModal from '../../components/user-components/user-avatar-picker-modal/user-avatar-picker-modal.component';
 import UserStatus from '../../components/user-components/user-status/user-status.component';
@@ -128,6 +128,7 @@ const UserPage = ({ match }) => {
 
   const renderContent = useCallback(() => {
     switch (userPageState) {
+      case CHANGE_USER_STATES.FETCHING:
       case GET_USER_STATES.FETCHING:
         return (
           <p className="user__loading-indicator">
@@ -135,7 +136,7 @@ const UserPage = ({ match }) => {
           </p>
         );
       case GET_USER_STATES.FAILURE:
-      // return <p>Owibka...</p>;
+        return <p>Owibka...</p>;
       case GET_USER_STATES.SUCCESS:
         return renderedUserPage;
     }
