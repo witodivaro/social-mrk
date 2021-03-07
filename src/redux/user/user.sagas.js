@@ -5,6 +5,7 @@ import { ERROR_CONFIG } from '../../config/errors';
 
 import * as UserActions from './user.actions';
 import UserActionTypes from './user.types';
+import * as UserPageActions from '../user-page/user-page.actions';
 
 function getHandledNetworkErrors(error) {
   const errors = {};
@@ -99,7 +100,7 @@ function* signUp({ payload }) {
       email,
     });
 
-    yield put(signUpSuccess());
+    yield put(UserActions.signUpSuccess());
   } catch (error) {
     const errors = yield getHandledSignUpErrors(error);
 
@@ -133,7 +134,7 @@ function* changeUser({ payload: userData }) {
 
 function* refetchUserPageAndCurrentUser() {
   yield put(UserActions.getCurrentUserStart());
-  yield put(UserActions.refreshPage());
+  yield put(UserPageActions.refreshPage());
 }
 
 function* onSignUpStart() {
