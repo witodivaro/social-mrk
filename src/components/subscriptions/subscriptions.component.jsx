@@ -1,5 +1,3 @@
-import './subscriptions.styles.scss';
-
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import UsersList from '../users-list/users-list.component';
@@ -14,17 +12,13 @@ const Subscriptions = () => {
     dispatch(getSubscriptionsStart(0));
   }, []);
 
-  const renderedSubscriptions = useMemo(
-    () =>
-      subscriptions.length > 0 ? (
-        <UsersList users={subscriptions} />
-      ) : (
-        <p className="subscriptions__empty">Ваш список подписчиков пуст</p>
-      ),
-    [subscriptions]
+  return (
+    <UsersList
+      users={subscriptions}
+      title="Подписчики"
+      emptyMessage="У вас нет подписчиков"
+    />
   );
-
-  return <div className="subscriptions">{renderedSubscriptions}</div>;
 };
 
 export default Subscriptions;

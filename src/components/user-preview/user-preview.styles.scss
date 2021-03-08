@@ -1,7 +1,7 @@
 @import '../../styles/colors';
 
 .user-preview {
-  margin-bottom: 10px;
+  margin-top: 10px;
 
   display: flex;
   align-items: center;
@@ -31,11 +31,14 @@
   }
 
   &__actions {
+    display: flex;
     margin-right: 10px;
     margin-left: auto;
   }
 
   &__action {
-    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
   }
 }

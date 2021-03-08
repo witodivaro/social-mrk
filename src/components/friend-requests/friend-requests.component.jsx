@@ -1,5 +1,3 @@
-import './friend-requests.styles.scss';
-
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFriendRequestsStart } from '../../redux/socials/socials.actions';
@@ -14,17 +12,14 @@ const FriendRequests = () => {
     dispatch(getFriendRequestsStart());
   }, []);
 
-  const renderedFriendRequests = useMemo(
-    () =>
-      friendRequests.length > 0 ? (
-        <UsersList users={friendRequests} isFriendRequest />
-      ) : (
-        <p className="friend-requests__empty">У вас нет запросов в друзья</p>
-      ),
-    [friendRequests]
+  return (
+    <UsersList
+      users={friendRequests}
+      friendRequests
+      title="Заявки в друзья"
+      emptyMessage="У вас нет заявок в друзья"
+    />
   );
-
-  return <div className="friend-requests">{renderedFriendRequests}</div>;
 };
 
 export default FriendRequests;

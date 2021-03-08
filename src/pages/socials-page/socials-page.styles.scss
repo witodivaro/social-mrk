@@ -1,11 +1,24 @@
 @import '../../styles/colors';
+@import '../../styles/variables';
 
 .socials-page {
+  @media (min-width: $desktop-width) {
+    display: flex;
+    justify-content: space-between;
+  }
+
   &__header {
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
     background-color: #f2f2f2;
     display: flex;
     justify-content: space-between;
+
+    @media (min-width: $desktop-width) {
+      align-self: flex-start;
+      order: 1;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
   }
 
   &__link {
@@ -15,28 +28,31 @@
     text-align: center;
     color: $primary;
 
+    @media (min-width: $desktop-width) {
+      flex: 0;
+      display: flex;
+      align-items: center;
+    }
+
     &:hover {
       background-color: rgba(0, 0, 0, 0.1);
     }
 
     &-text {
       display: none;
+
+      @media (min-width: $tablet-width) {
+        display: block;
+      }
+
+      @media (min-width: $desktop-width) {
+        margin-left: 10px;
+      }
     }
 
     &-icon {
       transform: all 0.2s ease;
       font-size: 30px;
-    }
-
-    &--active {
-      .socials-page__link-text {
-        display: block;
-        font-size: 14px;
-      }
-
-      .socials-page__link-icon {
-        font-size: 14px;
-      }
     }
   }
 

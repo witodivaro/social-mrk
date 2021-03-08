@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import CustomButton from '../custom-button/custom-button.component';
 import { useDispatch } from 'react-redux';
 import { addToFriendsStart } from '../../redux/user-interactions/user-interactions.actions';
+import { FaTimes, FaCheck } from 'react-icons/fa';
 
 const UserPreview = ({ user, isFriendRequest }) => {
   const { image, username, id } = user;
@@ -43,7 +44,7 @@ const UserPreview = ({ user, isFriendRequest }) => {
             onClick={acceptFriendHandler}
             aria-label="Принять заявку в друзья"
           >
-            +
+            <FaCheck />
           </CustomButton>
           <CustomButton
             inverted
@@ -51,7 +52,7 @@ const UserPreview = ({ user, isFriendRequest }) => {
             onClick={rejectFriendHandler}
             aria-label="Отклонить заявку в друзья"
           >
-            -
+            <FaTimes />
           </CustomButton>
         </>
       );
