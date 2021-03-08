@@ -21,11 +21,11 @@ function* getFriendRequests() {
   try {
     const response = yield UserAPI.getFriendRequests();
 
-    yield put(SocialsActions.getFriendsSuccess(response.data.requests));
+    yield put(SocialsActions.getFriendRequestsSuccess(response.data.requests));
   } catch (error) {
     const handledErrors = getHandledNetworkErrors(error);
 
-    yield put(SocialsActions.getFriendRequstsFailure(handledErrors));
+    yield put(SocialsActions.getFriendRequestsFailure(handledErrors));
   }
 }
 

@@ -24,7 +24,7 @@ export const getFriendRequestsSuccess = (friendRequests) => ({
   payload: { friendRequests },
 });
 
-export const getFriendRequstsFailure = (errors) => ({
+export const getFriendRequestsFailure = (errors) => ({
   type: SocialsActionTypes.GET_FRIEND_REQUESTS_FAILURE,
   payload: { errors },
 });

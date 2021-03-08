@@ -11,15 +11,23 @@
 
   color: black;
 
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
   &__name {
     margin-left: 10px;
   }
 
   &__avatar {
+    margin: 0;
     width: 50px;
     height: 50px;
     fill: $primary;
     border-radius: 5px;
+
+    background-position: 0 0;
+    background-size: cover;
   }
 
   &__actions {

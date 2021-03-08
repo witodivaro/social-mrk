@@ -1,44 +1,69 @@
 import './socials-page.styles.scss';
-import React, { useCallback, useEffect } from 'react';
-import UsersList from '../../components/users-list/users-list.component';
+import React from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import { FaUserPlus, FaUserFriends } from 'react-icons/fa';
-import { SOCIAL_PAGE_STATES } from '../../config/socials-states';
+import { BiGroup } from 'react-icons/bi';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
+import Friends from '../../components/friends/friends.component';
+import FriendRequests from '../../components/friend-requests/friend-requests.component';
+import Subscriptions from '../../components/subscriptions/subscriptions.component';
 
-const mockUsers = [
-  {
-    username: 'Kek',
-    id: 3,
-  },
-  {
-    username: 'lel',
-    id: 4,
-  },
-  { username: 'Test', id: 1 },
-  { username: 'Wito', id: 2 },
-];
+const SocialsPage = ({ match }) => {
+  const currentUser = useSelector(selectCurrentUser);
 
-const SocialsPage = () => {
   return (
     <section className="socials-page">
       <header className="socials-page__header">
-        <Link className={`socials-page__link`} to="friends">
+        <Link
+          className={`socials-page__link`}
+          to={{
+            pathname: 'friends',
+            state: {
+              id: currentUser.id,
+            },
+          }}
+        >
           <FaUserFriends className="socials-page__link-icon" />
           <span className="socials-page__link-text">Друзья</span>
         </Link>
-        <Link className="socials-page__link" to="requests">
+        <Link
+          className="socials-page__link"
+          to={{
+            pathname: 'requests',
+            state: {
+              id: currentUser.id,
+            },
+          }}
+        >
           <FaUserPlus className="socials-page__link-icon" />
           <span className="socials-page__link-text">Заявки в друзья</span>
         </Link>
-        <Link className="socials-page__link" to="subscriptions">
-          <FaUserPlus className="socials-page__link-icon" />
+        <Link
+          className="socials-page__link"
+          to={{
+            pathname: 'subscriptions',
+            state: {
+              id: currentUser.id,
+            },
+          }}
+        >
+          <BiGroup className="socials-page__link-icon" />
           <span className="socials-page__link-text">Подписчики</span>
         </Link>
       </header>
       <Switch>
-        <Route />
-        <Route />
-        <Route />
+        <Route exact path={`${match.path}/friends`} component={Friends} />
+        <Route
+          exact
+          path={`${match.path}/subscriptions`}
+          component={Subscriptions}
+        />
+        <Route
+          exact
+          path={`${match.path}/requests`}
+          component={FriendRequests}
+        />
       </Switch>
     </section>
   );

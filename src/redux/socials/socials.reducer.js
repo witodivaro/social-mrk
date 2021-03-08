@@ -26,6 +26,7 @@ const socialsReducer = (state = initialState, { type, payload }) => {
     case SocialsActionTypes.GET_FRIENDS_SUCCESS:
       return {
         ...state,
+        friends: payload.friends,
         state: GET_FRIENDS_STATES.SUCCESS,
         errors: null,
       };
@@ -49,6 +50,7 @@ const socialsReducer = (state = initialState, { type, payload }) => {
         ...state,
         state: GET_FRIEND_REQUESTS_STATES.SUCCESS,
         errors: null,
+        friendRequests: payload.friendRequests,
       };
 
     case SocialsActionTypes.GET_FRIEND_REQUESTS_FAILURE:

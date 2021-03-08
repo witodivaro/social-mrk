@@ -44,7 +44,7 @@ const App = () => {
         <Switch>
           <Route exact path="/" render={renderHomePage} />
           <Route exact path="/id:userId" component={UserPage} />
-          <Route exact path="/socials/:socialGroup" component={SocialsPage} />
+          <Route path="/socials" component={SocialsPage} />
         </Switch>
       </div>
     </div>

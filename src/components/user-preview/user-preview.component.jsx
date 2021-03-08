@@ -59,7 +59,7 @@ const UserPreview = ({ user, isFriendRequest }) => {
   }, [isFriendRequest]);
 
   return (
-    <Link to={`id${id}`} className="user-preview">
+    <Link to={`/id${id}`} className="user-preview">
       {renderedUserAvatar}
       <span className="user-preview__name">{username}</span>
       <div className="user-preview__actions">{renderActions()}</div>
