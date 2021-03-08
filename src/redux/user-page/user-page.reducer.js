@@ -4,7 +4,7 @@ import UserPageActionTypes from './user-page.types';
 
 const initialState = {
   user: null,
-  error: '',
+  errors: '',
   state: '',
   avatarModalShown: false,
 };
@@ -27,7 +27,7 @@ const userPageReducer = (state = initialState, { payload, type }) => {
     case UserPageActionTypes.GET_USER_FAILURE:
       return {
         ...state,
-        error: payload,
+        errors: payload,
         state: GET_USER_STATES.FAILURE,
       };
 
