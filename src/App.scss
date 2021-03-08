@@ -28,7 +28,9 @@ a {
   margin: 0 auto;
   margin-top: 10px;
 
-  display: block;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   width: 300px;
 
   @media (min-width: $tablet-width) {

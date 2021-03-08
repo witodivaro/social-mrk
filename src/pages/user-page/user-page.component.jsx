@@ -12,6 +12,7 @@ import {
 } from '../../redux/user/user.selectors';
 import {
   selectAvatarModalShown,
+  selectUserPageErrors,
   selectUserPageState,
   selectUserPageUser,
 } from '../../redux/user-page/user-page.selectors';
@@ -21,6 +22,7 @@ import { ReactComponent as LoadingIndicator } from '../../assets/images/loader.s
 import UserAvatarPickerModal from '../../components/user-components/user-avatar-picker-modal/user-avatar-picker-modal.component';
 import UserStatus from '../../components/user-components/user-status/user-status.component';
 import { addToFriendsStart } from '../../redux/user-interactions/user-interactions.actions';
+import PageNotFound from '../../components/page-not-found/page-not-found.component';
 
 const UserPage = ({ match }) => {
   const token = useSelector(selectToken);
@@ -28,8 +30,11 @@ const UserPage = ({ match }) => {
   const currentUser = useSelector(selectCurrentUser);
   const userPageUser = useSelector(selectUserPageUser);
   const userPageState = useSelector(selectUserPageState);
+  const userPageErrors = useSelector(selectUserPageErrors);
   const avatarModalShown = useSelector(selectAvatarModalShown);
   const [isCurrentUser, setIsCurrentUser] = useState(false);
+
+  console.log(userPageErrors);
 
   const { userId } = match.params;
 
@@ -146,6 +151,10 @@ const UserPage = ({ match }) => {
     () => (avatarModalShown ? <UserAvatarPickerModal /> : null),
     [avatarModalShown]
   );
+
+  if (userPageErrors?.isPageNotFound) {
+    return <PageNotFound />;
+  }
 
   return (
     <div className="user">

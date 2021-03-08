@@ -33,11 +33,4 @@ export const ERROR_CONFIG = {
       type: 'NETWORK/CLIENT_FAIL',
     },
   },
-  GET_USER: {
-    PAGE_NOT_FOUND: {
-      text:
-        'Страница не найдена. Возможно, её не существует или она была удалена.',
-      type: 'GET_USER/PAGE_NOT_FOUND',
-    },
-  },
 };

@@ -11,7 +11,6 @@ import UserPageActionTypes from './user-page.types';
 import UserAPI from '../../apis/user.api';
 import { selectUserPageId } from './user-page.selectors';
 import { getHandledNetworkErrors } from '../user/user.sagas';
-import { ERROR_CONFIG } from '../../config/errors';
 
 function getHandledGetUserErrors(error) {
   const errors = getHandledNetworkErrors(error);
@@ -20,11 +19,11 @@ function getHandledGetUserErrors(error) {
     return errors;
   }
 
-  errors.pageNotFound = [];
+  errors.isPageNotFound = false;
 
   switch (error.response.status) {
     case 404:
-      errors.pageNotFound.push(ERROR_CONFIG.GET_USER.PAGE_NOT_FOUND.text);
+      errors.isPageNotFound = true;
       break;
   }
 
@@ -39,9 +38,8 @@ function* getUser({ payload: id }) {
     yield put(UserPageActions.getUserSuccess(user));
   } catch (error) {
     const errors = getHandledGetUserErrors(error);
-    console.log(errors);
 
-    yield put(UserPageActions.getUserFailure(error.message));
+    yield put(UserPageActions.getUserFailure(errors));
   }
 }
 

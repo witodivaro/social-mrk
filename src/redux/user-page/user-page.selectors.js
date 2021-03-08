@@ -7,9 +7,9 @@ export const selectUserPageUser = createSelector(
   (userPage) => userPage.user
 );
 
-export const selectUserPageError = createSelector(
+export const selectUserPageErrors = createSelector(
   selectUserPage,
-  (userPage) => userPage.error
+  (userPage) => userPage.errors
 );
 
 export const selectUserPageState = createSelector(
