@@ -1,11 +1,19 @@
 import './user-friend.styles.scss';
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import CustomButton from '../../custom-button/custom-button.component';
 import { ReactComponent as NoAvatar } from '../../../assets/images/no-avatar.svg';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addToFriendsStart } from '../../../redux/user-interactions/user-interactions.actions';
 
 const UserFriend = ({ user }) => {
   const { id, image, username } = user;
+  const dispatch = useDispatch();
+
+  const addToFriendsHandler = (e) => {
+    e.preventDefault();
+    dispatch(addToFriendsStart({ id }));
+  };
 
   const renderedUserAvatar = useMemo(
     () =>
@@ -27,8 +35,12 @@ const UserFriend = ({ user }) => {
       <Link to={`id${id}`} className="friends__link">
         {renderedUserAvatar}
         <span className="friends__name">{username}</span>
-        <div className="friends__button-container">
-          <CustomButton inverted className="friends__add-button">
+        <div className="friends__actions">
+          <CustomButton
+            inverted
+            className="friends__add-button"
+            onClick={addToFriendsHandler}
+          >
             +
           </CustomButton>
         </div>
