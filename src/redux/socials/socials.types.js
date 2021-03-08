@@ -1,4 +1,4 @@
-const FriendsActionTypes = {
+const SocialsActionTypes = {
   GET_FRIENDS_START: 'friends/GET_FRIENDS_START',
   GET_FRIENDS_SUCCESS: 'friends/GET_FRIENDS_SUCCESS',
   GET_FRIENDS_FAILURE: 'friends/GET_FRIENDS_FAILURE',
@@ -8,6 +8,9 @@ const FriendsActionTypes = {
   GET_SUBSCRIPTIONS_START: 'friends/GET_SUBSCRIPTIONS_START',
   GET_SUBSCRIPTIONS_SUCCESS: 'friends/GET_SUBSCRIPTIONS_SUCCESS',
   GET_SUBSCRIPTIONS_FAILURE: 'friends/GET_SUBSCRIPTIONS_FAILURE',
+  SHOW_FRIENDS: 'friends/SHOW_FRIENDS',
+  SHOW_FRIEND_REQUESTS: 'friends/SHOW_FRIEND_REQUESTS',
+  SHOW_SUBSCRIPTIONS: 'friends/SHOW_SUBSCRIPTIONS',
 };
 
-export default FriendsActionTypes;
+export default SocialsActionTypes;

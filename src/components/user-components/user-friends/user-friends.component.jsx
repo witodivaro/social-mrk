@@ -30,14 +30,14 @@ const UserFriends = ({ friends, className }) => {
 
   const renderedShowMoreButton =
     showFriends && shownFriendsCount < friends.length ? (
-      <p className="friends__show-more-container">
+      <p className="user-friends__show-more-container">
         <CustomButton>More</CustomButton>
       </p>
     ) : null;
 
   const renderedFriendsList = (
     <>
-      <ul className={`friends__list  ${showFriends ? 'show' : ''}`}>
+      <ul className={`user-friends__list  ${showFriends ? 'show' : ''}`}>
         {renderFriends(shownFriendsCount)}
       </ul>
       {renderedShowMoreButton}
@@ -45,8 +45,8 @@ const UserFriends = ({ friends, className }) => {
   );
 
   return (
-    <article className={`friends ${className}`}>
-      <h3 className="friends__title" onClick={toggleFriendsShowHandler}>
+    <article className={`user-friends ${className}`}>
+      <h3 className="user-friends__title" onClick={toggleFriendsShowHandler}>
         Друзья ({friends.length})
       </h3>
       {renderedFriendsList}

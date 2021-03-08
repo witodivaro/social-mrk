@@ -4,9 +4,15 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 import UserInteractionsActionTypes from './user-interactions.types';
 import { getHandledNetworkErrors } from '../user/user.sagas';
 
-function* addToFriends({ payload: id }) {
+function* addToFriends({ payload }) {
   try {
-    yield UserAPI.addToFriends({ id });
+    const { id, accept } = payload;
+    const addToFriendsPayload = Object.assign(
+      {},
+      { id },
+      accept !== undefined ? { accept } : null
+    );
+    yield UserAPI.addToFriends(addToFriendsPayload);
 
     yield put(UserInteractionsActions.addToFriendsSuccess());
   } catch (error) {

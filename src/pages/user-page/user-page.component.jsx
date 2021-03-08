@@ -34,8 +34,6 @@ const UserPage = ({ match }) => {
   const avatarModalShown = useSelector(selectAvatarModalShown);
   const [isCurrentUser, setIsCurrentUser] = useState(false);
 
-  console.log(userPageErrors);
-
   const { userId } = match.params;
 
   useEffect(() => {
@@ -49,22 +47,22 @@ const UserPage = ({ match }) => {
   }, [currentUser, userPageUser]);
 
   const addToFriendsHandler = useCallback(() => {
-    dispatch(addToFriendsStart(userId));
+    dispatch(addToFriendsStart({ id: userId }));
   }, [userId]);
 
   const renderedActions = useMemo(() => {
     return isCurrentUser ? (
-      <CustomButton className="user__action">
+      <CustomButton className="user-page__action">
         Редактировать профиль
       </CustomButton>
     ) : (
       <>
-        <CustomButton inverted className="user__action">
+        <CustomButton inverted className="user-page__action">
           Отправить сообщение
         </CustomButton>
         <CustomButton
           inverted
-          className="user__action"
+          className="user-page__action"
           onClick={addToFriendsHandler}
         >
           Добавить в друзья
@@ -81,28 +79,28 @@ const UserPage = ({ match }) => {
   const renderedUserPage = useMemo(
     () =>
       userPageUser ? (
-        <div className="user__wrapper">
-          <section className="user__info">
-            <header className="user__header">
-              <article className="user__avatar-container">
+        <div className="user-page__wrapper">
+          <section className="user-page__info">
+            <header className="user-page__header">
+              <article className="user-page__avatar-container">
                 <UserAvatar
                   imageSource={userPageUser.image}
                   editable={isCurrentUser}
                 />
-                <div className="user__actions">{renderedActions}</div>
+                <div className="user-page__actions">{renderedActions}</div>
               </article>
-              <div className="user__details">
-                <h3 className="user__name">{userPageUser.username}</h3>
+              <div className="user-page__details">
+                <h3 className="user-page__name">{userPageUser.username}</h3>
                 {renderedStatus}
               </div>
             </header>
           </section>
-          <main className="user__main">
+          <main className="user-page__main">
             <UserFriends
-              className="user__friends"
+              className="user-page__friends"
               friends={userPageUser.friends}
             />
-            <section className="user__posts posts">
+            <section className="user-page__posts posts">
               <h3 className="posts__title">Posts</h3>
               <div className="posts__list">
                 <article className="post">
@@ -136,7 +134,7 @@ const UserPage = ({ match }) => {
       case CHANGE_USER_STATES.FETCHING:
       case GET_USER_STATES.FETCHING:
         return (
-          <p className="user__loading-indicator">
+          <p className="user-page__loading-indicator">
             <LoadingIndicator />
           </p>
         );
@@ -157,7 +155,7 @@ const UserPage = ({ match }) => {
   }
 
   return (
-    <div className="user">
+    <div className="user-page">
       {renderedAvatarModal}
       {renderContent()}
     </div>

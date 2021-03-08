@@ -1,8 +1,8 @@
 import UserInteractionsActionTypes from './user-interactions.types';
 
-export const addToFriendsStart = (id) => ({
+export const addToFriendsStart = ({ id, accept }) => ({
   type: UserInteractionsActionTypes.ADD_TO_FRIENDS_START,
-  payload: id,
+  payload: { id, accept },
 });
 
 export const addToFriendsSuccess = () => ({

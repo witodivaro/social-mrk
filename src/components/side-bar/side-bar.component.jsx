@@ -38,7 +38,7 @@ const SideBar = () => {
           </Link>
         </p>
         <p className="side-bar__link-container">
-          <Link className="side-bar__link" to="/friends">
+          <Link className="side-bar__link" to="/socials/friends">
             <FaUsers className={'side-bar__icon'} />
             <span className="side-bar__text">Друзья</span>
           </Link>

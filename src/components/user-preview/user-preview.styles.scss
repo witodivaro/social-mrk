@@ -1,0 +1,33 @@
+@import '../../styles/colors';
+
+.user-preview {
+  margin-bottom: 10px;
+
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.6);
+
+  color: black;
+
+  &__name {
+    margin-left: 10px;
+  }
+
+  &__avatar {
+    width: 50px;
+    height: 50px;
+    fill: $primary;
+    border-radius: 5px;
+  }
+
+  &__actions {
+    margin-right: 10px;
+    margin-left: auto;
+  }
+
+  &__action {
+    margin-left: 10px;
+  }
+}

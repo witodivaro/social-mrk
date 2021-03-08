@@ -9,7 +9,7 @@ import Header from './components/header/header.component';
 import HomePage from './pages/home-page/home-page.component';
 import UserPage from './pages/user-page/user-page.component';
 import SideBar from './components/side-bar/side-bar.component';
-import FriendsPage from './pages/friends-page/friends-page.component';
+import SocialsPage from './pages/socials-page/socials-page.component';
 
 const App = () => {
   const token = useSelector(selectToken);
@@ -44,7 +44,7 @@ const App = () => {
         <Switch>
           <Route exact path="/" render={renderHomePage} />
           <Route exact path="/id:userId" component={UserPage} />
-          <Route exact path="/friends" component={FriendsPage} />
+          <Route exact path="/socials/:socialGroup" component={SocialsPage} />
         </Switch>
       </div>
     </div>
