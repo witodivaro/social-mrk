@@ -40,7 +40,7 @@ const UserPage = ({ match }) => {
   );
 
   useEffect(() => {
-    if (currentUser?.id === userId) {
+    if (currentUser?.id === +userId) {
       dispatch(setUserPageUser(currentUser));
     } else {
       dispatch(getUserStart(userId));
