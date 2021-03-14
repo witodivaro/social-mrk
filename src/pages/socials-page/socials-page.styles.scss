@@ -38,6 +38,19 @@
       background-color: rgba(0, 0, 0, 0.1);
     }
 
+    &--active {
+      background-color: $primary;
+      color: white;
+
+      &:hover {
+        background-color: $primary;
+        cursor: default;
+      }
+      // .socials-page__link-text {
+      //   display: block;
+      // }
+    }
+
     &-text {
       display: none;
 

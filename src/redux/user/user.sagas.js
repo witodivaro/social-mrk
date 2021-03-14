@@ -119,22 +119,17 @@ function* getCurrentUser() {
   }
 }
 
-function* changeUser({ payload: userData }) {
+function* changeUser({ payload: changedUserData }) {
   try {
     yield UserAPI.changeUser({
-      ...userData,
+      ...changedUserData,
     });
 
-    yield put(UserActions.changeUserSuccess());
+    yield put(UserActions.changeUserSuccess({ changedUserData }));
   } catch (error) {
     const handledErrors = getHandledChangeUserErrors(error);
     yield put(UserActions.changeUserFailure(handledErrors));
   }
-}
-
-function* refetchUserPageAndCurrentUser() {
-  yield put(UserActions.getCurrentUserStart());
-  yield put(UserPageActions.refreshPage());
 }
 
 function* onSignUpStart() {
@@ -149,13 +144,6 @@ function* onGetCurrentUserStart() {
   yield takeLatest(UserActionTypes.GET_CURRENT_USER_START, getCurrentUser);
 }
 
-function* onChangeUserSuccess() {
-  yield takeEvery(
-    UserActionTypes.CHANGE_USER_SUCCESS,
-    refetchUserPageAndCurrentUser
-  );
-}
-
 function* onChangeUserStart() {
   yield takeLatest(UserActionTypes.CHANGE_USER_START, changeUser);
 }
@@ -166,6 +154,5 @@ export default function* userSagas() {
     call(onSignInStart),
     call(onGetCurrentUserStart),
     call(onChangeUserStart),
-    call(onChangeUserSuccess),
   ]);
 }

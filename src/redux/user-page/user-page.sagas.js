@@ -43,21 +43,10 @@ function* getUser({ payload: id }) {
   }
 }
 
-function* refreshCurrentUserPage() {
-  yield put(UserActions.getCurrentUserStart());
-}
-
 function* onGetUserStart() {
   yield takeLatest(UserPageActionTypes.GET_USER_START, getUser);
 }
 
-function* onRefreshCurrentUserPage() {
-  yield takeEvery(
-    UserPageActionTypes.REFRESH_CURRENT_USER_PAGE,
-    refreshCurrentUserPage
-  );
-}
-
 export default function* userPageSagas() {
-  yield all([call(onGetUserStart), call(onRefreshCurrentUserPage)]);
+  yield all([call(onGetUserStart)]);
 }

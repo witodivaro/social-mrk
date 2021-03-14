@@ -37,9 +37,9 @@ export const getCurrentUserStart = () => ({
   type: UserActionTypes.GET_CURRENT_USER_START,
 });
 
-export const getCurrentUserSuccess = (currentUser) => ({
+export const getCurrentUserSuccess = ({ currentUser }) => ({
   type: UserActionTypes.GET_CURRENT_USER_SUCCESS,
-  payload: currentUser,
+  payload: { currentUser },
 });
 
 export const getCurrentUserFailure = (error) => ({
@@ -52,8 +52,9 @@ export const changeUserStart = (userData) => ({
   payload: userData,
 });
 
-export const changeUserSuccess = () => ({
+export const changeUserSuccess = ({ changedUserData }) => ({
   type: UserActionTypes.CHANGE_USER_SUCCESS,
+  payload: { changedUserData },
 });
 
 export const changeUserFailure = (error) => ({

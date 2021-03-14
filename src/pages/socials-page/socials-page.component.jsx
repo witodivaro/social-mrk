@@ -1,6 +1,6 @@
 import './socials-page.styles.scss';
 import React from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
+import { Route, Switch, NavLink } from 'react-router-dom';
 import { FaUserPlus, FaUserFriends } from 'react-icons/fa';
 import { BiGroup } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
@@ -8,6 +8,7 @@ import { selectCurrentUser } from '../../redux/user/user.selectors';
 import Friends from '../../components/friends/friends.component';
 import FriendRequests from '../../components/friend-requests/friend-requests.component';
 import Subscriptions from '../../components/subscriptions/subscriptions.component';
+import CustomLink from '../../components/custom-link/custom-link.component';
 
 const SocialsPage = ({ match }) => {
   const currentUser = useSelector(selectCurrentUser);
@@ -15,8 +16,9 @@ const SocialsPage = ({ match }) => {
   return (
     <section className="socials-page">
       <header className="socials-page__header">
-        <Link
+        <CustomLink
           className={`socials-page__link`}
+          activeClassName="socials-page__link--active"
           to={{
             pathname: 'friends',
             state: {
@@ -26,9 +28,10 @@ const SocialsPage = ({ match }) => {
         >
           <FaUserFriends className="socials-page__link-icon" />
           <span className="socials-page__link-text">Друзья</span>
-        </Link>
-        <Link
+        </CustomLink>
+        <CustomLink
           className="socials-page__link"
+          activeClassName="socials-page__link--active"
           to={{
             pathname: 'requests',
             state: {
@@ -38,9 +41,10 @@ const SocialsPage = ({ match }) => {
         >
           <FaUserPlus className="socials-page__link-icon" />
           <span className="socials-page__link-text">Заявки в друзья</span>
-        </Link>
-        <Link
+        </CustomLink>
+        <CustomLink
           className="socials-page__link"
+          activeClassName="socials-page__link--active"
           to={{
             pathname: 'subscriptions',
             state: {
@@ -50,7 +54,7 @@ const SocialsPage = ({ match }) => {
         >
           <BiGroup className="socials-page__link-icon" />
           <span className="socials-page__link-text">Подписчики</span>
-        </Link>
+        </CustomLink>
       </header>
       <Switch>
         <Route exact path={`${match.path}/friends`} component={Friends} />

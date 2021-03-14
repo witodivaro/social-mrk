@@ -2,7 +2,6 @@ import {
   GET_FRIENDS_STATES,
   GET_FRIEND_REQUESTS_STATES,
   GET_SUBSCRIPTIONS_STATES,
-  SOCIAL_PAGE_STATES,
 } from '../../config/socials-states';
 import SocialsActionTypes from './socials.types';
 
@@ -10,8 +9,12 @@ const initialState = {
   friends: [],
   subscriptions: [],
   friendRequests: [],
-  state: '',
-  errors: null,
+  friendsState: '',
+  friendsErrors: null,
+  subscriptionsState: '',
+  subscriptionsErrors: null,
+  friendRequestsState: '',
+  friendRequestsErrors: null,
 };
 
 const socialsReducer = (state = initialState, { type, payload }) => {
@@ -19,66 +22,66 @@ const socialsReducer = (state = initialState, { type, payload }) => {
     case SocialsActionTypes.GET_FRIENDS_START:
       return {
         ...state,
-        state: GET_FRIENDS_STATES.FETCHING,
-        errors: null,
+        friendsState: GET_FRIENDS_STATES.FETCHING,
+        friendsErrors: null,
       };
 
     case SocialsActionTypes.GET_FRIENDS_SUCCESS:
       return {
         ...state,
         friends: payload.friends,
-        state: GET_FRIENDS_STATES.SUCCESS,
-        errors: null,
+        friendsState: GET_FRIENDS_STATES.SUCCESS,
+        friendsErrors: null,
       };
 
     case SocialsActionTypes.GET_FRIENDS_FAILURE:
       return {
         ...state,
-        state: GET_FRIENDS_STATES.FAILURE,
-        errors: payload.errors,
+        friendsState: GET_FRIENDS_STATES.FAILURE,
+        friendsErrors: payload.errors,
       };
 
     case SocialsActionTypes.GET_FRIEND_REQUESTS_START:
       return {
         ...state,
-        state: GET_FRIEND_REQUESTS_STATES.FETCHING,
-        errors: null,
+        friendRequestsState: GET_FRIEND_REQUESTS_STATES.FETCHING,
+        friendRequestsErrors: null,
       };
 
     case SocialsActionTypes.GET_FRIEND_REQUESTS_SUCCESS:
       return {
         ...state,
-        state: GET_FRIEND_REQUESTS_STATES.SUCCESS,
-        errors: null,
+        friendRequestsState: GET_FRIEND_REQUESTS_STATES.SUCCESS,
+        friendRequestsErrors: null,
         friendRequests: payload.friendRequests,
       };
 
     case SocialsActionTypes.GET_FRIEND_REQUESTS_FAILURE:
       return {
         ...state,
-        state: GET_FRIEND_REQUESTS_STATES.FAILURE,
-        errors: payload.errors,
+        friendRequestsState: GET_FRIEND_REQUESTS_STATES.FAILURE,
+        friendRequestsErrors: payload.errors,
       };
 
     case SocialsActionTypes.GET_SUBSCRIPTIONS_START:
       return {
         ...state,
-        state: GET_SUBSCRIPTIONS_STATES.FETCHING,
-        errors: null,
+        subscriptionsState: GET_SUBSCRIPTIONS_STATES.FETCHING,
+        subscriptionsErrors: null,
       };
 
     case SocialsActionTypes.GET_SUBSCRIPTIONS_SUCCESS:
       return {
         ...state,
-        state: GET_SUBSCRIPTIONS_STATES.SUCCESS,
-        errors: null,
+        subscriptionsState: GET_SUBSCRIPTIONS_STATES.SUCCESS,
+        subscriptionsErrors: null,
       };
 
     case SocialsActionTypes.GET_SUBSCRIPTIONS_FAILURE:
       return {
         ...state,
-        state: GET_SUBSCRIPTIONS_STATES.FAILURE,
-        errors: payload.errors,
+        subscriptionsState: GET_SUBSCRIPTIONS_STATES.FAILURE,
+        subscriptionsErrors: payload.errors,
       };
 
     default:

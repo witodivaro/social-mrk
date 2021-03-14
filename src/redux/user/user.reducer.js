@@ -75,7 +75,7 @@ const userReducer = (state = initialState, { type, payload }) => {
     case UserActionTypes.GET_CURRENT_USER_SUCCESS:
       return {
         ...state,
-        currentUser: payload,
+        currentUser: payload.currentUser,
       };
 
     case UserActionTypes.CHANGE_USER_START:
@@ -88,6 +88,7 @@ const userReducer = (state = initialState, { type, payload }) => {
     case UserActionTypes.CHANGE_USER_SUCCESS:
       return {
         ...state,
+        currentUser: { ...state.currentUser, ...payload.changedUserData },
         changeUserState: CHANGE_USER_STATES.SUCCESS,
         changeUserErrors: null,
       };

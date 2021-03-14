@@ -20,10 +20,6 @@ export const getUserFailure = (error) => ({
   payload: error,
 });
 
-export const refreshPage = () => ({
-  type: UserPageActionTypes.REFRESH_PAGE,
-});
-
 export const toggleAvatarModalShown = () => ({
   type: UserPageActionTypes.TOGGLE_AVATAR_MODAL_SHOWN,
 });
