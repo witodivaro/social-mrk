@@ -8,7 +8,10 @@ const fetchClient = () => {
 
   socialMrk.interceptors.request.use((config) => {
     const token = store.getState().user.token;
-    config.headers.Authorization = token ? `token ${token}` : '';
+    if (token) {
+      config.headers.Authorization = `token ${token}`;
+    }
+
     return config;
   });
 

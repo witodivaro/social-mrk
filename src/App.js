@@ -11,6 +11,9 @@ import UserPage from './pages/user-page/user-page.component';
 import SideBar from './components/side-bar/side-bar.component';
 import SocialsPage from './pages/socials-page/socials-page.component';
 
+import { ErrorBoundary } from 'react-error-boundary';
+import ErrorPage from './pages/error-page/error-page.component';
+
 const App = () => {
   const token = useSelector(selectToken);
   const dispatch = useDispatch();
@@ -41,11 +44,13 @@ const App = () => {
           <Route exact path="/" component={null} />
           <Route path="/" component={SideBar} />
         </Switch>
-        <Switch>
-          <Route exact path="/" render={renderHomePage} />
-          <Route exact path="/id:userId" component={UserPage} />
-          <Route path="/socials" component={SocialsPage} />
-        </Switch>
+        <ErrorBoundary FallbackComponent={ErrorPage}>
+          <Switch>
+            <Route exact path="/" render={renderHomePage} />
+            <Route exact path="/id:userId" component={UserPage} />
+            <Route path="/socials" component={SocialsPage} />
+          </Switch>
+        </ErrorBoundary>
       </div>
     </div>
   );

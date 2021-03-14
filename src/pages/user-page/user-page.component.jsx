@@ -40,14 +40,28 @@ const UserPage = ({ match }) => {
   );
 
   useEffect(() => {
-    if (userPageUser?.id !== +userId) {
-      if (isCurrentUser) {
-        dispatch(setUserPageUser(currentUser));
-      } else {
-        dispatch(getUserStart(userId));
-      }
+    if (
+      userPageUser?.id === +userId ||
+      userPageState === GET_USER_STATES.FAILURE ||
+      userPageState === GET_USER_STATES.FETCHING
+    ) {
+      return;
     }
-  }, [userId, getUserStart, dispatch, isCurrentUser, currentUser]);
+
+    if (isCurrentUser) {
+      dispatch(setUserPageUser(currentUser));
+    } else {
+      dispatch(getUserStart(userId));
+    }
+  }, [
+    userId,
+    getUserStart,
+    dispatch,
+    isCurrentUser,
+    currentUser,
+    userPageState,
+    GET_USER_STATES,
+  ]);
 
   const addToFriendsHandler = useCallback(() => {
     dispatch(addToFriendsStart({ id: userId }));
