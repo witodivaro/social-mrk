@@ -5,7 +5,6 @@ import { ERROR_CONFIG } from '../../config/errors';
 
 import * as UserActions from './user.actions';
 import UserActionTypes from './user.types';
-import * as UserPageActions from '../user-page/user-page.actions';
 
 export function getHandledNetworkErrors(error) {
   const errors = {};
@@ -113,7 +112,7 @@ function* getCurrentUser() {
     const response = yield UserAPI.getUser(0);
     const currentUser = response.data.user;
 
-    yield put(UserActions.getCurrentUserSuccess(currentUser));
+    yield put(UserActions.getCurrentUserSuccess({ currentUser }));
   } catch (error) {
     yield put(UserActions.getCurrentUserFailure(error));
   }

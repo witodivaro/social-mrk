@@ -6,10 +6,7 @@ import CustomButton from '../../components/custom-button/custom-button.component
 import UserAvatar from '../../components/user-components/user-avatar/user-avatar.component';
 import UserFriends from '../../components/user-components/user-friends/user-friends.component';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  selectCurrentUser,
-  selectToken,
-} from '../../redux/user/user.selectors';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
 import {
   selectAvatarModalShown,
   selectUserPageErrors,
@@ -28,7 +25,6 @@ import { addToFriendsStart } from '../../redux/user-interactions/user-interactio
 import PageNotFound from '../../components/page-not-found/page-not-found.component';
 
 const UserPage = ({ match }) => {
-  const token = useSelector(selectToken);
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
   const userPageUser = useSelector(selectUserPageUser);
@@ -38,18 +34,20 @@ const UserPage = ({ match }) => {
 
   const { userId } = match.params;
 
-  const isCurrentUser = useMemo(() => currentUser.id === +userId, [
-    currentUser,
-    userId,
-  ]);
+  const isCurrentUser = useMemo(
+    () => (currentUser && currentUser.id === +userId) || +userId === 0,
+    [currentUser, userId]
+  );
 
   useEffect(() => {
-    if (isCurrentUser) {
-      dispatch(setUserPageUser(currentUser));
-    } else {
-      dispatch(getUserStart(userId));
+    if (userPageUser?.id !== +userId) {
+      if (isCurrentUser) {
+        dispatch(setUserPageUser(currentUser));
+      } else {
+        dispatch(getUserStart(userId));
+      }
     }
-  }, [token, userId, getUserStart, dispatch, isCurrentUser]);
+  }, [userId, getUserStart, dispatch, isCurrentUser, currentUser]);
 
   const addToFriendsHandler = useCallback(() => {
     dispatch(addToFriendsStart({ id: userId }));
@@ -74,7 +72,7 @@ const UserPage = ({ match }) => {
         </CustomButton>
       </>
     );
-  }, [isCurrentUser]);
+  }, [isCurrentUser, addToFriendsHandler]);
 
   const renderedStatus = useMemo(
     () => <UserStatus status={userPageUser?.status} editable={isCurrentUser} />,
