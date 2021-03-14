@@ -1,6 +1,6 @@
 import './user-page.styles.scss';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import CustomButton from '../../components/custom-button/custom-button.component';
 
 import UserAvatar from '../../components/user-components/user-avatar/user-avatar.component';
@@ -21,7 +21,7 @@ import { CHANGE_USER_STATES, GET_USER_STATES } from '../../config/user-states';
 import { ReactComponent as LoadingIndicator } from '../../assets/images/loader.svg';
 import UserAvatarPickerModal from '../../components/user-components/user-avatar-picker-modal/user-avatar-picker-modal.component';
 import UserStatus from '../../components/user-components/user-status/user-status.component';
-import { addToFriendsStart } from '../../redux/user-interactions/user-interactions.actions';
+import { manageFriendsStart } from '../../redux/user-interactions/user-interactions.actions';
 import PageNotFound from '../../components/page-not-found/page-not-found.component';
 
 const UserPage = ({ match }) => {
@@ -40,32 +40,23 @@ const UserPage = ({ match }) => {
   );
 
   useEffect(() => {
-    if (
-      userPageUser?.id === +userId ||
-      userPageState === GET_USER_STATES.FAILURE ||
-      userPageState === GET_USER_STATES.FETCHING
-    ) {
-      return;
-    }
-
-    if (isCurrentUser) {
+    if (currentUser?.id === userId) {
       dispatch(setUserPageUser(currentUser));
     } else {
       dispatch(getUserStart(userId));
     }
   }, [
-    userId,
-    getUserStart,
     dispatch,
     isCurrentUser,
+    getUserStart,
     currentUser,
-    userPageState,
-    GET_USER_STATES,
+    setUserPageUser,
+    userId,
   ]);
 
   const addToFriendsHandler = useCallback(() => {
-    dispatch(addToFriendsStart({ id: userId }));
-  }, [userId]);
+    dispatch(manageFriendsStart({ id: userId, addFriend: true }));
+  }, [userId, dispatch, manageFriendsStart]);
 
   const renderedActions = useMemo(() => {
     return isCurrentUser ? (

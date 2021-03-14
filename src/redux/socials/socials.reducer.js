@@ -84,6 +84,20 @@ const socialsReducer = (state = initialState, { type, payload }) => {
         subscriptionsErrors: payload.errors,
       };
 
+    case SocialsActionTypes.REMOVE_FRIEND_REQUEST:
+      return {
+        ...state,
+        friendRequests: state.friendRequests.filter(
+          (user) => user.id !== payload.id
+        ),
+      };
+
+    case SocialsActionTypes.REMOVE_FRIEND:
+      return {
+        ...state,
+        friends: state.friends.filter((user) => user.id !== payload.id),
+      };
+
     default:
       return state;
   }

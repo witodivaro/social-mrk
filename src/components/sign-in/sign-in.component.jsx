@@ -99,7 +99,7 @@ const SignIn = () => {
           <p className="login__success">Вы успешно вошли в свой аккаунт!</p>
         );
 
-      case SIGN_IN_STATES.SIGNING:
+      case SIGN_IN_STATES.FETCHING:
         return (
           <>
             {renderSignInForm(true)}

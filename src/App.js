@@ -30,6 +30,17 @@ const App = () => {
     [currentUser]
   );
 
+  const renderSocialsPage = useCallback(
+    (props) => {
+      if (currentUser) {
+        return <SocialsPage {...props} />;
+      }
+
+      return <Redirect to="/" />;
+    },
+    [currentUser]
+  );
+
   useEffect(() => {
     if (token) {
       dispatch(getCurrentUserStart(token));
@@ -48,7 +59,7 @@ const App = () => {
           <Switch>
             <Route exact path="/" render={renderHomePage} />
             <Route exact path="/id:userId" component={UserPage} />
-            <Route path="/socials" component={SocialsPage} />
+            <Route path="/socials" render={renderSocialsPage} />
           </Switch>
         </ErrorBoundary>
       </div>

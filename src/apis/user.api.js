@@ -2,7 +2,7 @@ import changeUser from './change-user';
 import getUser from './get-user';
 import signIn from './sign-in';
 import signUp from './sign-up';
-import addToFriends from './add-to-friends';
+import manageFriends from './manage-friends';
 import getFriends from './get-friends';
 import getSubscriptions from './get-subscriptions';
 import getFriendRequests from './get-friend-requests';
@@ -15,7 +15,7 @@ const UserAPI = {
   getFriends,
   getSubscriptions,
   getFriendRequests,
-  addToFriends,
+  manageFriends,
 };
 
 export default UserAPI;

@@ -117,7 +117,7 @@ const SignUp = () => {
           <p className="sign-up__success">Вы успешно зарегистрировались!</p>
         );
 
-      case SIGN_UP_STATES.SIGNING:
+      case SIGN_UP_STATES.FETCHING:
         return (
           <>
             {renderSignUpForm(true)}

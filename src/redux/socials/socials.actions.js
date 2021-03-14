@@ -43,3 +43,13 @@ export const getSubscriptionsFailure = (errors) => ({
   type: SocialsActionTypes.GET_SUBSCRIPTIONS_FAILURE,
   payload: { errors },
 });
+
+export const removeFriendRequest = (id) => ({
+  type: SocialsActionTypes.REMOVE_FRIEND_REQUEST,
+  payload: { id },
+});
+
+export const removeFriend = (id) => ({
+  type: SocialsActionTypes.REMOVE_FRIEND,
+  payload: { id },
+});

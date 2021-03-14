@@ -1,18 +1,32 @@
-import { ADD_TO_FRIENDS_STATES } from '../../config/user-states';
+import { MANAGE_FRIENDS_STATES } from '../../config/user-states';
 import UserInteractionsActionTypes from './user-interactions.types';
 
 const initialState = {
-  addToFriendsState: '',
-  addToFriendsError: null,
+  manageFriendsState: '',
+  manageFriendsErrors: null,
 };
 
 const userInteractionsReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case UserInteractionsActionTypes.ADD_TO_FRIENDS_START:
+    case UserInteractionsActionTypes.MANAGE_FRIENDS_START:
       return {
         ...state,
-        addToFriendsState: ADD_TO_FRIENDS_STATES.FETCHING,
-        addToFriendsError: null,
+        manageFriendsState: MANAGE_FRIENDS_STATES.FETCHING,
+        manageFriendsErrors: null,
+      };
+
+    case UserInteractionsActionTypes.MANAGE_FRIENDS_SUCCESS:
+      return {
+        ...state,
+        manageFriendsState: MANAGE_FRIENDS_STATES.SUCCESS,
+        manageFriendsErrors: null,
+      };
+
+    case UserInteractionsActionTypes.MANAGE_FRIENDS_FAILURE:
+      return {
+        ...state,
+        manageFriendsState: MANAGE_FRIENDS_STATES.FAILURE,
+        manageFriendsErrors: payload,
       };
 
     default:

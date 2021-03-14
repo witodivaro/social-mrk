@@ -1,15 +1,28 @@
 import UserInteractionsActionTypes from './user-interactions.types';
 
-export const addToFriendsStart = ({ id, accept }) => ({
-  type: UserInteractionsActionTypes.ADD_TO_FRIENDS_START,
-  payload: { id, accept },
+export const manageFriendsStart = ({
+  id,
+  rejectRequest,
+  acceptRequest,
+  addFriend,
+  removeFriend,
+}) => ({
+  type: UserInteractionsActionTypes.MANAGE_FRIENDS_START,
+  payload: { id, acceptRequest, rejectRequest, addFriend, removeFriend },
 });
 
-export const addToFriendsSuccess = () => ({
-  type: UserInteractionsActionTypes.ADD_TO_FRIENDS_SUCCESS,
+export const manageFriendsSuccess = ({
+  id,
+  addFriend,
+  rejectRequest,
+  acceptRequest,
+  removeFriend,
+}) => ({
+  type: UserInteractionsActionTypes.MANAGE_FRIENDS_SUCCESS,
+  payload: { id, addFriend, rejectRequest, acceptRequest, removeFriend },
 });
 
-export const addToFriendsFailure = (error) => ({
-  type: UserInteractionsActionTypes.ADD_TO_FRIENDS_FAILURE,
+export const manageFriendsFailure = (error) => ({
+  type: UserInteractionsActionTypes.MANAGE_FRIENDS_FAILURE,
   payload: error,
 });

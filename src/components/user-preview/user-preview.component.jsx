@@ -4,7 +4,7 @@ import { ReactComponent as NoAvatar } from '../../assets/images/no-avatar.svg';
 import { Link } from 'react-router-dom';
 import CustomButton from '../custom-button/custom-button.component';
 import { useDispatch } from 'react-redux';
-import { addToFriendsStart } from '../../redux/user-interactions/user-interactions.actions';
+import { manageFriendsStart } from '../../redux/user-interactions/user-interactions.actions';
 import { FaTimes, FaCheck } from 'react-icons/fa';
 
 const UserPreview = ({ user, isFriendRequest }) => {
@@ -13,12 +13,12 @@ const UserPreview = ({ user, isFriendRequest }) => {
 
   const acceptFriendHandler = (e) => {
     e.preventDefault();
-    dispatch(addToFriendsStart({ id }));
+    dispatch(manageFriendsStart({ id, acceptRequest: true }));
   };
 
   const rejectFriendHandler = (e) => {
     e.preventDefault();
-    dispatch(addToFriendsStart({ id, accept: false }));
+    dispatch(manageFriendsStart({ id, rejectRequest: true }));
   };
 
   const renderedUserAvatar = useMemo(

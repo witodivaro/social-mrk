@@ -1,6 +1,6 @@
 import './socials-page.styles.scss';
 import React from 'react';
-import { Route, Switch, NavLink } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { FaUserPlus, FaUserFriends } from 'react-icons/fa';
 import { BiGroup } from 'react-icons/bi';
 import { useSelector } from 'react-redux';

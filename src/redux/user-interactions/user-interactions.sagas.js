@@ -4,31 +4,47 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 import UserInteractionsActionTypes from './user-interactions.types';
 import { getHandledNetworkErrors } from '../user/user.sagas';
 
-function* addToFriends({ payload }) {
+function* manageFriends({ payload }) {
   try {
-    const { id, accept } = payload;
-    const addToFriendsPayload = Object.assign(
-      {},
-      { id },
-      accept !== undefined ? { accept } : null
-    );
-    yield UserAPI.addToFriends(addToFriendsPayload);
+    const {
+      id,
+      acceptRequest,
+      rejectRequest,
+      addFriend,
+      removeFriend,
+    } = yield payload;
 
-    yield put(UserInteractionsActions.addToFriendsSuccess());
+    yield UserAPI.manageFriends({
+      id,
+      acceptRequest,
+      rejectRequest,
+      addFriend,
+      removeFriend,
+    });
+
+    yield put(
+      UserInteractionsActions.manageFriendsSuccess({
+        id,
+        addFriend,
+        acceptRequest,
+        rejectRequest,
+        removeFriend,
+      })
+    );
   } catch (error) {
     const handledErrors = getHandledNetworkErrors(error);
 
-    yield put(UserInteractionsActions.addToFriendsFailure(handledErrors));
+    yield put(UserInteractionsActions.manageFriendsFailure(handledErrors));
   }
 }
 
-function* onAddToFriendsStart() {
+function* onManageFriendsStart() {
   yield takeLatest(
-    UserInteractionsActionTypes.ADD_TO_FRIENDS_START,
-    addToFriends
+    UserInteractionsActionTypes.MANAGE_FRIENDS_START,
+    manageFriends
   );
 }
 
 export default function* userInteractionsSagas() {
-  yield all([call(onAddToFriendsStart)]);
+  yield all([call(onManageFriendsStart)]);
 }
