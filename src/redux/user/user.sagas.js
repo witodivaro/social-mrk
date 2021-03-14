@@ -115,7 +115,7 @@ function* getCurrentUser() {
 
     yield put(UserActions.getCurrentUserSuccess(currentUser));
   } catch (error) {
-    put(UserActions.getCurrentUserFailure(error));
+    yield put(UserActions.getCurrentUserFailure(error));
   }
 }
 
@@ -128,7 +128,7 @@ function* changeUser({ payload: userData }) {
     yield put(UserActions.changeUserSuccess());
   } catch (error) {
     const handledErrors = getHandledChangeUserErrors(error);
-    put(UserActions.changeUserFailure(handledErrors));
+    yield put(UserActions.changeUserFailure(handledErrors));
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFriendRequestsStart } from '../../redux/socials/socials.actions';
 import { selectFriendRequests } from '../../redux/socials/socials.selectors';

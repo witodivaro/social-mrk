@@ -16,7 +16,10 @@ import {
   selectUserPageState,
   selectUserPageUser,
 } from '../../redux/user-page/user-page.selectors';
-import { getUserStart } from '../../redux/user-page/user-page.actions';
+import {
+  getUserStart,
+  setUserPageUser,
+} from '../../redux/user-page/user-page.actions';
 import { CHANGE_USER_STATES, GET_USER_STATES } from '../../config/user-states';
 import { ReactComponent as LoadingIndicator } from '../../assets/images/loader.svg';
 import UserAvatarPickerModal from '../../components/user-components/user-avatar-picker-modal/user-avatar-picker-modal.component';
@@ -32,19 +35,21 @@ const UserPage = ({ match }) => {
   const userPageState = useSelector(selectUserPageState);
   const userPageErrors = useSelector(selectUserPageErrors);
   const avatarModalShown = useSelector(selectAvatarModalShown);
-  const [isCurrentUser, setIsCurrentUser] = useState(false);
 
   const { userId } = match.params;
 
-  useEffect(() => {
-    dispatch(getUserStart(userId));
-  }, [token, userId, getUserStart, dispatch]);
+  const isCurrentUser = useMemo(() => currentUser.id === +userId, [
+    currentUser,
+    userId,
+  ]);
 
   useEffect(() => {
-    setIsCurrentUser(
-      !!currentUser && !!userPageUser && userPageUser.id === currentUser.id
-    );
-  }, [currentUser, userPageUser]);
+    if (isCurrentUser) {
+      dispatch(setUserPageUser(currentUser));
+    } else {
+      dispatch(getUserStart(userId));
+    }
+  }, [token, userId, getUserStart, dispatch, isCurrentUser]);
 
   const addToFriendsHandler = useCallback(() => {
     dispatch(addToFriendsStart({ id: userId }));
@@ -130,6 +135,10 @@ const UserPage = ({ match }) => {
   );
 
   const renderContent = useCallback(() => {
+    if (isCurrentUser) {
+      return renderedUserPage;
+    }
+
     switch (userPageState) {
       case CHANGE_USER_STATES.FETCHING:
       case GET_USER_STATES.FETCHING:
@@ -143,7 +152,7 @@ const UserPage = ({ match }) => {
       case GET_USER_STATES.SUCCESS:
         return renderedUserPage;
     }
-  }, [userPageState, userPageUser, renderedUserPage]);
+  }, [userPageState, userPageUser, renderedUserPage, isCurrentUser]);
 
   const renderedAvatarModal = useMemo(
     () => (avatarModalShown ? <UserAvatarPickerModal /> : null),

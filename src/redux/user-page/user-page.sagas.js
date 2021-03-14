@@ -8,8 +8,8 @@ import {
 } from 'redux-saga/effects';
 import * as UserPageActions from './user-page.actions';
 import UserPageActionTypes from './user-page.types';
+import * as UserActions from '../user/user.actions';
 import UserAPI from '../../apis/user.api';
-import { selectUserPageId } from './user-page.selectors';
 import { getHandledNetworkErrors } from '../user/user.sagas';
 
 function getHandledGetUserErrors(error) {
@@ -43,20 +43,21 @@ function* getUser({ payload: id }) {
   }
 }
 
-function* refreshPage() {
-  const currentPageId = yield select(selectUserPageId);
-
-  yield put(UserPageActions.getUserStart(currentPageId));
+function* refreshCurrentUserPage() {
+  yield put(UserActions.getCurrentUserStart());
 }
 
 function* onGetUserStart() {
   yield takeLatest(UserPageActionTypes.GET_USER_START, getUser);
 }
 
-function* onRefreshPage() {
-  yield takeEvery(UserPageActionTypes.REFRESH_PAGE, refreshPage);
+function* onRefreshCurrentUserPage() {
+  yield takeEvery(
+    UserPageActionTypes.REFRESH_CURRENT_USER_PAGE,
+    refreshCurrentUserPage
+  );
 }
 
 export default function* userPageSagas() {
-  yield all([call(onGetUserStart), call(onRefreshPage)]);
+  yield all([call(onGetUserStart), call(onRefreshCurrentUserPage)]);
 }

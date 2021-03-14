@@ -25,6 +25,12 @@ const userPageReducer = (state = initialState, { payload, type }) => {
         state: GET_USER_STATES.SUCCESS,
       };
 
+    case UserPageActionTypes.SET_USER_PAGE_USER:
+      return {
+        ...state,
+        user: payload,
+      };
+
     case UserPageActionTypes.GET_USER_FAILURE:
       return {
         ...state,

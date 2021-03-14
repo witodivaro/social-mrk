@@ -10,6 +10,11 @@ export const getUserSuccess = (user) => ({
   payload: user,
 });
 
+export const setUserPageUser = (user) => ({
+  type: UserPageActionTypes.SET_USER_PAGE_USER,
+  payload: user,
+});
+
 export const getUserFailure = (error) => ({
   type: UserPageActionTypes.GET_USER_FAILURE,
   payload: error,

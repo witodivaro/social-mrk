@@ -11,11 +11,13 @@ const UserPreview = ({ user, isFriendRequest }) => {
   const { image, username, id } = user;
   const dispatch = useDispatch();
 
-  const acceptFriendHandler = () => {
+  const acceptFriendHandler = (e) => {
+    e.preventDefault();
     dispatch(addToFriendsStart({ id }));
   };
 
-  const rejectFriendHandler = () => {
+  const rejectFriendHandler = (e) => {
+    e.preventDefault();
     dispatch(addToFriendsStart({ id, accept: false }));
   };
 
