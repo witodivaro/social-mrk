@@ -1,4 +1,4 @@
-@import '../../../styles/colors';
+@import "../../../styles/colors";
 
 .friends {
   &__item {
@@ -30,17 +30,20 @@
     background-position: 0% 0%;
     background-size: cover;
 
+    flex-shrink: 0;
     fill: $primary;
 
     box-shadow: 0 0 2px 0px rgba(0, 0, 0, 0.3);
   }
 
   &__name {
-    margin-left: 10px;
+    margin: 0 10px;
     flex-grow: 1;
+    overflow: hidden;
   }
 
   &__actions {
     margin-right: 5px;
+    flex-shrink: 0;
   }
 }

@@ -1,10 +1,11 @@
-import { takeLatest, put, all, call, takeEvery } from 'redux-saga/effects';
-import UserAPI from '../../apis/user.api';
+import { takeLatest, put, all, call } from "redux-saga/effects";
+import UserProfileAPI from "../../apis/user-profile/api";
+import UserAPI from "../../apis/user/api";
 
-import { ERROR_CONFIG } from '../../config/errors';
+import { ERROR_CONFIG } from "../../config/errors";
 
-import * as UserActions from './user.actions';
-import UserActionTypes from './user.types';
+import * as UserActions from "./user.actions";
+import UserActionTypes from "./user.types";
 
 export function getHandledNetworkErrors(error) {
   const errors = {};
@@ -31,11 +32,11 @@ function getHandledSignUpErrors(error) {
   if (error.response && error.response.status === 400) {
     for (const errorName of Object.keys(error.response.data.error)) {
       switch (errorName) {
-        case 'username':
+        case "username":
           errors.username.push(ERROR_CONFIG.SIGN_UP.USERNAME_TAKEN.text);
           break;
 
-        case 'email':
+        case "email":
           errors.email.push(ERROR_CONFIG.SIGN_UP.EMAIL_TAKEN.text);
           break;
       }
@@ -55,7 +56,7 @@ function getHandledSignInErrors(error) {
   if (error.response && error.response.status === 400) {
     for (const errorName of Object.keys(error.response.data.error)) {
       switch (errorName) {
-        case 'credentials':
+        case "credentials":
           errors.credentials.push(ERROR_CONFIG.SIGN_IN.WRONG_CREDENTIALS.text);
       }
     }
@@ -109,7 +110,7 @@ function* signUp({ payload }) {
 
 function* getCurrentUser() {
   try {
-    const response = yield UserAPI.getUser(0);
+    const response = yield UserProfileAPI.getUser(0);
     const currentUser = response.data.user;
 
     yield put(UserActions.getCurrentUserSuccess({ currentUser }));
@@ -120,7 +121,7 @@ function* getCurrentUser() {
 
 function* changeUser({ payload: changedUserData }) {
   try {
-    yield UserAPI.changeUser({
+    yield UserProfileAPI.changeUser({
       ...changedUserData,
     });
 

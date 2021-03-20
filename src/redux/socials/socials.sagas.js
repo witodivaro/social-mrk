@@ -1,14 +1,13 @@
-import { all, call, put, takeLatest } from 'redux-saga/effects';
-import UserAPI from '../../apis/user.api';
-import UserInteractionsActionTypes from '../user-interactions/user-interactions.types';
-import { getHandledNetworkErrors } from '../user/user.sagas';
-import * as SocialsActions from './socials.actions';
-import SocialsActionTypes from './socials.types';
+import { all, call, put, takeLatest, select } from "redux-saga/effects";
+import UserActionsAPI from "../../apis/user-actions/api";
+import { getHandledNetworkErrors } from "../user/user.sagas";
+import * as SocialsActions from "./socials.actions";
+import SocialsActionTypes from "./socials.types";
 
 function* getFriends({ payload }) {
   try {
     const { id } = payload;
-    const response = yield UserAPI.getFriends(id);
+    const response = yield UserActionsAPI.getFriends(id);
 
     yield put(SocialsActions.getFriendsSuccess(response.data.friends));
   } catch (error) {
@@ -20,7 +19,7 @@ function* getFriends({ payload }) {
 
 function* getFriendRequests() {
   try {
-    const response = yield UserAPI.getFriendRequests();
+    const response = yield UserActionsAPI.getFriendRequests();
 
     yield put(SocialsActions.getFriendRequestsSuccess(response.data.requests));
   } catch (error) {
@@ -33,7 +32,7 @@ function* getFriendRequests() {
 function* getSubscriptions({ payload }) {
   try {
     const { id } = payload;
-    const response = yield UserAPI.getSubscriptions(id);
+    const response = yield UserActionsAPI.getSubscriptions(id);
 
     yield put(
       SocialsActions.getSubscriptionsSuccess(response.data.subscriptions)
@@ -48,6 +47,7 @@ function* getSubscriptions({ payload }) {
 function* changeLocalSocials({ payload }) {
   if (payload.acceptRequest || payload.rejectRequest) {
     yield put(SocialsActions.removeFriendRequest(payload.id));
+    yield put;
   } else if (payload.removeFriend) {
   }
 }
@@ -72,9 +72,47 @@ function* onGetSubscriptionsStart() {
 
 function* onManageFriendsSuccess() {
   yield takeLatest(
-    UserInteractionsActionTypes.MANAGE_FRIENDS_SUCCESS,
+    SocialsActionTypes.MANAGE_FRIENDS_SUCCESS,
     changeLocalSocials
   );
+}
+
+function* manageFriends({ payload }) {
+  try {
+    const {
+      id,
+      acceptRequest,
+      rejectRequest,
+      addFriend,
+      removeFriend,
+    } = yield payload;
+
+    yield UserActionsAPI.manageFriends({
+      id,
+      acceptRequest,
+      rejectRequest,
+      addFriend,
+      removeFriend,
+    });
+
+    yield put(
+      SocialsActions.manageFriendsSuccess({
+        id,
+        addFriend,
+        acceptRequest,
+        rejectRequest,
+        removeFriend,
+      })
+    );
+  } catch (error) {
+    const handledErrors = getHandledNetworkErrors(error);
+
+    yield put(SocialsActions.manageFriendsFailure(handledErrors));
+  }
+}
+
+function* onManageFriendsStart() {
+  yield takeLatest(SocialsActionTypes.MANAGE_FRIENDS_START, manageFriends);
 }
 
 export default function* socialsSagas() {
@@ -82,6 +120,7 @@ export default function* socialsSagas() {
     call(onGetFriendsStart),
     call(onGetSubscriptionsStart),
     call(onGetFriendRequestsStart),
+    call(onManageFriendsStart),
     call(onManageFriendsSuccess),
   ]);
 }

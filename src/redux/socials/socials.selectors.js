@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect';
+import { createSelector } from "reselect";
 
 const selectSocials = (state) => state.socials;
 
@@ -45,4 +45,19 @@ export const selectFriendRequestsState = createSelector(
 export const selectFriendRequestsErrors = createSelector(
   selectSocials,
   (socials) => socials.friendRequestsErrors
+);
+
+const selectUpToDateSocials = createSelector(
+  selectSocials,
+  (socials) => socials.upToDateSocials
+);
+
+export const selectFriendsUpdated = createSelector(
+  selectUpToDateSocials,
+  (upToDateSocials) => upToDateSocials.friends
+);
+
+export const selectSubscriptionsUpdated = createSelector(
+  selectUpToDateSocials,
+  (upToDateSocials) => upToDateSocials.subscriptions
 );

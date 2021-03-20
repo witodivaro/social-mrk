@@ -1,14 +1,16 @@
-import './user-friend.styles.scss';
-import React, { useMemo, useRef } from 'react';
-import CustomButton from '../../custom-button/custom-button.component';
-import { ReactComponent as NoAvatar } from '../../../assets/images/no-avatar.svg';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { manageFriendsStart } from '../../../redux/user-interactions/user-interactions.actions';
+import "./user-friend.styles.scss";
+import React, { useMemo, useRef } from "react";
+import CustomButton from "../../custom-button/custom-button.component";
+import { ReactComponent as NoAvatar } from "../../../assets/images/no-avatar.svg";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCurrentUserId } from "../../../redux/user/user.selectors";
+import { manageFriendsStart } from "../../../redux/socials/socials.actions";
 
 const UserFriend = ({ user }) => {
   const { id, image, username, isFriend } = user;
   const dispatch = useDispatch();
+  const currentUserId = useSelector(selectCurrentUserId);
 
   const addToFriendsHandler = (e) => {
     e.preventDefault();
@@ -35,26 +37,27 @@ const UserFriend = ({ user }) => {
     [user]
   );
 
-  const renderedAction = useMemo(
-    () =>
-      isFriend ? (
-        <CustomButton
-          className="friends__actions"
-          onClick={removeFromFriendsHandler}
-        >
-          -
-        </CustomButton>
-      ) : (
-        <CustomButton
-          inverted
-          className="friends__actions"
-          onClick={addToFriendsHandler}
-        >
-          +
-        </CustomButton>
-      ),
-    [isFriend, removeFromFriendsHandler, addToFriendsHandler]
-  );
+  const renderedAction = useMemo(() => {
+    if (currentUserId === id) {
+      return null;
+    }
+
+    if (isFriend) {
+      return <CustomButton onClick={removeFromFriendsHandler}>-</CustomButton>;
+    }
+
+    return (
+      <CustomButton inverted onClick={addToFriendsHandler}>
+        +
+      </CustomButton>
+    );
+  }, [
+    isFriend,
+    currentUserId,
+    id,
+    removeFromFriendsHandler,
+    addToFriendsHandler,
+  ]);
 
   return (
     <li className="friends__item">

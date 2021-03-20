@@ -2,19 +2,24 @@ import {
   GET_FRIENDS_STATES,
   GET_FRIEND_REQUESTS_STATES,
   GET_SUBSCRIPTIONS_STATES,
-} from '../../config/socials-states';
-import SocialsActionTypes from './socials.types';
+} from "../../config/socials-states";
+import SocialsActionTypes from "./socials.types";
 
 const initialState = {
   friends: [],
   subscriptions: [],
   friendRequests: [],
-  friendsState: '',
+  friendsState: "",
   friendsErrors: null,
-  subscriptionsState: '',
+  subscriptionsState: "",
   subscriptionsErrors: null,
-  friendRequestsState: '',
+  friendRequestsState: "",
   friendRequestsErrors: null,
+  upToDateSocials: {
+    friends: false,
+    subscriptions: false,
+    friendRequests: false,
+  },
 };
 
 const socialsReducer = (state = initialState, { type, payload }) => {
@@ -32,6 +37,10 @@ const socialsReducer = (state = initialState, { type, payload }) => {
         friends: payload.friends,
         friendsState: GET_FRIENDS_STATES.SUCCESS,
         friendsErrors: null,
+        upToDateSocials: {
+          ...state.upToDateSocials,
+          friends: true,
+        },
       };
 
     case SocialsActionTypes.GET_FRIENDS_FAILURE:
@@ -54,6 +63,10 @@ const socialsReducer = (state = initialState, { type, payload }) => {
         friendRequestsState: GET_FRIEND_REQUESTS_STATES.SUCCESS,
         friendRequestsErrors: null,
         friendRequests: payload.friendRequests,
+        upToDateSocials: {
+          ...state.upToDateSocials,
+          friendRequests: true,
+        },
       };
 
     case SocialsActionTypes.GET_FRIEND_REQUESTS_FAILURE:
@@ -75,6 +88,10 @@ const socialsReducer = (state = initialState, { type, payload }) => {
         ...state,
         subscriptionsState: GET_SUBSCRIPTIONS_STATES.SUCCESS,
         subscriptionsErrors: null,
+        upToDateSocials: {
+          ...state.upToDateSocials,
+          subscriptions: true,
+        },
       };
 
     case SocialsActionTypes.GET_SUBSCRIPTIONS_FAILURE:
@@ -96,6 +113,16 @@ const socialsReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         friends: state.friends.filter((user) => user.id !== payload.id),
+      };
+
+    case SocialsActionTypes.MANAGE_FRIENDS_SUCCESS:
+      return {
+        ...state,
+        upToDateSocials: {
+          friends: false,
+          friendRequests: false,
+          subscriptions: false,
+        },
       };
 
     default:

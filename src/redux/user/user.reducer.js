@@ -1,21 +1,21 @@
-import UserActionTypes from './user.types';
-import { persistReducer } from 'redux-persist';
-import localStorage from 'redux-persist/lib/storage';
+import UserActionTypes from "./user.types";
+import { persistReducer } from "redux-persist";
+import localStorage from "redux-persist/lib/storage";
 import {
   CHANGE_USER_STATES,
   SIGN_IN_STATES,
   SIGN_UP_STATES,
-} from '../../config/user-states';
+} from "../../config/user-states";
 
 const initialState = {
   currentUser: null,
-  token: '',
+  token: "",
   signInErrors: null,
   signUpErrors: null,
   changeUserErrors: null,
-  signUpState: '',
-  signInState: '',
-  changeUserState: '',
+  signUpState: "",
+  signInState: "",
+  changeUserState: "",
 };
 
 const userReducer = (state = initialState, { type, payload }) => {
@@ -23,10 +23,10 @@ const userReducer = (state = initialState, { type, payload }) => {
     case UserActionTypes.SIGN_OUT:
       return {
         ...state,
-        token: '',
+        token: "",
         currentUser: null,
-        signUpState: '',
-        signInState: '',
+        signUpState: "",
+        signInState: "",
       };
 
     case UserActionTypes.SIGN_UP_START:
@@ -100,15 +100,24 @@ const userReducer = (state = initialState, { type, payload }) => {
         changeUserErrors: payload,
       };
 
+    case UserActionTypes.UPDATE_CURRENT_USER:
+      return {
+        ...state,
+        currentUser: {
+          ...state.currentUser,
+          ...payload,
+        },
+      };
+
     default:
       return state;
   }
 };
 
 const persistConfig = {
-  key: 'token',
+  key: "token",
   storage: localStorage,
-  whitelist: ['token', 'currentUser'],
+  whitelist: ["token", "currentUser"],
 };
 
 export default persistReducer(persistConfig, userReducer);

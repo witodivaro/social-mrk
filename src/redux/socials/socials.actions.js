@@ -1,4 +1,4 @@
-import SocialsActionTypes from './socials.types';
+import SocialsActionTypes from "./socials.types";
 
 export const getFriendsStart = (id) => ({
   type: SocialsActionTypes.GET_FRIENDS_START,
@@ -52,4 +52,31 @@ export const removeFriendRequest = (id) => ({
 export const removeFriend = (id) => ({
   type: SocialsActionTypes.REMOVE_FRIEND,
   payload: { id },
+});
+
+export const manageFriendsStart = ({
+  id,
+  rejectRequest,
+  acceptRequest,
+  addFriend,
+  removeFriend,
+}) => ({
+  type: SocialsActionTypes.MANAGE_FRIENDS_START,
+  payload: { id, acceptRequest, rejectRequest, addFriend, removeFriend },
+});
+
+export const manageFriendsSuccess = ({
+  id,
+  addFriend,
+  rejectRequest,
+  acceptRequest,
+  removeFriend,
+}) => ({
+  type: SocialsActionTypes.MANAGE_FRIENDS_SUCCESS,
+  payload: { id, addFriend, rejectRequest, acceptRequest, removeFriend },
+});
+
+export const manageFriendsFailure = (error) => ({
+  type: SocialsActionTypes.MANAGE_FRIENDS_FAILURE,
+  payload: error,
 });

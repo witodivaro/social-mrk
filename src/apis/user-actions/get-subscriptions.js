@@ -1,6 +1,6 @@
-import socialMrk from './social-mrk';
+import socialMrk from "../social-mrk";
 
-const getSubscriptionsEndpoint = '/user-actions/get-subscriptions/';
+const getSubscriptionsEndpoint = "/user-actions/get-subscriptions/";
 
 const getSubscriptions = (id) => {
   return socialMrk.get(getSubscriptionsEndpoint, {

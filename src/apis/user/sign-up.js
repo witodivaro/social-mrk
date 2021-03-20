@@ -1,6 +1,6 @@
-import socialMrk from './social-mrk';
+import socialMrk from "../social-mrk";
 
-const signUpEndpoint = '/user/sign-up/';
+const signUpEndpoint = "/user/sign-up/";
 
 const signUp = ({ username, email, password }) => {
   return socialMrk.post(signUpEndpoint, {

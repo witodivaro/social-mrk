@@ -1,22 +1,26 @@
-import './user-status.styles.scss';
+import "./user-status.styles.scss";
 
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { changeUserStart } from '../../../redux/user/user.actions';
-import CustomButton from '../../custom-button/custom-button.component';
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { changeUserStart } from "../../../redux/user/user.actions";
+import CustomButton from "../../custom-button/custom-button.component";
 
 const UserStatus = ({ status, editable }) => {
   const dispatch = useDispatch();
   const renderedStatusText = status
     ? status
     : editable
-    ? 'Изменить статус'
-    : '';
+    ? "Изменить статус"
+    : "";
 
   const [isEditing, setIsEditing] = useState(false);
   const [statusRef, setStatusRef] = useState(null);
   const [inputRef, setInputRef] = useState(null);
-  const [statusText, setStatusText] = useState(status || '');
+  const [statusText, setStatusText] = useState(status || "");
+
+  useEffect(() => {
+    setStatusText(status || "");
+  }, [status]);
 
   const statusChangeHandler = (e) => {
     setStatusText(e.target.value);
@@ -44,12 +48,12 @@ const UserStatus = ({ status, editable }) => {
       setIsEditing(false);
     };
 
-    document.body.addEventListener('click', bodyClickHandler, {
+    document.body.addEventListener("click", bodyClickHandler, {
       capture: true,
     });
 
     return () => {
-      document.body.removeEventListener('click', bodyClickHandler, {
+      document.body.removeEventListener("click", bodyClickHandler, {
         capture: true,
       });
     };
@@ -74,7 +78,7 @@ const UserStatus = ({ status, editable }) => {
         <input
           type="text"
           ref={(elemRef) => setInputRef(elemRef)}
-          placeholder={statusText || 'Изменить статус'}
+          placeholder={statusText || "Изменить статус"}
           onChange={statusChangeHandler}
           value={statusText}
           maxLength={40}
@@ -93,7 +97,7 @@ const UserStatus = ({ status, editable }) => {
   return (
     <span
       onClick={toggleEditingHandler}
-      className={`user-status ${editable ? 'user-status--editable' : ''}`}
+      className={`user-status ${editable ? "user-status--editable" : ""}`}
     >
       {renderedStatusText}
     </span>

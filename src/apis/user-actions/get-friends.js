@@ -1,6 +1,6 @@
-import socialMrk from './social-mrk';
+import socialMrk from "../social-mrk";
 
-const getFriendsEndpoint = '/user-actions/get-friends/';
+const getFriendsEndpoint = "/user-actions/get-friends/";
 
 const getFriends = (id) => {
   return socialMrk.get(getFriendsEndpoint, {
