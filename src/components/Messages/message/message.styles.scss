@@ -1,24 +1,51 @@
 @import '../../../styles/colors.scss';
+@import '../../../styles/variables.scss';
 
 .message {
+  position: relative;
   margin-bottom: 5px;
   padding: 5px 10px;
   border: 1px solid $primary;
   align-self: flex-start;
   border-radius: 10px;
+  margin-right: 50px;
 
   background-color: white;
-  color: $dark;
 
   border-bottom-left-radius: 0;
 
   &__text {
     margin: 0;
+    color: $dark;
+
+    text-align: justify;
+    word-wrap: break-word;
+    line-height: 20px;
   }
 
   &--right {
+    margin-right: 10px;
+    margin-left: 40px;
     border-bottom-left-radius: 10px;
     align-self: flex-end;
     border-bottom-right-radius: 0;
+
+    .message__date {
+      left: -5px;
+      right: unset;
+
+      transform: translate(-100%, -50%);
+    }
+  }
+
+  &__date {
+    position: absolute;
+    top: 50%;
+    right: -5px;
+
+    color: $light;
+    transform: translate(100%, -50%);
+
+    font-size: 14px;
   }
 }
