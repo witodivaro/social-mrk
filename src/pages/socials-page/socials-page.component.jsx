@@ -5,9 +5,9 @@ import { FaUserPlus, FaUserFriends } from 'react-icons/fa';
 import { BiGroup } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
-import Friends from '../../components/friends/friends.component';
-import FriendRequests from '../../components/friend-requests/friend-requests.component';
-import Subscriptions from '../../components/subscriptions/subscriptions.component';
+import Friends from '../../components/Socials/friends/friends.component';
+import FriendRequests from '../../components/Socials/friend-requests/friend-requests.component';
+import Subscriptions from '../../components/Socials/subscriptions/subscriptions.component';
 import CustomLink from '../../components/custom-link/custom-link.component';
 
 const SocialsPage = ({ match }) => {

@@ -1,11 +1,11 @@
-import "./user-preview.styles.scss";
-import React, { useCallback, useMemo } from "react";
-import { ReactComponent as NoAvatar } from "../../assets/images/no-avatar.svg";
-import { Link } from "react-router-dom";
-import CustomButton from "../custom-button/custom-button.component";
-import { useDispatch } from "react-redux";
-import { FaTimes, FaCheck } from "react-icons/fa";
-import { manageFriendsStart } from "../../redux/socials/socials.actions";
+import './user-preview.styles.scss';
+import React, { useCallback, useMemo } from 'react';
+import { ReactComponent as NoAvatar } from '../../../assets/images/no-avatar.svg';
+import { Link } from 'react-router-dom';
+import CustomButton from '../../custom-button/custom-button.component';
+import { useDispatch } from 'react-redux';
+import { FaTimes, FaCheck } from 'react-icons/fa';
+import { manageFriendsStart } from '../../../redux/socials/socials.actions';
 
 const UserPreview = ({ user, isFriendRequest }) => {
   const { image, username, id } = user;

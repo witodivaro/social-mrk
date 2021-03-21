@@ -1,11 +1,19 @@
-import socialMrk from "../social-mrk";
+import socialMrk from '../social-mrk';
 
-const messagesEndpoint = "/user-actions/messages/";
+const messagesEndpoint = '/user-actions/messages/';
 
-const messages = ({ to, message }) => {
+const messages = ({ id, message, isGet }) => {
+  if (isGet) {
+    return socialMrk.get(messagesEndpoint, {
+      params: {
+        id,
+      },
+    });
+  }
+
   return socialMrk.post(messagesEndpoint, {
-    username,
-    password,
+    id,
+    message,
   });
 };
 

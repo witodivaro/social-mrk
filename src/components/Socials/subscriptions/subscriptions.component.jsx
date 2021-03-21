@@ -1,12 +1,12 @@
-import React, { useEffect, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import UsersList from "../users-list/users-list.component";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import UsersList from '../../users-list/users-list.component';
 import {
   selectSubscriptions,
   selectSubscriptionsErrors,
   selectSubscriptionsUpdated,
-} from "../../redux/socials/socials.selectors";
-import { getSubscriptionsStart } from "../../redux/socials/socials.actions";
+} from '../../../redux/socials/socials.selectors';
+import { getSubscriptionsStart } from '../../../redux/socials/socials.actions';
 
 const Subscriptions = () => {
   const dispatch = useDispatch();

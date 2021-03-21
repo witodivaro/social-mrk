@@ -1,23 +1,27 @@
-import "./messages-page.styles.scss";
-import React, { useState } from "react";
+import './messages-page.styles.scss';
+import React from 'react';
+import UserActionsAPI from '../../apis/user-actions/api';
+import { Switch, Route } from 'react-router';
+import DialogueList from '../../components/Messages/dialogue-list/dialogue-list.component';
+import Dialogue from '../../components/Messages/dialogue/dialogue.component';
 
 const MessagesPage = () => {
-  const [message, setMessage] = useState("");
-
   const sendMessageHandler = (e) => {
     e.preventDefault();
-  };
 
-  const inputChangeHandler = (e) => {
-    console.log(e);
+    UserActionsAPI.messages({
+      id: 15,
+      message: 'asd',
+    });
   };
 
   return (
-    <div className="messages">
-      <form onSubmit={sendMessageHandler}>
-        <input type="text" onChange={inputChangeHandler} />
-        <button type="submit">Send</button>
-      </form>
+    <div className="messages-page">
+      <Switch>
+        <Route exact path="/messages" component={DialogueList} />
+        <Route exact path="/messages/:userId" component={Dialogue} />
+      </Switch>
+      <button onClick={sendMessageHandler}>asd</button>
     </div>
   );
 };

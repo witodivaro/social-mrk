@@ -1,0 +1,7 @@
+.dialogue {
+  &__messages {
+    display: flex;
+
+    flex-direction: column;
+  }
+}

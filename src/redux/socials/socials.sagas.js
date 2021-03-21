@@ -1,8 +1,9 @@
-import { all, call, put, takeLatest, select } from "redux-saga/effects";
-import UserActionsAPI from "../../apis/user-actions/api";
-import { getHandledNetworkErrors } from "../user/user.sagas";
-import * as SocialsActions from "./socials.actions";
-import SocialsActionTypes from "./socials.types";
+import { all, call, put, takeLatest, select } from 'redux-saga/effects';
+import UserActionsAPI from '../../apis/user-actions/api';
+import { getHandledNetworkErrors } from '../user/user.sagas';
+import * as SocialsActions from './socials.actions';
+import * as UserActions from '../user/user.actions';
+import SocialsActionTypes from './socials.types';
 
 function* getFriends({ payload }) {
   try {
@@ -44,12 +45,11 @@ function* getSubscriptions({ payload }) {
   }
 }
 
-function* changeLocalSocials({ payload }) {
+function* updateSocials({ payload }) {
   if (payload.acceptRequest || payload.rejectRequest) {
     yield put(SocialsActions.removeFriendRequest(payload.id));
-    yield put;
-  } else if (payload.removeFriend) {
   }
+  yield put(UserActions.getCurrentUserStart());
 }
 
 function* onGetFriendsStart() {
@@ -71,10 +71,7 @@ function* onGetSubscriptionsStart() {
 }
 
 function* onManageFriendsSuccess() {
-  yield takeLatest(
-    SocialsActionTypes.MANAGE_FRIENDS_SUCCESS,
-    changeLocalSocials
-  );
+  yield takeLatest(SocialsActionTypes.MANAGE_FRIENDS_SUCCESS, updateSocials);
 }
 
 function* manageFriends({ payload }) {

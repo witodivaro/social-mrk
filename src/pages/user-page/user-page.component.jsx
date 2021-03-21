@@ -1,28 +1,28 @@
-import "./user-page.styles.scss";
+import './user-page.styles.scss';
 
-import React, { useCallback, useEffect, useMemo } from "react";
-import CustomButton from "../../components/custom-button/custom-button.component";
+import React, { useCallback, useEffect, useMemo } from 'react';
+import CustomButton from '../../components/custom-button/custom-button.component';
 
-import UserAvatar from "../../components/user-components/user-avatar/user-avatar.component";
-import UserFriends from "../../components/user-components/user-friends/user-friends.component";
-import { useDispatch, useSelector } from "react-redux";
-import { selectCurrentUser } from "../../redux/user/user.selectors";
+import UserAvatar from '../../components/User/user-avatar/user-avatar.component';
+import UserFriends from '../../components/user-components/user-friends/user-friends.component';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
 import {
   selectAvatarModalShown,
   selectUserPageErrors,
   selectUserPageState,
   selectUserPageUser,
-} from "../../redux/user-page/user-page.selectors";
+} from '../../redux/user-page/user-page.selectors';
 import {
   getUserStart,
   setUserPageUser,
-} from "../../redux/user-page/user-page.actions";
-import { CHANGE_USER_STATES, GET_USER_STATES } from "../../config/user-states";
-import { ReactComponent as LoadingIndicator } from "../../assets/images/loader.svg";
-import UserAvatarPickerModal from "../../components/user-components/user-avatar-picker-modal/user-avatar-picker-modal.component";
-import UserStatus from "../../components/user-components/user-status/user-status.component";
-import PageNotFound from "../../components/page-not-found/page-not-found.component";
-import { manageFriendsStart } from "../../redux/socials/socials.actions";
+} from '../../redux/user-page/user-page.actions';
+import { CHANGE_USER_STATES, GET_USER_STATES } from '../../config/user-states';
+import { ReactComponent as LoadingIndicator } from '../../assets/images/loader.svg';
+import UserAvatarPickerModal from '../../components/user-components/user-avatar-picker-modal/user-avatar-picker-modal.component';
+import UserStatus from '../../components/user-components/user-status/user-status.component';
+import PageNotFound from '../../components/page-not-found/page-not-found.component';
+import { manageFriendsStart } from '../../redux/socials/socials.actions';
 
 const UserPage = ({ match }) => {
   const dispatch = useDispatch();

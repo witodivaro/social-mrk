@@ -1,7 +1,7 @@
 import './users-list.styles.scss';
 
 import React, { useMemo } from 'react';
-import UserPreview from '../user-preview/user-preview.component';
+import UserPreview from '../User/user-preview/user-preview.component';
 
 const UsersList = ({ users, friendRequests, title, emptyMessage, errors }) => {
   const renderedUsers = useMemo(() => {

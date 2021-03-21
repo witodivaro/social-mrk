@@ -1,9 +1,9 @@
-import axios from "axios";
-import { store } from "../redux/store";
+import axios from 'axios';
+import { store } from '../redux/store';
 
 const fetchClient = () => {
   const socialMrk = axios.create({
-    baseURL: "https://5f46dbea9264.ngrok.io",
+    baseURL: 'https://fa6e607ebbdd.ngrok.io',
   });
 
   socialMrk.interceptors.request.use((config) => {
