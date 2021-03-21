@@ -29,13 +29,19 @@ const Dialogue = ({ match }) => {
 
   const renderedMessages = useMemo(
     () =>
-      messages.map((message, index) => (
-        <Message
-          key={`message ${index}`}
-          message={message}
-          isMine={message.from == currentUserId}
-        />
-      )),
+      messages.length > 0 ? (
+        messages.map((message, index) => (
+          <Message
+            key={`message ${index}`}
+            message={message}
+            isMine={message.from == currentUserId}
+          />
+        ))
+      ) : (
+        <p className="dialogue__no-messages">
+          Начните вашу историю, отправив первое сообщение!
+        </p>
+      ),
     [messages, currentUserId]
   );
 

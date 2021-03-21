@@ -76,4 +76,12 @@
   &__send-button {
     background: none;
   }
+
+  &__no-messages {
+    margin: 0;
+    margin-bottom: 20px;
+
+    text-align: center;
+    color: $dark;
+  }
 }
