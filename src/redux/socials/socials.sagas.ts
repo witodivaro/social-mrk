@@ -132,7 +132,7 @@ function* rejectFriendRequest({
     yield socialMrkAPI.rejectFriendRequest(id);
     yield put(SocialsActions.rejectFriendRequestLocal(id));
 
-    yield put(SocialsActions.acceptFriendRequestSuccess());
+    yield put(SocialsActions.rejectFriendRequestSuccess());
   } catch (error) {
     const handledNetworkErrors = getHandledNetworkErrors(error);
 

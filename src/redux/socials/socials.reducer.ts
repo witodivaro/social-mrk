@@ -92,6 +92,7 @@ const socialsReducer = (state = initialState, { type, payload }: AnyAction) => {
     case SocialsActionTypes.GET_SUBSCRIPTIONS_SUCCESS:
       return {
         ...state,
+        subscriptions: payload.subscriptions,
         getSubscriptionsState: GET_SUBSCRIPTIONS_STATES.SUCCESS,
         getSubscriptionsError: null,
       };
