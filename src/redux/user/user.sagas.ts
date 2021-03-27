@@ -1,7 +1,7 @@
 import { AxiosPromise, AxiosResponse } from 'axios';
+import { AnyAction } from 'redux';
 import { takeLatest, put, all, call, StrictEffect } from 'redux-saga/effects';
 import socialMrkAPI from '../../apis/social-mrk.api';
-
 import { ERROR_CONFIG } from '../../config/errors';
 import { Error } from '../../types/Error';
 import {
@@ -14,9 +14,9 @@ import { ChangeUserStartAction } from '../../types/redux/user/ChangeUserStart';
 import { SignInStartAction } from '../../types/redux/user/SignInStart';
 import { SignUpStartAction } from '../../types/redux/user/SignUpStart';
 import { User } from '../../types/redux/user/User';
-
 import * as UserActions from './user.actions';
 import { UserActionTypes } from './user.types';
+import imageCompression from 'browser-image-compression';
 
 export function getHandledNetworkErrors(error: Error): HandledNetworkError {
   const errors: HandledNetworkError = {
@@ -187,6 +187,37 @@ function* changeUser({
   }
 }
 
+function* compressAndChangeUserAvatar(
+  action: AnyAction
+): Generator<any, void, any> {
+  const { imageFile } = action.payload;
+
+  const COMPRESS_OPTIONS = {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 640,
+    useWebWorker: true,
+  };
+
+  try {
+    const compressedFile = yield imageCompression(imageFile, COMPRESS_OPTIONS);
+    const reader = new FileReader();
+
+    const image = yield new Promise((resolve) => {
+      reader.onload = () => resolve(reader.result);
+
+      reader.readAsDataURL(compressedFile);
+    });
+
+    yield put(
+      UserActions.changeUserStart({
+        image,
+      })
+    );
+  } catch (e) {
+    console.log('Error occurred on image compress.', e);
+  }
+}
+
 function* onSignUpStart() {
   yield takeLatest(UserActionTypes.SIGN_UP_START, signUp);
 }
@@ -203,11 +234,19 @@ function* onChangeUserStart() {
   yield takeLatest(UserActionTypes.CHANGE_USER_START, changeUser);
 }
 
+function* onCompressAndChangeUserAvatar() {
+  yield takeLatest(
+    UserActionTypes.COMPRESS_AND_CHANGE_USER_AVATAR,
+    compressAndChangeUserAvatar
+  );
+}
+
 export default function* userSagas() {
   yield all([
     call(onSignUpStart),
     call(onSignInStart),
     call(onGetCurrentUserStart),
     call(onChangeUserStart),
+    call(onCompressAndChangeUserAvatar),
   ]);
 }

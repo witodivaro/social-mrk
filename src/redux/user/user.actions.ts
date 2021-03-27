@@ -79,3 +79,8 @@ export const updateCurrentUser = (updatedData: UserUpdate) => ({
   type: UserActionTypes.UPDATE_CURRENT_USER,
   payload: updatedData,
 });
+
+export const compressAndChangeUserAvatar = (imageFile: any) => ({
+  type: UserActionTypes.COMPRESS_AND_CHANGE_USER_AVATAR,
+  payload: { imageFile },
+});
