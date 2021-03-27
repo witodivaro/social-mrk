@@ -1,6 +1,7 @@
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect';
+import { RootState } from '../store';
 
-const selectSocials = (state) => state.socials;
+const selectSocials = (state: RootState) => state.socials;
 
 export const selectFriends = createSelector(
   selectSocials,

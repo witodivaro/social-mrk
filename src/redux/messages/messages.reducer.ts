@@ -1,4 +1,5 @@
-import MessageActionTypes from './messages.types';
+import { AnyAction } from 'redux';
+import { MessageActionTypes } from './messages.types';
 
 const mockDialogues = {
   1: {
@@ -106,7 +107,10 @@ const initialState = {
   dialogues: mockDialogues,
 };
 
-const messagesReducer = (state = initialState, { type, payload }) => {
+const messagesReducer = (
+  state = initialState,
+  { type, payload }: AnyAction
+) => {
   switch (type) {
     default:
       return state;

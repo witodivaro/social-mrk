@@ -1,3 +1,4 @@
+import { AnyAction } from 'redux';
 import { GET_USER_STATES } from '../../config/user-states';
 import UserPageActionTypes from './user-page.types';
 
@@ -8,7 +9,10 @@ const initialState = {
   avatarModalShown: false,
 };
 
-const userPageReducer = (state = initialState, { payload, type }) => {
+const userPageReducer = (
+  state = initialState,
+  { payload, type }: AnyAction
+) => {
   switch (type) {
     case UserPageActionTypes.GET_USER_START:
       return {

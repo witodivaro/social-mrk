@@ -1,0 +1,123 @@
+import {
+  UserFriend,
+  UserFriendRequest,
+  UserSubscription,
+} from '../../types/redux/user/User';
+import { SocialsActionTypes } from './socials.types';
+
+export const getFriendsStart = (id: number) => ({
+  type: SocialsActionTypes.GET_FRIENDS_START,
+  payload: { id },
+});
+
+export const getFriendsSuccess = (friends: UserFriend[]) => ({
+  type: SocialsActionTypes.GET_FRIENDS_SUCCESS,
+  payload: { friends },
+});
+
+export const getFriendsFailure = (errors: string) => ({
+  type: SocialsActionTypes.GET_FRIENDS_FAILURE,
+  payload: { errors },
+});
+
+export const getFriendRequestsStart = () => ({
+  type: SocialsActionTypes.GET_FRIEND_REQUESTS_START,
+});
+
+export const getFriendRequestsSuccess = (
+  friendRequests: UserFriendRequest[]
+) => ({
+  type: SocialsActionTypes.GET_FRIEND_REQUESTS_SUCCESS,
+  payload: { friendRequests },
+});
+
+export const getFriendRequestsFailure = (errors: string) => ({
+  type: SocialsActionTypes.GET_FRIEND_REQUESTS_FAILURE,
+  payload: { errors },
+});
+
+export const getSubscriptionsStart = (id: number) => ({
+  type: SocialsActionTypes.GET_SUBSCRIPTIONS_START,
+  payload: { id },
+});
+
+export const getSubscriptionsSuccess = (subscriptions: UserSubscription[]) => ({
+  type: SocialsActionTypes.GET_SUBSCRIPTIONS_SUCCESS,
+  payload: { subscriptions },
+});
+
+export const getSubscriptionsFailure = (errors: string) => ({
+  type: SocialsActionTypes.GET_SUBSCRIPTIONS_FAILURE,
+  payload: { errors },
+});
+
+export const rejectFriendRequestLocal = (id: number) => ({
+  type: SocialsActionTypes.REJECT_FRIEND_REQUEST_LOCAL,
+  payload: { id },
+});
+
+export const rejectFriendRequestStart = (id: number) => ({
+  type: SocialsActionTypes.REJECT_FRIEND_REQUEST_START,
+  payload: { id },
+});
+
+export const rejectFriendRequestSuccess = () => ({
+  type: SocialsActionTypes.REJECT_FRIEND_REQUEST_SUCCESS,
+});
+
+export const rejectFriendRequestFailure = (error: string) => ({
+  type: SocialsActionTypes.REJECT_FRIEND_REQUEST_FAILURE,
+  payload: error,
+});
+
+export const acceptFriendRequestLocal = (id: number) => ({
+  type: SocialsActionTypes.ACCEPT_FRIEND_REQUEST_LOCAL,
+  payload: { id },
+});
+
+export const acceptFriendRequestStart = (id: number) => ({
+  type: SocialsActionTypes.ACCEPT_FRIEND_REQUEST_START,
+  payload: { id },
+});
+
+export const acceptFriendRequestSuccess = () => ({
+  type: SocialsActionTypes.ACCEPT_FRIEND_REQUEST_SUCCESS,
+});
+
+export const acceptFriendRequestFailure = (error: string) => ({
+  type: SocialsActionTypes.ACCEPT_FRIEND_REQUEST_FAILURE,
+  payload: error,
+});
+
+export const removeFriendStart = (id: number) => ({
+  type: SocialsActionTypes.REMOVE_FRIEND_START,
+  payload: { id },
+});
+
+export const removeFriendLocal = (id: number) => ({
+  type: SocialsActionTypes.REMOVE_FRIEND_START,
+  payload: { id },
+});
+
+export const removeFriendSuccess = () => ({
+  type: SocialsActionTypes.REMOVE_FRIEND_SUCCESS,
+});
+
+export const removeFriendFailure = (error: string) => ({
+  type: SocialsActionTypes.REMOVE_FRIEND_FAILURE,
+  payload: error,
+});
+
+export const addFriendStart = (id: number) => ({
+  type: SocialsActionTypes.ADD_FRIEND_START,
+  payload: { id },
+});
+
+export const addFriendSuccess = () => ({
+  type: SocialsActionTypes.ADD_FRIEND_SUCCESS,
+});
+
+export const addFriendFailure = (error: string) => ({
+  type: SocialsActionTypes.ADD_FRIEND_FAILURE,
+  payload: error,
+});

@@ -3,9 +3,11 @@ import UserActionsAPI from '../../apis/user-actions/api';
 import { getHandledNetworkErrors } from '../user/user.sagas';
 import * as SocialsActions from './socials.actions';
 import * as UserActions from '../user/user.actions';
-import SocialsActionTypes from './socials.types';
+import { SocialsActionTypes } from './socials.types';
+import type { GetFriendsStartAction } from '../../types/redux/socials/GetFriendsStart';
+import { GetSubscriptionsStartAction } from '../../types/redux/socials/GetSubscriptionsStart';
 
-function* getFriends({ payload }) {
+function* getFriends({ payload }: GetFriendsStartAction) {
   try {
     const { id } = payload;
     const response = yield UserActionsAPI.getFriends(id);
@@ -30,7 +32,7 @@ function* getFriendRequests() {
   }
 }
 
-function* getSubscriptions({ payload }) {
+function* getSubscriptions({ payload }: GetSubscriptionsStartAction) {
   try {
     const { id } = payload;
     const response = yield UserActionsAPI.getSubscriptions(id);
@@ -43,13 +45,6 @@ function* getSubscriptions({ payload }) {
 
     yield put(SocialsActions.getSubscriptionsFailure(handledErrors));
   }
-}
-
-function* updateSocials({ payload }) {
-  if (payload.acceptRequest || payload.rejectRequest) {
-    yield put(SocialsActions.removeFriendRequest(payload.id));
-  }
-  yield put(UserActions.getCurrentUserStart());
 }
 
 function* onGetFriendsStart() {
@@ -70,25 +65,13 @@ function* onGetSubscriptionsStart() {
   );
 }
 
-function* onManageFriendsSuccess() {
-  yield takeLatest(SocialsActionTypes.MANAGE_FRIENDS_SUCCESS, updateSocials);
-}
-
 function* manageFriends({ payload }) {
   try {
-    const {
-      id,
-      acceptRequest,
-      rejectRequest,
-      addFriend,
-      removeFriend,
-    } = yield payload;
+    const { id, rejectRequest, removeFriend } = yield payload;
 
     yield UserActionsAPI.manageFriends({
       id,
-      acceptRequest,
       rejectRequest,
-      addFriend,
       removeFriend,
     });
 
@@ -118,6 +101,5 @@ export default function* socialsSagas() {
     call(onGetSubscriptionsStart),
     call(onGetFriendRequestsStart),
     call(onManageFriendsStart),
-    call(onManageFriendsSuccess),
   ]);
 }

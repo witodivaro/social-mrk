@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
+import { RootState } from '../store';
 
-const selectUserPage = (state) => state.userPage;
+const selectUserPage = (state: RootState) => state.userPage;
 
 export const selectUserPageUser = createSelector(
   selectUserPage,

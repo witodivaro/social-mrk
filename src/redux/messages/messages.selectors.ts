@@ -1,6 +1,7 @@
 import { createSelector, defaultMemoize } from 'reselect';
+import { RootState } from '../store';
 
-const selectMessages = (state) => state.messages;
+const selectMessages = (state: RootState) => state.messages;
 
 const selectDialogues = createSelector(
   selectMessages,
@@ -11,6 +12,6 @@ export const selectDialoguesList = createSelector(selectMessages, (dialogues) =>
   Object.values(dialogues)
 );
 
-export const createDialogueByIdSelector = defaultMemoize((id) =>
+export const createDialogueByIdSelector = defaultMemoize((id: number) =>
   createSelector(selectDialogues, (dialogues) => dialogues[id])
 );

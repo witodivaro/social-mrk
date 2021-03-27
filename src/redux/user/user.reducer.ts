@@ -1,32 +1,50 @@
-import UserActionTypes from "./user.types";
-import { persistReducer } from "redux-persist";
-import localStorage from "redux-persist/lib/storage";
+import { UserActionTypes } from './user.types';
+import { persistReducer } from 'redux-persist';
+import localStorage from 'redux-persist/lib/storage';
 import {
   CHANGE_USER_STATES,
   SIGN_IN_STATES,
   SIGN_UP_STATES,
-} from "../../config/user-states";
+} from '../../config/user-states';
+import { AnyAction } from 'redux';
+import type { User } from '../../types/redux/user/User';
+import {
+  HandledChangeUserErrors,
+  HandledSignInErrors,
+  HandledSignUpErrors,
+} from '../../types/HandledErrors';
 
-const initialState = {
+interface UserState {
+  currentUser: User | null;
+  token: string;
+  signInErrors: HandledSignInErrors | null;
+  signUpErrors: HandledSignUpErrors | null;
+  changeUserErrors: HandledChangeUserErrors | null;
+  signUpState: string;
+  signInState: string;
+  changeUserState: string;
+}
+
+const initialState: UserState = {
   currentUser: null,
-  token: "",
+  token: '',
   signInErrors: null,
   signUpErrors: null,
   changeUserErrors: null,
-  signUpState: "",
-  signInState: "",
-  changeUserState: "",
+  signUpState: '',
+  signInState: '',
+  changeUserState: '',
 };
 
-const userReducer = (state = initialState, { type, payload }) => {
+const userReducer = (state = initialState, { type, payload }: AnyAction) => {
   switch (type) {
     case UserActionTypes.SIGN_OUT:
       return {
         ...state,
-        token: "",
+        token: '',
         currentUser: null,
-        signUpState: "",
-        signInState: "",
+        signUpState: '',
+        signInState: '',
       };
 
     case UserActionTypes.SIGN_UP_START:
@@ -115,9 +133,9 @@ const userReducer = (state = initialState, { type, payload }) => {
 };
 
 const persistConfig = {
-  key: "token",
+  key: 'token',
   storage: localStorage,
-  whitelist: ["token", "currentUser"],
+  whitelist: ['token', 'currentUser'],
 };
 
 export default persistReducer(persistConfig, userReducer);
