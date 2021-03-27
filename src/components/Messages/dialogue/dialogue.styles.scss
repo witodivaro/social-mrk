@@ -57,7 +57,7 @@
   &__messages-wrapper {
     margin-top: 10px;
     height: calc(100vh - 41px - 61px - 35px - 75px);
-    overflow-y: scroll;
+    overflow-y: auto;
 
     display: flex;
     flex-direction: column;
