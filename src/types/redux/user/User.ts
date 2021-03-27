@@ -1,3 +1,5 @@
+import { USER_RELATIONS } from '../../../config/user-relations';
+
 export interface UserFriend {
   id: number;
   image: string;
@@ -24,6 +26,7 @@ export interface User {
   image: string;
   friends: UserFriend[];
   subscriptions: UserSubscription[];
+  relations?: keyof USER_RELATIONS;
 }
 
 export interface UserUpdate {

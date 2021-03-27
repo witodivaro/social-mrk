@@ -1,4 +1,4 @@
-@import "../../../styles/colors";
+@import '../../../styles/colors';
 
 .friends {
   &__item {
@@ -45,5 +45,10 @@
   &__actions {
     margin-right: 5px;
     flex-shrink: 0;
+  }
+
+  &__action {
+    padding: 5px;
+    font-size: 18px;
   }
 }

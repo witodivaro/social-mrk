@@ -1,6 +1,5 @@
 import './user-page.styles.scss';
-
-import React, { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import CustomButton from '../../components/custom-button/custom-button.component';
 
 import UserAvatar from '../../components/User/user-avatar/user-avatar.component';
@@ -25,6 +24,7 @@ import { addFriendStart } from '../../redux/socials/socials.actions';
 import { RouteComponentProps } from 'react-router';
 import AddToFriendsButton from '../../components/Interactive/add-to-friends-button/add-to-friends-button.component';
 import { FETCH_STATES } from '../../config/fetch-states';
+import { USER_RELATIONS } from '../../config/user-relations';
 
 type MatchParams = { userId?: string };
 
@@ -69,22 +69,36 @@ const UserPage = ({ match }: UserPageProps) => {
     dispatch(addFriendStart(+userId));
   }, [userId, dispatch, addFriendStart]);
 
-  const renderedActions = useMemo(() => {
-    return isCurrentUser ? (
-      <CustomButton className="user-page__action">
-        Редактировать профиль
-      </CustomButton>
-    ) : (
-      <>
-        <CustomButton inverted className="user-page__action">
-          Отправить сообщение
+  const renderedActions = useMemo((): JSX.Element | null => {
+    if (isCurrentUser) {
+      return (
+        <CustomButton className="user-page__action">
+          Редактировать профиль
         </CustomButton>
-        <AddToFriendsButton id={userId} inverted className="user-page__action">
-          Добавить в друзья
-        </AddToFriendsButton>
-      </>
-    );
-  }, [isCurrentUser, addToFriendsHandler]);
+      );
+    }
+
+    if (userPageUser) {
+      return (
+        <>
+          <CustomButton inverted className="user-page__action">
+            Отправить сообщение
+          </CustomButton>
+          <AddToFriendsButton
+            successText="Заявка отправлена"
+            id={userId}
+            inverted
+            className="user-page__action"
+            isSent={userPageUser.relations === USER_RELATIONS.REQUEST}
+          >
+            Добавить в друзья
+          </AddToFriendsButton>
+        </>
+      );
+    }
+
+    return null;
+  }, [isCurrentUser, userPageUser, userId, addToFriendsHandler]);
 
   const renderedStatus = useMemo(
     () => <UserStatus status={userPageUser?.status} editable={isCurrentUser} />,

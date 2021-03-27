@@ -1,12 +1,18 @@
 import './user-friends.styles.scss';
-import React, { useState } from 'react';
-import UserFriend from '../user-friend/user-friend.component';
+import { useState } from 'react';
 import CustomButton from '../../custom-button/custom-button.component';
+import { UserFriend as UserFriendType } from '../../../types/redux/user/User';
+import UserFriend from '../user-friend/user-friend.component';
 
 const SHOWN_FRIENDS_COUNT = 5;
 const TABLET_WIDTH = 700;
 
-const UserFriends = ({ friends, className }) => {
+interface UserFriendsProps {
+  friends: UserFriendType[];
+  className?: string;
+}
+
+const UserFriends = ({ friends, className }: UserFriendsProps) => {
   const [showFriends, setShowFriends] = useState(false);
   const [shownFriendsCount, setShownFriendsCount] = useState(
     SHOWN_FRIENDS_COUNT
@@ -23,7 +29,7 @@ const UserFriends = ({ friends, className }) => {
     return null;
   }
 
-  const renderFriends = (friendsCount) =>
+  const renderFriends = (friendsCount: number): JSX.Element[] =>
     friends
       .slice(0, friendsCount)
       .map((user) => <UserFriend key={`UF${user.id}`} user={user} />);

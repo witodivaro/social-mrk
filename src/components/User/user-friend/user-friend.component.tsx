@@ -1,5 +1,5 @@
 import './user-friend.styles.scss';
-import { useMemo, MouseEvent } from 'react';
+import { useMemo, MouseEvent, useState, useEffect } from 'react';
 import CustomButton from '../../custom-button/custom-button.component';
 import { ReactComponent as NoAvatar } from '../../../assets/images/no-avatar.svg';
 import { Link } from 'react-router-dom';
@@ -10,6 +10,8 @@ import {
   removeFriendStart,
 } from '../../../redux/socials/socials.actions';
 import { UserFriend as UserFriendType } from '../../../types/redux/user/User';
+import AddToFriendsButton from '../../Interactive/add-to-friends-button/add-to-friends-button.component';
+import { FaTimes, FaUserPlus } from 'react-icons/fa';
 
 interface UserFriendsProps {
   user: UserFriendType;
@@ -51,13 +53,20 @@ const UserFriend = ({ user }: UserFriendsProps) => {
     }
 
     if (isFriend) {
-      return <CustomButton onClick={removeFromFriendsHandler}>-</CustomButton>;
+      return (
+        <CustomButton
+          className="friends__action"
+          onClick={removeFromFriendsHandler}
+        >
+          <FaTimes />
+        </CustomButton>
+      );
     }
 
     return (
-      <CustomButton inverted onClick={addToFriendsHandler}>
-        +
-      </CustomButton>
+      <AddToFriendsButton className="friends__action" id={id} inverted>
+        <FaUserPlus />
+      </AddToFriendsButton>
     );
   }, [
     isFriend,
