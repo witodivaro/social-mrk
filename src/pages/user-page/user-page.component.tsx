@@ -22,9 +22,14 @@ import { ReactComponent as LoadingIndicator } from '../../assets/images/loader.s
 import UserAvatarPickerModal from '../../components/User/user-avatar-picker-modal/user-avatar-picker-modal.component';
 import UserStatus from '../../components/User/user-status/user-status.component';
 import PageNotFound from '../../components/page-not-found/page-not-found.component';
-import { manageFriendsStart } from '../../redux/socials/socials.actions';
+import { addFriendStart } from '../../redux/socials/socials.actions';
+import { RouteComponentProps } from 'react-router';
 
-const UserPage = ({ match }) => {
+type MatchParams = { userId?: string };
+
+interface UserPageProps extends RouteComponentProps<MatchParams> {}
+
+const UserPage = ({ match }: UserPageProps) => {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
   const userPageUser = useSelector(selectUserPageUser);
@@ -34,16 +39,19 @@ const UserPage = ({ match }) => {
 
   const { userId } = match.params;
 
-  const isCurrentUser = useMemo(
-    () => (currentUser && currentUser.id === +userId) || +userId === 0,
-    [currentUser, userId]
-  );
+  const isCurrentUser = useMemo(() => {
+    if (!userId || !currentUser) return false;
+
+    return currentUser.id === +userId || +userId === 0;
+  }, [currentUser, userId]);
 
   useEffect(() => {
+    if (!userId) return;
+
     if (currentUser?.id === +userId) {
       dispatch(setUserPageUser(currentUser));
     } else {
-      dispatch(getUserStart(userId));
+      dispatch(getUserStart(+userId));
     }
   }, [
     dispatch,
@@ -55,8 +63,10 @@ const UserPage = ({ match }) => {
   ]);
 
   const addToFriendsHandler = useCallback(() => {
-    dispatch(manageFriendsStart({ id: userId, addFriend: true }));
-  }, [userId, dispatch, manageFriendsStart]);
+    if (!userId) return;
+
+    dispatch(addFriendStart(+userId));
+  }, [userId, dispatch, addFriendStart]);
 
   const renderedActions = useMemo(() => {
     return isCurrentUser ? (

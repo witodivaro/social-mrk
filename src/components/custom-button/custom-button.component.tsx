@@ -1,6 +1,18 @@
 import './custom-button.styles.scss';
 
-const CustomButton = ({ className, children, inverted, ...props }) => {
+interface CustomButtonProps {
+  className?: string;
+  children?: JSX.Element | string;
+  inverted?: boolean;
+  [key: string]: any;
+}
+
+const CustomButton = ({
+  className,
+  children,
+  inverted,
+  ...props
+}: CustomButtonProps) => {
   return (
     <button
       className={`custom-button ${className || ''} ${

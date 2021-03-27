@@ -1,29 +1,37 @@
-import "./user-friend.styles.scss";
-import React, { useMemo, useRef } from "react";
-import CustomButton from "../../custom-button/custom-button.component";
-import { ReactComponent as NoAvatar } from "../../../assets/images/no-avatar.svg";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { selectCurrentUserId } from "../../../redux/user/user.selectors";
-import { manageFriendsStart } from "../../../redux/socials/socials.actions";
+import './user-friend.styles.scss';
+import { useMemo, MouseEvent } from 'react';
+import CustomButton from '../../custom-button/custom-button.component';
+import { ReactComponent as NoAvatar } from '../../../assets/images/no-avatar.svg';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCurrentUserId } from '../../../redux/user/user.selectors';
+import {
+  addFriendStart,
+  removeFriendStart,
+} from '../../../redux/socials/socials.actions';
+import { UserFriend as UserFriendType } from '../../../types/redux/user/User';
 
-const UserFriend = ({ user }) => {
+interface UserFriendsProps {
+  user: UserFriendType;
+}
+
+const UserFriend = ({ user }: UserFriendsProps) => {
   const { id, image, username, isFriend } = user;
   const dispatch = useDispatch();
   const currentUserId = useSelector(selectCurrentUserId);
 
-  const addToFriendsHandler = (e) => {
+  const addToFriendsHandler = (e: MouseEvent): void => {
     e.preventDefault();
-    dispatch(manageFriendsStart({ id, addFriend: true }));
+    dispatch(addFriendStart(id));
   };
 
-  const removeFromFriendsHandler = (e) => {
+  const removeFromFriendsHandler = (e: MouseEvent): void => {
     e.preventDefault();
-    dispatch(manageFriendsStart({ id, removeFriend: true }));
+    dispatch(removeFriendStart(id));
   };
 
   const renderedUserAvatar = useMemo(
-    () =>
+    (): JSX.Element =>
       image ? (
         <p
           className="friends__avatar"
@@ -37,7 +45,7 @@ const UserFriend = ({ user }) => {
     [user]
   );
 
-  const renderedAction = useMemo(() => {
+  const renderedAction = useMemo((): JSX.Element | null => {
     if (currentUserId === id) {
       return null;
     }

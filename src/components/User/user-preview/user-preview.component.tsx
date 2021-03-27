@@ -1,24 +1,33 @@
 import './user-preview.styles.scss';
-import React, { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { ReactComponent as NoAvatar } from '../../../assets/images/no-avatar.svg';
 import { Link } from 'react-router-dom';
 import CustomButton from '../../custom-button/custom-button.component';
 import { useDispatch } from 'react-redux';
 import { FaTimes, FaCheck } from 'react-icons/fa';
-import { manageFriendsStart } from '../../../redux/socials/socials.actions';
+import {
+  addFriendStart,
+  removeFriendStart,
+} from '../../../redux/socials/socials.actions';
+import { User } from '../../../types/redux/user/User';
 
-const UserPreview = ({ user, isFriendRequest }) => {
+interface UserPreviewProps {
+  user: User;
+  isFriendRequest: boolean;
+}
+
+const UserPreview = ({ user, isFriendRequest }: UserPreviewProps) => {
   const { image, username, id } = user;
   const dispatch = useDispatch();
 
-  const acceptFriendHandler = (e) => {
+  const acceptFriendHandler = (e: MouseEvent) => {
     e.preventDefault();
-    dispatch(manageFriendsStart({ id, acceptRequest: true }));
+    dispatch(addFriendStart(id));
   };
 
-  const rejectFriendHandler = (e) => {
+  const rejectFriendHandler = (e: MouseEvent) => {
     e.preventDefault();
-    dispatch(manageFriendsStart({ id, rejectRequest: true }));
+    dispatch(removeFriendStart(id));
   };
 
   const renderedUserAvatar = useMemo(
@@ -36,7 +45,7 @@ const UserPreview = ({ user, isFriendRequest }) => {
     [image]
   );
 
-  const renderActions = useCallback(() => {
+  const renderActions = useCallback((): JSX.Element | null => {
     if (isFriendRequest) {
       return (
         <>
@@ -59,6 +68,8 @@ const UserPreview = ({ user, isFriendRequest }) => {
         </>
       );
     }
+
+    return null;
   }, [isFriendRequest]);
 
   return (

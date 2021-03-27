@@ -2,6 +2,7 @@ export interface UserFriend {
   id: number;
   image: string;
   username: string;
+  isFriend?: boolean;
 }
 
 export interface UserSubscription {
