@@ -1,14 +1,6 @@
-import {
-  all,
-  call,
-  put,
-  takeLatest,
-  select,
-  StrictEffect,
-} from 'redux-saga/effects';
+import { all, call, put, takeLatest, StrictEffect } from 'redux-saga/effects';
 import { getHandledNetworkErrors } from '../user/user.sagas';
 import * as SocialsActions from './socials.actions';
-import * as UserActions from '../user/user.actions';
 import { SocialsActionTypes } from './socials.types';
 import type { GetFriendsStartAction } from '../../types/redux/socials/GetFriendsStart';
 import { GetSubscriptionsStartAction } from '../../types/redux/socials/GetSubscriptionsStart';
@@ -83,6 +75,7 @@ function* addFriend({
   try {
     const { id } = payload;
     const response = yield socialMrkAPI.addToFriends(id);
+    yield put(SocialsActions.addFriendLocal(id));
 
     yield put(SocialsActions.addFriendSuccess());
   } catch (error) {

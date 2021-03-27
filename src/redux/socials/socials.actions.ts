@@ -114,6 +114,11 @@ export const addFriendStart = (id: number) => ({
   payload: { id },
 });
 
+export const addFriendLocal = (id: number) => ({
+  type: SocialsActionTypes.ADD_FRIEND_LOCAL,
+  payload: { id },
+});
+
 export const addFriendSuccess = () => ({
   type: SocialsActionTypes.ADD_FRIEND_SUCCESS,
 });
