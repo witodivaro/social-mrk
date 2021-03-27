@@ -1,13 +1,20 @@
 import './user-avatar-picker-modal.scss';
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { FaImage, FaTimes } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { toggleAvatarModalShown } from '../../../redux/user-page/user-page.actions';
 import { changeUserStart } from '../../../redux/user/user.actions';
+import imageCompression from 'browser-image-compression';
+
+const COMPRESS_OPTIONS = {
+  maxSizeMB: 1,
+  maxWidthOrHeight: 640,
+  useWebWorker: true,
+};
 
 const UserAvatarPickerModal = () => {
-  const inputRef = useRef();
+  const inputRef = useRef(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,7 +25,7 @@ const UserAvatarPickerModal = () => {
     };
   }, []);
 
-  const imageChangeHandler = (e) => {
+  const imageChangeHandler = (e: any) => {
     const reader = new FileReader();
 
     reader.onload = async () => {
@@ -30,7 +37,22 @@ const UserAvatarPickerModal = () => {
       dispatch(toggleAvatarModalShown());
     };
 
-    reader.readAsDataURL(e.target.files[0]);
+    const imageFile = e.target.files[0];
+
+    const compressImage = async () => {
+      try {
+        const compressedFile = await imageCompression(
+          imageFile,
+          COMPRESS_OPTIONS
+        );
+
+        reader.readAsDataURL(compressedFile);
+      } catch (e) {
+        console.log('Error occurred on image compress.', e);
+      }
+    };
+
+    compressImage();
   };
 
   const toggleAvatarModalHandler = () => {

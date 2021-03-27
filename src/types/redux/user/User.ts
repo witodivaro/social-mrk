@@ -23,7 +23,7 @@ export interface User {
   id: number;
   username: string;
   status: string;
-  image: string;
+  image: string | null;
   friends: UserFriend[];
   subscriptions: UserSubscription[];
   relations?: keyof USER_RELATIONS;
@@ -32,7 +32,7 @@ export interface User {
 export interface UserUpdate {
   username?: string;
   status?: string;
-  image?: string | null;
+  image?: ArrayBuffer | string | null;
   friends?: UserFriend[];
   subscriptions?: UserSubscription[];
 }
