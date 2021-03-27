@@ -42,7 +42,9 @@ const UsersList = ({
 
   const renderedTitle = useMemo(
     () =>
-      users.length > 0 ? <h2 className="users-list__title">{title}</h2> : null,
+      users.length > 0 && !errors ? (
+        <h2 className="users-list__title">{title}</h2>
+      ) : null,
     [users, title]
   );
 

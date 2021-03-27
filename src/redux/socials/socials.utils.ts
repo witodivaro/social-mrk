@@ -1,30 +1,30 @@
-import { UserFriend, UserSubscription } from '../../types/redux/user/User';
+import { Identified } from '../../types/Identified';
 
-export const moveFriendToSubscriptions = (
-  friendId: number,
-  friends: UserFriend[],
-  subscriptions: UserSubscription[]
+export function moveUserBetweenSocials<
+  F extends Identified,
+  T extends Identified
+>(
+  userId: number,
+  from: F[],
+  to: T[]
 ): {
-  friends: UserFriend[];
-  subscriptions: UserSubscription[];
-} => {
-  const existingFriend = friends.find((friend) => friend.id === friendId);
+  from: F[];
+  to: (T | F)[];
+} {
+  const existingUser = from.find((user) => user.id === userId);
 
-  if (!existingFriend) {
+  if (!existingUser) {
     return {
-      friends,
-      subscriptions,
+      from,
+      to,
     };
   }
 
-  const filteredFriends = friends.filter((friend) => friend !== existingFriend);
-  const replenishedSubscriptions = [
-    existingFriend as UserSubscription,
-    ...subscriptions,
-  ];
+  const filteredFrom = from.filter((user) => user.id !== userId);
+  const replenishedTo = [existingUser, ...to];
 
   return {
-    friends: filteredFriends,
-    subscriptions: replenishedSubscriptions,
+    from: filteredFrom,
+    to: replenishedTo,
   };
-};
+}

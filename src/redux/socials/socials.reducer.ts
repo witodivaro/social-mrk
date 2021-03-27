@@ -10,7 +10,7 @@ import {
   UserSubscription,
 } from '../../types/redux/user/User';
 import { SocialsActionTypes } from './socials.types';
-import { moveFriendToSubscriptions } from './socials.utils';
+import { moveUserBetweenSocials } from './socials.utils';
 
 interface SocialsState {
   friends: UserFriend[];
@@ -104,28 +104,53 @@ const socialsReducer = (state = initialState, { type, payload }: AnyAction) => {
         getSubscriptionsError: payload.errors,
       };
 
-    case SocialsActionTypes.REMOVE_FRIEND_LOCAL:
-      return {
-        ...state,
-        ...moveFriendToSubscriptions(
-          payload.id,
-          state.friends,
-          state.subscriptions
-        ),
-      };
-
     case SocialsActionTypes.REJECT_FRIEND_REQUEST_LOCAL:
+      const reqToSubs = moveUserBetweenSocials<
+        UserFriendRequest,
+        UserSubscription
+      >(payload.id, state.friendRequests, state.subscriptions);
+
       return {
         ...state,
-        friendRequests: state.friendRequests.filter(
-          (user) => user.id !== payload.id
-        ),
+        friendRequests: reqToSubs.from,
+        subscriptions: reqToSubs.to,
+      };
+
+    case SocialsActionTypes.ACCEPT_FRIEND_REQUEST_LOCAL:
+      const reqToFriends = moveUserBetweenSocials<
+        UserFriendRequest,
+        UserSubscription
+      >(payload.id, state.friendRequests, state.subscriptions);
+
+      return {
+        ...state,
+        friendRequests: reqToFriends.from,
+        friends: reqToFriends.to,
       };
 
     case SocialsActionTypes.REMOVE_FRIEND_LOCAL:
+      const friendToSubs = moveUserBetweenSocials<
+        UserFriendRequest,
+        UserSubscription
+      >(payload.id, state.friends, state.subscriptions);
+
       return {
         ...state,
-        friends: state.friends.filter((user) => user.id !== payload.id),
+        subscriptions: friendToSubs.to,
+        friends: friendToSubs.from,
+      };
+
+    case SocialsActionTypes.ADD_FRIEND_LOCAL:
+      const subToFriends = moveUserBetweenSocials<UserSubscription, UserFriend>(
+        payload.id,
+        state.subscriptions,
+        state.friends
+      );
+
+      return {
+        ...state,
+        subscriptions: subToFriends.from,
+        friends: subToFriends.to,
       };
 
     default:
