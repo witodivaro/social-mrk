@@ -22,6 +22,7 @@ const Friends = () => {
       title="Друзья"
       emptyMessage="Ваш список друзей пуст"
       errors={friendsErrors}
+      friends
     />
   );
 };

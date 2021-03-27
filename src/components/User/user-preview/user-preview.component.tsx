@@ -4,19 +4,21 @@ import { ReactComponent as NoAvatar } from '../../../assets/images/no-avatar.svg
 import { Link } from 'react-router-dom';
 import CustomButton from '../../custom-button/custom-button.component';
 import { useDispatch } from 'react-redux';
-import { FaTimes, FaCheck } from 'react-icons/fa';
+import { FaTimes, FaCheck, FaEnvelope } from 'react-icons/fa';
 import {
   acceptFriendRequestStart,
   rejectFriendRequestStart,
+  removeFriendStart,
 } from '../../../redux/socials/socials.actions';
 import { User } from '../../../types/redux/user/User';
 
 interface UserPreviewProps {
   user: User;
   isFriendRequest?: boolean;
+  isFriend?: boolean;
 }
 
-const UserPreview = ({ user, isFriendRequest }: UserPreviewProps) => {
+const UserPreview = ({ user, isFriendRequest, isFriend }: UserPreviewProps) => {
   const { image, username, id } = user;
   const dispatch = useDispatch();
 
@@ -28,6 +30,18 @@ const UserPreview = ({ user, isFriendRequest }: UserPreviewProps) => {
   const rejectFriendHandler = (e: MouseEvent) => {
     e.preventDefault();
     dispatch(rejectFriendRequestStart(id));
+  };
+
+  const removeFriendHandler = (e: MouseEvent) => {
+    e.preventDefault();
+    console.log(1);
+    dispatch(removeFriendStart(id));
+  };
+
+  const sendMessageHandler = (e: MouseEvent) => {
+    e.preventDefault();
+
+    // TDB
   };
 
   const renderedUserAvatar = useMemo(
@@ -62,6 +76,29 @@ const UserPreview = ({ user, isFriendRequest }: UserPreviewProps) => {
             className="user-preview__action"
             onClick={rejectFriendHandler}
             aria-label="Отклонить заявку в друзья"
+          >
+            <FaTimes />
+          </CustomButton>
+        </>
+      );
+    }
+
+    if (isFriend) {
+      return (
+        <>
+          <CustomButton
+            inverted
+            className="user-preview__action"
+            onClick={sendMessageHandler}
+            aria-label="Отправить сообщение"
+          >
+            <FaEnvelope />
+          </CustomButton>
+          <CustomButton
+            inverted
+            className="user-preview__action"
+            onClick={removeFriendHandler}
+            aria-label="Удалить из друзей"
           >
             <FaTimes />
           </CustomButton>

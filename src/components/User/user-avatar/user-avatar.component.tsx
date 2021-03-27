@@ -14,7 +14,7 @@ interface UserAvatarProps {
 
 const UserAvatar = ({ imageSource, editable }: UserAvatarProps) => {
   const dispatch = useDispatch();
-  const closeButtonRef = useRef();
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const clearAvatarHandler = useCallback(() => {
     dispatch(
@@ -24,19 +24,20 @@ const UserAvatar = ({ imageSource, editable }: UserAvatarProps) => {
     );
   }, []);
 
-  const toggleAvatarModalHandler = (e: MouseEvent) => {
-    if (!closeButtonRef || !closeButtonRef.current) {
+  const toggleAvatarModalHandler = (e: React.MouseEvent) => {
+    if (
+      closeButtonRef.current &&
+      closeButtonRef.current.contains(e.target as Node)
+    ) {
       return;
     }
 
-    // @ts-ignore
-    if (closeButtonRef.current.contains(e.target)) {
-      return;
-    }
-
+    console.log(3);
     if (!editable) {
       return;
     }
+
+    console.log(1);
 
     dispatch(toggleAvatarModalShown());
   };
@@ -45,7 +46,6 @@ const UserAvatar = ({ imageSource, editable }: UserAvatarProps) => {
     (): JSX.Element | null =>
       editable && imageSource ? (
         <button
-          // @ts-ignore
           ref={closeButtonRef}
           className="avatar__clear-button"
           onClick={clearAvatarHandler}
@@ -63,7 +63,6 @@ const UserAvatar = ({ imageSource, editable }: UserAvatarProps) => {
           className={`avatar__overlay ${
             imageSource ? 'avatar__overlay--editable' : ''
           }`}
-          // @ts-ignore
           onClick={toggleAvatarModalHandler}
         >
           {imageSource
@@ -79,7 +78,6 @@ const UserAvatar = ({ imageSource, editable }: UserAvatarProps) => {
   ) : (
     <NoAvatar
       className={`avatar__svg ${editable ? 'avatar__svg--editable' : ''}`}
-      // @ts-ignore
       onClick={toggleAvatarModalHandler}
     />
   );

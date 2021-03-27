@@ -96,7 +96,7 @@ export const removeFriendStart = (id: number) => ({
 });
 
 export const removeFriendLocal = (id: number) => ({
-  type: SocialsActionTypes.REMOVE_FRIEND_START,
+  type: SocialsActionTypes.REMOVE_FRIEND_LOCAL,
   payload: { id },
 });
 

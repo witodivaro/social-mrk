@@ -7,6 +7,7 @@ import { User } from '../../types/redux/user/User';
 interface UsersListProps {
   users: User[];
   friendRequests?: boolean;
+  friends?: boolean;
   title: string;
   emptyMessage: string;
   errors: object;
@@ -18,6 +19,7 @@ const UsersList = ({
   title,
   emptyMessage,
   errors,
+  friends,
 }: UsersListProps) => {
   const renderedUsers = useMemo(() => {
     if (errors) {
@@ -30,6 +32,7 @@ const UsersList = ({
           key={user.id}
           user={user}
           isFriendRequest={friendRequests}
+          isFriend={friends}
         />
       ));
     }

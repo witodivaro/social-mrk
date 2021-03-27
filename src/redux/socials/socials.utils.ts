@@ -19,8 +19,8 @@ export const moveFriendToSubscriptions = (
 
   const filteredFriends = friends.filter((friend) => friend !== existingFriend);
   const replenishedSubscriptions = [
-    ...subscriptions,
     existingFriend as UserSubscription,
+    ...subscriptions,
   ];
 
   return {
