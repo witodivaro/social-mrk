@@ -6,8 +6,8 @@ import CustomButton from '../../custom-button/custom-button.component';
 import { useDispatch } from 'react-redux';
 import { FaTimes, FaCheck } from 'react-icons/fa';
 import {
-  addFriendStart,
-  removeFriendStart,
+  acceptFriendRequestStart,
+  rejectFriendRequestStart,
 } from '../../../redux/socials/socials.actions';
 import { User } from '../../../types/redux/user/User';
 
@@ -22,12 +22,12 @@ const UserPreview = ({ user, isFriendRequest }: UserPreviewProps) => {
 
   const acceptFriendHandler = (e: MouseEvent) => {
     e.preventDefault();
-    dispatch(addFriendStart(id));
+    dispatch(acceptFriendRequestStart(id));
   };
 
   const rejectFriendHandler = (e: MouseEvent) => {
     e.preventDefault();
-    dispatch(removeFriendStart(id));
+    dispatch(rejectFriendRequestStart(id));
   };
 
   const renderedUserAvatar = useMemo(

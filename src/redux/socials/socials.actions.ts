@@ -66,7 +66,7 @@ export const rejectFriendRequestSuccess = () => ({
   type: SocialsActionTypes.REJECT_FRIEND_REQUEST_SUCCESS,
 });
 
-export const rejectFriendRequestFailure = (error: string) => ({
+export const rejectFriendRequestFailure = (error: HandledNetworkError) => ({
   type: SocialsActionTypes.REJECT_FRIEND_REQUEST_FAILURE,
   payload: error,
 });
@@ -85,7 +85,7 @@ export const acceptFriendRequestSuccess = () => ({
   type: SocialsActionTypes.ACCEPT_FRIEND_REQUEST_SUCCESS,
 });
 
-export const acceptFriendRequestFailure = (error: string) => ({
+export const acceptFriendRequestFailure = (error: HandledNetworkError) => ({
   type: SocialsActionTypes.ACCEPT_FRIEND_REQUEST_FAILURE,
   payload: error,
 });
@@ -104,7 +104,7 @@ export const removeFriendSuccess = () => ({
   type: SocialsActionTypes.REMOVE_FRIEND_SUCCESS,
 });
 
-export const removeFriendFailure = (error: string) => ({
+export const removeFriendFailure = (error: HandledNetworkError) => ({
   type: SocialsActionTypes.REMOVE_FRIEND_FAILURE,
   payload: error,
 });
@@ -118,7 +118,7 @@ export const addFriendSuccess = () => ({
   type: SocialsActionTypes.ADD_FRIEND_SUCCESS,
 });
 
-export const addFriendFailure = (error: string) => ({
+export const addFriendFailure = (error: HandledNetworkError) => ({
   type: SocialsActionTypes.ADD_FRIEND_FAILURE,
   payload: error,
 });

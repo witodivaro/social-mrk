@@ -29,7 +29,7 @@ export interface User {
 export interface UserUpdate {
   username?: string;
   status?: string;
-  iamge?: string;
+  image?: string | null;
   friends?: UserFriend[];
   subscriptions?: UserSubscription[];
 }
