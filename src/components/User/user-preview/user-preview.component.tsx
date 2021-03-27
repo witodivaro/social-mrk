@@ -13,7 +13,7 @@ import { User } from '../../../types/redux/user/User';
 
 interface UserPreviewProps {
   user: User;
-  isFriendRequest: boolean;
+  isFriendRequest?: boolean;
 }
 
 const UserPreview = ({ user, isFriendRequest }: UserPreviewProps) => {

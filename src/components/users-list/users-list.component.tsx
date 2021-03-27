@@ -1,9 +1,24 @@
 import './users-list.styles.scss';
 
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import UserPreview from '../User/user-preview/user-preview.component';
+import { User } from '../../types/redux/user/User';
 
-const UsersList = ({ users, friendRequests, title, emptyMessage, errors }) => {
+interface UsersListProps {
+  users: User[];
+  friendRequests?: boolean;
+  title: string;
+  emptyMessage: string;
+  errors: object;
+}
+
+const UsersList = ({
+  users,
+  friendRequests,
+  title,
+  emptyMessage,
+  errors,
+}: UsersListProps) => {
   const renderedUsers = useMemo(() => {
     if (errors) {
       return <p className="users-list__error">{Object.values(errors)}</p>;
