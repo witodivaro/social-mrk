@@ -4,7 +4,7 @@ import UserPageActionTypes from './user-page.types';
 
 export const getUserStart = (id: number) => ({
   type: UserPageActionTypes.GET_USER_START,
-  payload: id,
+  payload: { id },
 });
 
 export const getUserSuccess = (user: User) => ({
