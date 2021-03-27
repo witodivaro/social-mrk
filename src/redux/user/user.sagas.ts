@@ -1,19 +1,22 @@
-import { takeLatest, put, all, call } from 'redux-saga/effects';
-import UserProfileAPI from '../../apis/user-profile/api';
-import UserAPI from '../../apis/user/api';
+import { AxiosPromise, AxiosResponse } from 'axios';
+import { takeLatest, put, all, call, StrictEffect } from 'redux-saga/effects';
+import socialMrkAPI from '../../apis/social-mrk.api';
 
 import { ERROR_CONFIG } from '../../config/errors';
 import { Error } from '../../types/Error';
 import {
   HandledChangeUserErrors,
-  HandledError,
   HandledNetworkError,
   HandledSignInErrors,
   HandledSignUpErrors,
 } from '../../types/HandledErrors';
+import { ChangeUserStartAction } from '../../types/redux/user/ChangeUserStart';
+import { SignInStartAction } from '../../types/redux/user/SignInStart';
+import { SignUpStartAction } from '../../types/redux/user/SignUpStart';
+import { User } from '../../types/redux/user/User';
 
 import * as UserActions from './user.actions';
-import UserActionTypes from './user.types';
+import { UserActionTypes } from './user.types';
 
 export function getHandledNetworkErrors(error: Error): HandledNetworkError {
   const errors: HandledNetworkError = {
@@ -98,28 +101,43 @@ function getHandledChangeUserErrors(error: Error): HandledChangeUserErrors {
   return handledChangeUserErrors;
 }
 
-function* signIn({ payload }) {
+function* signIn({
+  payload,
+}: SignInStartAction): Generator<
+  AxiosPromise | StrictEffect | HandledSignInErrors,
+  void,
+  AxiosResponse<{ token: string }>
+> {
   try {
     const { username, password } = payload;
-    const response = yield UserAPI.signIn({
+    const response = yield socialMrkAPI.signIn({
       username,
       password,
     });
 
-    const token = yield response.data.token;
+    const token = response.data.token;
 
     yield put(UserActions.signInSuccess(token));
   } catch (error) {
-    const errors = yield getHandledSignInErrors(error);
+    const handledSignInErrors = yield getHandledSignInErrors(
+      error
+    ) as HandledSignInErrors;
 
-    yield put(UserActions.signInFailure(errors));
+    // @ts-ignore
+    yield put(UserActions.signInFailure(handledSignInErrors));
   }
 }
 
-function* signUp({ payload }) {
+function* signUp({
+  payload,
+}: SignUpStartAction): Generator<
+  AxiosPromise | StrictEffect | HandledSignUpErrors,
+  void,
+  HandledSignUpErrors
+> {
   try {
-    const { username, password, email } = yield payload;
-    yield UserAPI.signUp({
+    const { username, password, email } = payload;
+    yield socialMrkAPI.signUp({
       username,
       password,
       email,
@@ -133,9 +151,13 @@ function* signUp({ payload }) {
   }
 }
 
-function* getCurrentUser() {
+function* getCurrentUser(): Generator<
+  AxiosPromise | StrictEffect,
+  void,
+  AxiosResponse<{ user: User }>
+> {
   try {
-    const response = yield UserProfileAPI.getUser(0);
+    const response = yield socialMrkAPI.getUser(0);
     const currentUser = response.data.user;
 
     yield put(UserActions.getCurrentUserSuccess({ currentUser }));
@@ -144,9 +166,17 @@ function* getCurrentUser() {
   }
 }
 
-function* changeUser({ payload: changedUserData }) {
+function* changeUser({
+  payload,
+}: ChangeUserStartAction): Generator<
+  AxiosPromise | StrictEffect,
+  void,
+  HandledChangeUserErrors
+> {
   try {
-    yield UserProfileAPI.changeUser({
+    const changedUserData = payload;
+
+    yield socialMrkAPI.changeUser({
       ...changedUserData,
     });
 

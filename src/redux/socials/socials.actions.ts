@@ -1,3 +1,4 @@
+import { HandledNetworkError } from '../../types/HandledErrors';
 import {
   UserFriend,
   UserFriendRequest,
@@ -15,7 +16,7 @@ export const getFriendsSuccess = (friends: UserFriend[]) => ({
   payload: { friends },
 });
 
-export const getFriendsFailure = (errors: string) => ({
+export const getFriendsFailure = (errors: HandledNetworkError) => ({
   type: SocialsActionTypes.GET_FRIENDS_FAILURE,
   payload: { errors },
 });
@@ -31,7 +32,7 @@ export const getFriendRequestsSuccess = (
   payload: { friendRequests },
 });
 
-export const getFriendRequestsFailure = (errors: string) => ({
+export const getFriendRequestsFailure = (errors: HandledNetworkError) => ({
   type: SocialsActionTypes.GET_FRIEND_REQUESTS_FAILURE,
   payload: { errors },
 });
@@ -46,7 +47,7 @@ export const getSubscriptionsSuccess = (subscriptions: UserSubscription[]) => ({
   payload: { subscriptions },
 });
 
-export const getSubscriptionsFailure = (errors: string) => ({
+export const getSubscriptionsFailure = (errors: HandledNetworkError) => ({
   type: SocialsActionTypes.GET_SUBSCRIPTIONS_FAILURE,
   payload: { errors },
 });

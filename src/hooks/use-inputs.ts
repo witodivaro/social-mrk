@@ -1,9 +1,20 @@
 import { useState } from 'react';
 
-const useInputs = (defaultInputs) => {
+interface Inputs {
+  [key: string]: any;
+}
+
+interface InputEvent {
+  target: {
+    value: string;
+    name: string;
+  };
+}
+
+const useInputs = (defaultInputs: Inputs) => {
   const [inputs, setInputs] = useState(defaultInputs);
 
-  const inputChangeHandler = (e) => {
+  const inputChangeHandler = (e: InputEvent) => {
     setInputs({
       ...inputs,
       [e.target.name]: e.target.value,

@@ -2,11 +2,11 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 import * as UserPageActions from './user-page.actions';
 import UserPageActionTypes from './user-page.types';
 import { getHandledNetworkErrors } from '../user/user.sagas';
-import UserProfileAPI from '../../apis/user-profile/api';
 import type { Error } from '../../types/Error';
 import { HandledGetUserErrors } from '../../types/HandledErrors';
-import { AnyAction } from 'redux';
 import { SignInStartAction } from '../../types/redux/user/SignInStart';
+import socialMrkAPI from '../../apis/social-mrk.api';
+import { GetUserStartAction } from '../../types/redux/user-page/GetUserStart';
 
 function getHandledGetUserErrors(error: Error): HandledGetUserErrors {
   const handledNetworkErrors = getHandledNetworkErrors(error);
@@ -27,9 +27,10 @@ function getHandledGetUserErrors(error: Error): HandledGetUserErrors {
   return handledGetUserErrors;
 }
 
-function* getUser({ payload: id }: SignInStartAction) {
+function* getUser({ payload }: GetUserStartAction) {
   try {
-    const { data } = yield UserProfileAPI.getUser(id);
+    const { id } = payload;
+    const { data } = yield socialMrkAPI.getUser(id);
     const { user } = data;
 
     yield put(UserPageActions.getUserSuccess(user));

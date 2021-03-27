@@ -6,6 +6,11 @@ export interface SignUpStartPayload {
   username: string;
 }
 
+export interface SignUpStartAction {
+  type: UserActionTypes.SIGN_UP_START;
+  payload: SignUpStartPayload;
+}
+
 export type SignUpStart = (
   payload: SignUpStartPayload
 ) => {

@@ -1,16 +1,35 @@
-import { all, call, put, takeLatest, select } from 'redux-saga/effects';
-import UserActionsAPI from '../../apis/user-actions/api';
+import {
+  all,
+  call,
+  put,
+  takeLatest,
+  select,
+  StrictEffect,
+} from 'redux-saga/effects';
 import { getHandledNetworkErrors } from '../user/user.sagas';
 import * as SocialsActions from './socials.actions';
 import * as UserActions from '../user/user.actions';
 import { SocialsActionTypes } from './socials.types';
 import type { GetFriendsStartAction } from '../../types/redux/socials/GetFriendsStart';
 import { GetSubscriptionsStartAction } from '../../types/redux/socials/GetSubscriptionsStart';
+import socialMrkAPI from '../../apis/social-mrk.api';
+import { AxiosPromise, AxiosResponse } from 'axios';
+import {
+  UserFriend,
+  UserFriendRequest,
+  UserSubscription,
+} from '../../types/redux/user/User';
 
-function* getFriends({ payload }: GetFriendsStartAction) {
+function* getFriends({
+  payload,
+}: GetFriendsStartAction): Generator<
+  AxiosPromise | StrictEffect,
+  void,
+  AxiosResponse<{ friends: UserFriend[] }>
+> {
   try {
     const { id } = payload;
-    const response = yield UserActionsAPI.getFriends(id);
+    const response = yield socialMrkAPI.getFriends(id);
 
     yield put(SocialsActions.getFriendsSuccess(response.data.friends));
   } catch (error) {
@@ -20,9 +39,13 @@ function* getFriends({ payload }: GetFriendsStartAction) {
   }
 }
 
-function* getFriendRequests() {
+function* getFriendRequests(): Generator<
+  AxiosPromise | StrictEffect,
+  void,
+  AxiosResponse<{ requests: UserFriendRequest[] }>
+> {
   try {
-    const response = yield UserActionsAPI.getFriendRequests();
+    const response = yield socialMrkAPI.getFriendRequests();
 
     yield put(SocialsActions.getFriendRequestsSuccess(response.data.requests));
   } catch (error) {
@@ -32,10 +55,16 @@ function* getFriendRequests() {
   }
 }
 
-function* getSubscriptions({ payload }: GetSubscriptionsStartAction) {
+function* getSubscriptions({
+  payload,
+}: GetSubscriptionsStartAction): Generator<
+  AxiosPromise | StrictEffect,
+  void,
+  AxiosResponse<{ subscriptions: UserSubscription[] }>
+> {
   try {
     const { id } = payload;
-    const response = yield UserActionsAPI.getSubscriptions(id);
+    const response = yield socialMrkAPI.getSubscriptions(id);
 
     yield put(
       SocialsActions.getSubscriptionsSuccess(response.data.subscriptions)
@@ -65,41 +94,10 @@ function* onGetSubscriptionsStart() {
   );
 }
 
-function* manageFriends({ payload }) {
-  try {
-    const { id, rejectRequest, removeFriend } = yield payload;
-
-    yield UserActionsAPI.manageFriends({
-      id,
-      rejectRequest,
-      removeFriend,
-    });
-
-    yield put(
-      SocialsActions.manageFriendsSuccess({
-        id,
-        addFriend,
-        acceptRequest,
-        rejectRequest,
-        removeFriend,
-      })
-    );
-  } catch (error) {
-    const handledErrors = getHandledNetworkErrors(error);
-
-    yield put(SocialsActions.manageFriendsFailure(handledErrors));
-  }
-}
-
-function* onManageFriendsStart() {
-  yield takeLatest(SocialsActionTypes.MANAGE_FRIENDS_START, manageFriends);
-}
-
 export default function* socialsSagas() {
   yield all([
     call(onGetFriendsStart),
     call(onGetSubscriptionsStart),
     call(onGetFriendRequestsStart),
-    call(onManageFriendsStart),
   ]);
 }

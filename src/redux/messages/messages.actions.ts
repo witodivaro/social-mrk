@@ -1,1 +1,1 @@
-import MessageActionTypes from './messages.types';
+import { MessageActionTypes } from './messages.types';
