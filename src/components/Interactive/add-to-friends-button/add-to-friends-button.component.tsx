@@ -1,11 +1,11 @@
 import './add-to-friends-button.styles.scss';
 import { useCallback, useMemo } from 'react';
 import { FaSpinner } from 'react-icons/fa';
-import { ADD_FRIEND_STATES } from '../../../config/socials-states';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { addFriendStart } from '../../../redux/socials/socials.actions';
 import { selectAddFriendState } from '../../../redux/socials/socials.selectors';
 import CustomButton from '../../custom-button/custom-button.component';
+import { FETCH_STATES } from '../../../config/fetch-states';
 
 interface AddToFriendsProps {
   id?: number | string;
@@ -35,13 +35,13 @@ const AddToFriendsButton = ({
 
   const renderedButton = useMemo(() => {
     switch (addFriendState) {
-      case ADD_FRIEND_STATES.SUCCESS:
+      case FETCH_STATES.SUCCESS:
         return (
           <CustomButton inverted={inverted} className={className} disabled>
             Заявка отправлена
           </CustomButton>
         );
-      case ADD_FRIEND_STATES.FETCHING:
+      case FETCH_STATES.FETCHING:
         return (
           <CustomButton inverted={inverted} className={className} disabled>
             {loadingText || (

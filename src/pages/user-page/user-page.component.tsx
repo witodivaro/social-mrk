@@ -17,15 +17,14 @@ import {
   getUserStart,
   setUserPageUser,
 } from '../../redux/user-page/user-page.actions';
-import { CHANGE_USER_STATES, GET_USER_STATES } from '../../config/user-states';
 import { ReactComponent as LoadingIndicator } from '../../assets/images/loader.svg';
 import UserAvatarPickerModal from '../../components/User/user-avatar-picker-modal/user-avatar-picker-modal.component';
 import UserStatus from '../../components/User/user-status/user-status.component';
 import PageNotFound from '../../components/page-not-found/page-not-found.component';
 import { addFriendStart } from '../../redux/socials/socials.actions';
 import { RouteComponentProps } from 'react-router';
-import AddToFriends from '../../components/Interactive/add-to-friends-button/add-to-friends-button.component';
 import AddToFriendsButton from '../../components/Interactive/add-to-friends-button/add-to-friends-button.component';
+import { FETCH_STATES } from '../../config/fetch-states';
 
 type MatchParams = { userId?: string };
 
@@ -151,16 +150,15 @@ const UserPage = ({ match }: UserPageProps) => {
     }
 
     switch (userPageState) {
-      case CHANGE_USER_STATES.FETCHING:
-      case GET_USER_STATES.FETCHING:
+      case FETCH_STATES.FETCHING:
         return (
           <p className="user-page__loading-indicator">
             <LoadingIndicator />
           </p>
         );
-      case GET_USER_STATES.FAILURE:
+      case FETCH_STATES.FAILURE:
         return <p>Owibka...</p>;
-      case GET_USER_STATES.SUCCESS:
+      case FETCH_STATES.SUCCESS:
         return renderedUserPage;
     }
   }, [userPageState, userPageUser, renderedUserPage, isCurrentUser]);

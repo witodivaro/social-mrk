@@ -1,0 +1,5 @@
+export enum FETCH_STATES {
+  FETCHING = 'FETCHING',
+  SUCCESS = 'SUCCESS',
+  FAILURE = 'FAILURE',
+}

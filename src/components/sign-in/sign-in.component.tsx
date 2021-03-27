@@ -1,5 +1,5 @@
 import './sign-in.styles.scss';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, FormEvent } from 'react';
 
 import Card from '../card/card.component';
 import FormInput from '../form-input/form-input.component';
@@ -12,8 +12,9 @@ import {
   selectSignInState,
 } from '../../redux/user/user.selectors';
 import { signInStart } from '../../redux/user/user.actions';
-import { SIGN_IN_STATES } from '../../config/user-states';
 import { FaSpinner } from 'react-icons/fa';
+import { FETCH_STATES } from '../../config/fetch-states';
+import { HandledSignInErrors } from '../../types/HandledErrors';
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -22,11 +23,11 @@ const SignIn = () => {
     password: '',
   });
   const signInState = useSelector(selectSignInState);
-  const signInErrors = useSelector(selectSignInErrors);
+  const signInErrors: HandledSignInErrors = useSelector(selectSignInErrors);
 
   const [localErrors, setLocalErrors] = useState([]);
 
-  const loginHandler = async (e) => {
+  const loginHandler = (e: FormEvent) => {
     e.preventDefault();
     setLocalErrors([]);
 
@@ -36,7 +37,7 @@ const SignIn = () => {
   };
 
   const renderedError = useMemo(() => {
-    let allErrors = [];
+    let allErrors: string[] = [];
     if (localErrors) {
       localErrors.forEach((error) => allErrors.push(error));
     }
@@ -44,7 +45,7 @@ const SignIn = () => {
     if (signInErrors) {
       Object.values(signInErrors).forEach((errors) => {
         if (errors.length > 0) {
-          errors.forEach((error) => allErrors.push(error));
+          errors.forEach((error: string) => allErrors.push(error));
         }
       });
     }
@@ -94,12 +95,12 @@ const SignIn = () => {
 
   const renderContent = () => {
     switch (signInState) {
-      case SIGN_IN_STATES.SUCCESS:
+      case FETCH_STATES.SUCCESS:
         return (
           <p className="login__success">Вы успешно вошли в свой аккаунт!</p>
         );
 
-      case SIGN_IN_STATES.FETCHING:
+      case FETCH_STATES.FETCHING:
         return (
           <>
             {renderSignInForm(true)}
