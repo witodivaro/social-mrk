@@ -1,5 +1,6 @@
 import { AnyAction } from 'redux';
 import {
+  ADD_FRIEND_STATES,
   GET_FRIENDS_STATES,
   GET_FRIEND_REQUESTS_STATES,
   GET_SUBSCRIPTIONS_STATES,
@@ -22,6 +23,7 @@ interface SocialsState {
   getSubscriptionsError: null;
   getFriendRequestsState: string;
   getFriendRequestsError: null;
+  addFriendState: string;
 }
 
 const initialState: SocialsState = {
@@ -34,6 +36,7 @@ const initialState: SocialsState = {
   getSubscriptionsError: null,
   getFriendRequestsState: '',
   getFriendRequestsError: null,
+  addFriendState: '',
 };
 
 const socialsReducer = (state = initialState, { type, payload }: AnyAction) => {
@@ -102,6 +105,24 @@ const socialsReducer = (state = initialState, { type, payload }: AnyAction) => {
         ...state,
         getSubscriptionsState: GET_SUBSCRIPTIONS_STATES.FAILURE,
         getSubscriptionsError: payload.errors,
+      };
+
+    case SocialsActionTypes.ADD_FRIEND_START:
+      return {
+        ...state,
+        addFriendState: ADD_FRIEND_STATES.FETCHING,
+      };
+
+    case SocialsActionTypes.ADD_FRIEND_SUCCESS:
+      return {
+        ...state,
+        addFriendState: ADD_FRIEND_STATES.SUCCESS,
+      };
+
+    case SocialsActionTypes.ADD_FRIEND_FAILURE:
+      return {
+        ...state,
+        addFriendState: ADD_FRIEND_STATES.FAILURE,
       };
 
     case SocialsActionTypes.REJECT_FRIEND_REQUEST_LOCAL:

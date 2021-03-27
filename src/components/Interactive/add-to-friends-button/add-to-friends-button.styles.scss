@@ -1,0 +1,8 @@
+@import '../../../styles/animations.scss';
+
+.add-to-friends-button__spinner {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  @include spinCenterMixin;
+}

@@ -24,6 +24,8 @@ import UserStatus from '../../components/User/user-status/user-status.component'
 import PageNotFound from '../../components/page-not-found/page-not-found.component';
 import { addFriendStart } from '../../redux/socials/socials.actions';
 import { RouteComponentProps } from 'react-router';
+import AddToFriends from '../../components/Interactive/add-to-friends-button/add-to-friends-button.component';
+import AddToFriendsButton from '../../components/Interactive/add-to-friends-button/add-to-friends-button.component';
 
 type MatchParams = { userId?: string };
 
@@ -78,13 +80,9 @@ const UserPage = ({ match }: UserPageProps) => {
         <CustomButton inverted className="user-page__action">
           Отправить сообщение
         </CustomButton>
-        <CustomButton
-          inverted
-          className="user-page__action"
-          onClick={addToFriendsHandler}
-        >
+        <AddToFriendsButton id={userId} inverted className="user-page__action">
           Добавить в друзья
-        </CustomButton>
+        </AddToFriendsButton>
       </>
     );
   }, [isCurrentUser, addToFriendsHandler]);

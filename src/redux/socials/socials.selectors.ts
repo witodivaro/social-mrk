@@ -47,3 +47,8 @@ export const selectFriendRequestsErrors = createSelector(
   selectSocials,
   (socials) => socials.friendRequestsErrors
 );
+
+export const selectAddFriendState = createSelector(
+  selectSocials,
+  (socials) => socials.addFriendState
+);
