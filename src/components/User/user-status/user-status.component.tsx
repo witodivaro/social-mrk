@@ -74,7 +74,9 @@ const UserStatus = ({ status, editable }: UserStatusProps) => {
   }, [statusRef]);
 
   const toggleEditingHandler = () => {
-    setIsEditing((isEditing) => !isEditing);
+    if (editable) {
+      setIsEditing((isEditing) => !isEditing);
+    }
   };
 
   if (isEditing) {

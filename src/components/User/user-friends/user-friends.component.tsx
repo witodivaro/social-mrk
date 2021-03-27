@@ -1,6 +1,5 @@
 import './user-friends.styles.scss';
 import { useState } from 'react';
-import CustomButton from '../../custom-button/custom-button.component';
 import { UserFriend as UserFriendType } from '../../../types/redux/user/User';
 import UserFriend from '../user-friend/user-friend.component';
 
@@ -14,9 +13,6 @@ interface UserFriendsProps {
 
 const UserFriends = ({ friends, className }: UserFriendsProps) => {
   const [showFriends, setShowFriends] = useState(false);
-  const [shownFriendsCount, setShownFriendsCount] = useState(
-    SHOWN_FRIENDS_COUNT
-  );
 
   const toggleFriendsShowHandler = () => {
     if (document.body.clientWidth >= TABLET_WIDTH) {
@@ -34,20 +30,10 @@ const UserFriends = ({ friends, className }: UserFriendsProps) => {
       .slice(0, friendsCount)
       .map((user) => <UserFriend key={`UF${user.id}`} user={user} />);
 
-  const renderedShowMoreButton =
-    showFriends && shownFriendsCount < friends.length ? (
-      <p className="user-friends__show-more-container">
-        <CustomButton>More</CustomButton>
-      </p>
-    ) : null;
-
   const renderedFriendsList = (
-    <>
-      <ul className={`user-friends__list  ${showFriends ? 'show' : ''}`}>
-        {renderFriends(shownFriendsCount)}
-      </ul>
-      {renderedShowMoreButton}
-    </>
+    <ul className={`user-friends__list  ${showFriends ? 'show' : ''}`}>
+      {renderFriends(SHOWN_FRIENDS_COUNT)}
+    </ul>
   );
 
   return (

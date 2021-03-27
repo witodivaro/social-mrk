@@ -3,6 +3,6 @@
 .add-to-friends-button__spinner {
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: inherit;
   @include spinCenterMixin;
 }

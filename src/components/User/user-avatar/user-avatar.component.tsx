@@ -32,12 +32,9 @@ const UserAvatar = ({ imageSource, editable }: UserAvatarProps) => {
       return;
     }
 
-    console.log(3);
     if (!editable) {
       return;
     }
-
-    console.log(1);
 
     dispatch(toggleAvatarModalShown());
   };

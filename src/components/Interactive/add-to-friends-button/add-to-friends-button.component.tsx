@@ -75,9 +75,7 @@ const AddToFriendsButton = ({
         return (
           <CustomButton inverted={inverted} className={className} disabled>
             {loadingText || (
-              <span className="add-to-friends-button__spinner">
-                <FaSpinner />
-              </span>
+              <FaSpinner className="add-to-friends-button__spinner" />
             )}
           </CustomButton>
         );
