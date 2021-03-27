@@ -1,5 +1,5 @@
 import './sign-up.styles.scss';
-import React, { useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 import Card from '../card/card.component';
 import FormInput from '../form-input/form-input.component';
@@ -14,7 +14,7 @@ import {
 } from '../../redux/user/user.selectors';
 import { ERROR_CONFIG } from '../../config/errors';
 import { FaSpinner } from 'react-icons/fa';
-import { SIGN_UP_STATES } from '../../config/user-states';
+import { FETCH_STATES } from '../../config/fetch-states';
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -29,13 +29,13 @@ const SignUp = () => {
   });
 
   const [localErrors, setLocalErrors] = useState({
-    passwordConfirm: '',
+    passwordConfirm: [''],
   });
 
-  const registerHandler = async (e) => {
+  const registerHandler = async (e: FormEvent) => {
     e.preventDefault();
     setLocalErrors({
-      passwordConfirm: '',
+      passwordConfirm: [''],
     });
 
     if (inputs.registerPassword !== inputs.registerPasswordConfirm) {
@@ -112,12 +112,12 @@ const SignUp = () => {
 
   const renderContent = () => {
     switch (signUpState) {
-      case SIGN_UP_STATES.SUCCESS:
+      case FETCH_STATES.SUCCESS:
         return (
           <p className="sign-up__success">Вы успешно зарегистрировались!</p>
         );
 
-      case SIGN_UP_STATES.FETCHING:
+      case FETCH_STATES.FETCHING:
         return (
           <>
             {renderSignUpForm(true)}

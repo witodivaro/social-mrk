@@ -1,5 +1,5 @@
 import { AnyAction } from 'redux';
-import { GET_USER_STATES } from '../../config/user-states';
+import { FETCH_STATES } from '../../config/fetch-states';
 import UserPageActionTypes from './user-page.types';
 
 const initialState = {
@@ -17,7 +17,7 @@ const userPageReducer = (
     case UserPageActionTypes.GET_USER_START:
       return {
         ...state,
-        state: GET_USER_STATES.FETCHING,
+        state: FETCH_STATES.FETCHING,
         errors: null,
       };
 
@@ -25,7 +25,7 @@ const userPageReducer = (
       return {
         ...state,
         user: payload,
-        state: GET_USER_STATES.SUCCESS,
+        state: FETCH_STATES.SUCCESS,
       };
 
     case UserPageActionTypes.SET_USER_PAGE_USER:
@@ -38,7 +38,7 @@ const userPageReducer = (
       return {
         ...state,
         errors: payload,
-        state: GET_USER_STATES.FAILURE,
+        state: FETCH_STATES.FAILURE,
       };
 
     case UserPageActionTypes.TOGGLE_AVATAR_MODAL_SHOWN:
