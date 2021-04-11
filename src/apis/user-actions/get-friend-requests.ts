@@ -2,10 +2,11 @@ import { AxiosPromise } from 'axios';
 import { UserFriendRequest } from '../../types/redux/user/User';
 import socialMrk from '../social-mrk';
 
-const getFriendRequestsEndpoint = '/user-actions/get-requests/';
+const getFriendRequestsEndpoint = (id: number): string =>
+  `/user-actions/get-requests/${id}/`;
 
-const getFriendRequests = (): AxiosPromise<UserFriendRequest[]> => {
-  return socialMrk.get(getFriendRequestsEndpoint);
+const getFriendRequests = (id: number): AxiosPromise<UserFriendRequest[]> => {
+  return socialMrk.get(getFriendRequestsEndpoint(id));
 };
 
 export default getFriendRequests;

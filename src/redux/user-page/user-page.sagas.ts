@@ -30,8 +30,7 @@ function getHandledGetUserErrors(error: Error): HandledGetUserErrors {
 function* getUser({ payload }: GetUserStartAction) {
   try {
     const { id } = payload;
-    const { data } = yield socialMrkAPI.getUser(id);
-    const { user } = data;
+    const { data: user } = yield socialMrkAPI.getUser(id);
 
     yield put(UserPageActions.getUserSuccess(user));
   } catch (error) {

@@ -67,11 +67,11 @@ const UserStatus = ({ status, editable }: UserStatusProps) => {
   }, [statusRef, inputRef]);
 
   useEffect(() => {
-    if (statusRef.current) {
+    if (isEditing) {
       // @ts-ignore
-      statusRef.current.focus();
+      inputRef.current.focus();
     }
-  }, [statusRef]);
+  }, [isEditing]);
 
   const toggleEditingHandler = () => {
     if (editable) {

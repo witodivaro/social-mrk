@@ -1,4 +1,6 @@
 import { HandledNetworkError } from '../../types/HandledErrors';
+import { GetFriendRequestsStartAction } from '../../types/redux/socials/GetFriendRequestsStart';
+import { GetFriendsStartAction } from '../../types/redux/socials/GetFriendsStart';
 import {
   UserFriend,
   UserFriendRequest,
@@ -21,8 +23,11 @@ export const getFriendsFailure = (errors: HandledNetworkError) => ({
   payload: { errors },
 });
 
-export const getFriendRequestsStart = () => ({
+export const getFriendRequestsStart = (
+  id: number
+): GetFriendRequestsStartAction => ({
   type: SocialsActionTypes.GET_FRIEND_REQUESTS_START,
+  payload: { id },
 });
 
 export const getFriendRequestsSuccess = (

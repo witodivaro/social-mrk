@@ -106,7 +106,7 @@ function* signIn({
 }: SignInStartAction): Generator<
   AxiosPromise | StrictEffect | HandledSignInErrors,
   void,
-  AxiosResponse<{ token: string }>
+  AxiosResponse<{ access: string; refresh: string }>
 > {
   try {
     const { username, password } = payload;
@@ -115,7 +115,7 @@ function* signIn({
       password,
     });
 
-    const token = response.data.token;
+    const token = response.data.access;
 
     yield put(UserActions.signInSuccess(token));
   } catch (error) {
@@ -154,11 +154,11 @@ function* signUp({
 function* getCurrentUser(): Generator<
   AxiosPromise | StrictEffect,
   void,
-  AxiosResponse<{ user: User }>
+  AxiosResponse<User>
 > {
   try {
-    const response = yield socialMrkAPI.getUser(0);
-    const currentUser = response.data.user;
+    const response = yield socialMrkAPI.getCurrentUser();
+    const currentUser = response.data;
 
     yield put(UserActions.getCurrentUserSuccess({ currentUser }));
   } catch (error) {
@@ -194,7 +194,7 @@ function* compressAndChangeUserAvatar(
 
   const COMPRESS_OPTIONS = {
     maxSizeMB: 1,
-    maxWidthOrHeight: 640,
+    maxWidthOrHeight: 1000,
     useWebWorker: true,
   };
 

@@ -23,7 +23,7 @@ const App = () => {
   const renderHomePage = useCallback(
     (props) => {
       if (currentUser) {
-        return <Redirect to={`/id${currentUser.id}`} />;
+        return <Redirect to={`/id${currentUser.profile.id}`} />;
       }
 
       return <HomePage {...props} />;

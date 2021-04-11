@@ -7,13 +7,17 @@ import {
 } from '../../../redux/socials/socials.selectors';
 import { getSubscriptionsStart } from '../../../redux/socials/socials.actions';
 
-const Subscriptions = () => {
+interface SubscriptionsProps {
+  id: number;
+}
+
+const Subscriptions = ({ id }: SubscriptionsProps) => {
   const dispatch = useDispatch();
   const subscriptions = useSelector(selectSubscriptions);
   const subscriptionsErrors = useSelector(selectSubscriptionsErrors);
 
   useEffect(() => {
-    dispatch(getSubscriptionsStart(0));
+    dispatch(getSubscriptionsStart(id));
   }, [dispatch, getSubscriptionsStart]);
 
   return (

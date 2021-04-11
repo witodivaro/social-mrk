@@ -10,16 +10,16 @@ import {
   rejectFriendRequestStart,
   removeFriendStart,
 } from '../../../redux/socials/socials.actions';
-import { User } from '../../../types/redux/user/User';
+import { UserPreview as UserPreviewType } from '../../../types/redux/user/User';
 
 interface UserPreviewProps {
-  user: User;
+  user: UserPreviewType;
   isFriendRequest?: boolean;
   isFriend?: boolean;
 }
 
 const UserPreview = ({ user, isFriendRequest, isFriend }: UserPreviewProps) => {
-  const { image, username, id } = user;
+  const { username, id, image } = user;
   const dispatch = useDispatch();
 
   const acceptFriendHandler = (e: MouseEvent) => {
@@ -34,7 +34,6 @@ const UserPreview = ({ user, isFriendRequest, isFriend }: UserPreviewProps) => {
 
   const removeFriendHandler = (e: MouseEvent) => {
     e.preventDefault();
-    console.log(1);
     dispatch(removeFriendStart(id));
   };
 

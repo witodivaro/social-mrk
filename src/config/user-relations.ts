@@ -1,5 +1,5 @@
 export enum USER_RELATIONS {
-  NO_RELATIONS = 'no',
-  REQUEST = 'request',
+  REQUESTED = 'requested',
+  SUBSCRIPTION = 'subscription',
   FRIEND = 'friend',
 }

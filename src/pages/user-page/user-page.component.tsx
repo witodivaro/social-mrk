@@ -43,7 +43,7 @@ const UserPage = ({ match }: UserPageProps) => {
   const isCurrentUser = useMemo(() => {
     if (!userId || !currentUser) return false;
 
-    return currentUser.id === +userId || +userId === 0;
+    return currentUser.profile.id === +userId || +userId === 0;
   }, [currentUser, userId]);
 
   useEffect(() => {
@@ -84,15 +84,21 @@ const UserPage = ({ match }: UserPageProps) => {
           <CustomButton inverted className="user-page__action">
             Отправить сообщение
           </CustomButton>
-          <AddToFriendsButton
-            successText="Заявка отправлена"
-            id={userId}
-            inverted
-            className="user-page__action"
-            isSent={userPageUser.relations === USER_RELATIONS.REQUEST}
-          >
-            Добавить в друзья
-          </AddToFriendsButton>
+          {userPageUser.relation === USER_RELATIONS.SUBSCRIPTION ? (
+            <CustomButton disabled className="user-page__action">
+              Отписаться
+            </CustomButton>
+          ) : (
+            <AddToFriendsButton
+              successText="Заявка отправлена"
+              id={userId}
+              inverted
+              className="user-page__action"
+              isSent={userPageUser.relation === USER_RELATIONS.REQUESTED}
+            >
+              Добавить в друзья
+            </AddToFriendsButton>
+          )}
         </>
       );
     }
@@ -101,7 +107,12 @@ const UserPage = ({ match }: UserPageProps) => {
   }, [isCurrentUser, userPageUser, userId, addToFriendsHandler]);
 
   const renderedStatus = useMemo(
-    () => <UserStatus status={userPageUser?.status} editable={isCurrentUser} />,
+    () => (
+      <UserStatus
+        status={userPageUser?.profile.status}
+        editable={isCurrentUser}
+      />
+    ),
     [isCurrentUser, userPageUser]
   );
 
@@ -113,7 +124,7 @@ const UserPage = ({ match }: UserPageProps) => {
             <header className="user-page__header">
               <article className="user-page__avatar-container">
                 <UserAvatar
-                  imageSource={userPageUser.image}
+                  imageSource={userPageUser.profile.image}
                   editable={isCurrentUser}
                 />
                 <div className="user-page__actions">{renderedActions}</div>

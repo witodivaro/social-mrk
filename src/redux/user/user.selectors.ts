@@ -10,7 +10,7 @@ export const selectCurrentUser = createSelector(
 
 export const selectCurrentUserId = createSelector(
   selectCurrentUser,
-  (currentUser) => currentUser?.id
+  (currentUser) => currentUser?.profile.id
 );
 
 export const selectToken = createSelector(selectUser, (user) => user.token);

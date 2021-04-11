@@ -5,15 +5,20 @@ import {
   selectFriends,
   selectFriendsErrors,
 } from '../../../redux/socials/socials.selectors';
+import { selectCurrentUserId } from '../../../redux/user/user.selectors';
 import UsersList from '../../users-list/users-list.component';
 
-const Friends = () => {
+interface FriendsProps {
+  id: number;
+}
+
+const Friends = ({ id }: FriendsProps) => {
   const dispatch = useDispatch();
   const friends = useSelector(selectFriends);
   const friendsErrors = useSelector(selectFriendsErrors);
 
   useEffect(() => {
-    dispatch(getFriendsStart(0));
+    dispatch(getFriendsStart(id));
   }, [dispatch, getFriendsStart]);
 
   return (

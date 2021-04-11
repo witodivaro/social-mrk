@@ -4,7 +4,7 @@ export interface UserFriend {
   id: number;
   image: string;
   username: string;
-  isFriend?: boolean;
+  relation: USER_RELATIONS;
 }
 
 export interface UserSubscription {
@@ -20,13 +20,21 @@ export interface UserFriendRequest {
 }
 
 export interface User {
-  id: number;
   username: string;
-  status: string;
-  image: string | null;
+  profile: {
+    id: number;
+    status: string;
+    image: string | null;
+  };
   friends: UserFriend[];
   subscriptions: UserSubscription[];
   relations?: keyof USER_RELATIONS;
+}
+
+export interface UserPreview {
+  id: number;
+  image: string;
+  username: string;
 }
 
 export interface UserUpdate {

@@ -1,19 +1,21 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFriendRequestsStart } from '../../../redux/socials/socials.actions';
 import {
   selectFriendRequests,
   selectFriendRequestsErrors,
 } from '../../../redux/socials/socials.selectors';
+import { selectCurrentUserId } from '../../../redux/user/user.selectors';
 import UsersList from '../../users-list/users-list.component';
 
 const FriendRequests = () => {
   const dispatch = useDispatch();
   const friendRequests = useSelector(selectFriendRequests);
   const friendRequestsErrors = useSelector(selectFriendRequestsErrors);
+  const currentUserId = useSelector(selectCurrentUserId);
 
   useEffect(() => {
-    dispatch(getFriendRequestsStart());
+    dispatch(getFriendRequestsStart(currentUserId));
   }, [dispatch, getFriendRequestsStart]);
 
   return (

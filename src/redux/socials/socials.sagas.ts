@@ -12,6 +12,7 @@ import {
   UserSubscription,
 } from '../../types/redux/user/User';
 import { AnyAction } from 'redux';
+import { GetFriendRequestsStartAction } from '../../types/redux/socials/GetFriendRequestsStart';
 
 function* getFriends({
   payload,
@@ -32,13 +33,16 @@ function* getFriends({
   }
 }
 
-function* getFriendRequests(): Generator<
+function* getFriendRequests({
+  payload,
+}: GetFriendRequestsStartAction): Generator<
   AxiosPromise | StrictEffect,
   void,
   AxiosResponse<{ requests: UserFriendRequest[] }>
 > {
+  const { id } = payload;
   try {
-    const response = yield socialMrkAPI.getFriendRequests();
+    const response = yield socialMrkAPI.getFriendRequests(id);
 
     yield put(SocialsActions.getFriendRequestsSuccess(response.data.requests));
   } catch (error) {

@@ -2,10 +2,10 @@ import './users-list.styles.scss';
 
 import { useMemo } from 'react';
 import UserPreview from '../User/user-preview/user-preview.component';
-import { User } from '../../types/redux/user/User';
+import { UserPreview as UserPreviewType } from '../../types/redux/user/User';
 
 interface UsersListProps {
-  users: User[];
+  users: UserPreviewType[];
   friendRequests?: boolean;
   friends?: boolean;
   title: string;

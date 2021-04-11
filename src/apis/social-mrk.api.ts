@@ -8,6 +8,7 @@ import removeFriend from './user-actions/remove-friend';
 import sendMessage from './user-actions/send-message';
 import changeUser from './user-profile/change-user';
 import getUser from './user-profile/get-user';
+import getCurrentUser from './user-profile/my';
 import signIn from './user/sign-in';
 import signUp from './user/sign-up';
 
@@ -24,4 +25,5 @@ export default {
   addToFriends,
   removeFriend,
   rejectFriendRequest,
+  getCurrentUser,
 };
