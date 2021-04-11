@@ -1,45 +1,18 @@
 import './dialogue-list.styles.scss';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import DialoguePreview from '../dialogue-preview/dialogue-preview.component';
-
-const mockDialogues = [
-  {
-    username: 'WIto',
-    image: null,
-    message:
-      'Я русский Я русский Я русский Я русский Я русский Я русский Я русский ',
-    id: 1,
-  },
-  {
-    username: 'WIto',
-    image: null,
-    message:
-      'Я русский Я русский Я русский Я русский Я русский Я русский Я русский ',
-    id: 2,
-  },
-  {
-    username: 'WIto',
-    image: null,
-    message:
-      'Я русский Я русский Я русский Я русский Я русский Я русский Я русский ',
-    id: 3,
-  },
-  {
-    username: 'WIto',
-    image: null,
-    message:
-      'Я русский Я русский Я русский Я русский Я русский Я русский Я русский ',
-    id: 4,
-  },
-];
+import { useAppSelector } from '../../../redux/hooks';
+import { selectLastMessages } from '../../../redux/messages/messages.selectors';
 
 const DialogueList = () => {
+  const lastMessages = useAppSelector(selectLastMessages);
+
   const renderedDialoguePreviews = useMemo(
     () =>
-      mockDialogues.map((dialogue) => (
+      lastMessages.map((dialogue) => (
         <DialoguePreview key={`Dialogue ${dialogue.id}`} dialogue={dialogue} />
       )),
-    [mockDialogues]
+    [lastMessages]
   );
 
   return <div className="dialogue-list">{renderedDialoguePreviews}</div>;

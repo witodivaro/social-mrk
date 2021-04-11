@@ -10,6 +10,11 @@ import { ReactComponent as NoAvatar } from '../../../assets/images/no-avatar.svg
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { FaPaperPlane } from 'react-icons/fa';
 import { Message as MessageType } from '../../../types/redux/messages/Dialogue';
+import { useAppDispatch } from '../../../redux/hooks';
+import {
+  sendMessageLocal,
+  sendMessageStart,
+} from '../../../redux/messages/messages.actions';
 
 interface DialogueMatchProps {
   userId?: string;
@@ -17,13 +22,13 @@ interface DialogueMatchProps {
 
 const Dialogue = ({ match }: RouteComponentProps<DialogueMatchProps>) => {
   const { userId } = match.params;
+  const dispatch = useAppDispatch();
   const currentUserId = useSelector(selectCurrentUserId);
   const dialogue = useSelector(createDialogueByIdSelector(userId));
   const messagesWrapperRef = useRef(null);
   const [newMessage, setNewMessage] = useState('');
 
-  const { messages, image, username } = dialogue || {
-    messages: [] as MessageType[],
+  const { image, username } = dialogue || {
     image: null,
     username: 'Wito Divaro',
   };
@@ -33,29 +38,39 @@ const Dialogue = ({ match }: RouteComponentProps<DialogueMatchProps>) => {
     messagesWrapperRef.current.scrollTop =
       // @ts-ignore
       messagesWrapperRef.current.scrollHeight;
-  }, []);
+  }, [dialogue]);
 
-  const renderedMessages = useMemo(
-    () =>
-      messages.length > 0 ? (
-        messages.map((message: MessageType, index: number) => (
-          <Message
-            key={`message ${index}`}
-            message={message}
-            isMine={message.from == currentUserId}
-          />
-        ))
-      ) : (
+  const renderedMessages = useMemo(() => {
+    if (!dialogue || dialogue.messages.length === 0) {
+      return (
         <p className="dialogue__no-messages">
           Начните вашу историю, отправив первое сообщение!
         </p>
-      ),
-    [messages, currentUserId]
-  );
+      );
+    }
+
+    return dialogue.messages.map((message: MessageType, index: number) => (
+      <Message
+        key={`message ${index}`}
+        message={message}
+        isMine={message.from == currentUserId}
+      />
+    ));
+  }, [dialogue, currentUserId]);
 
   const sendMessageHandler = (e: FormEvent) => {
     e.preventDefault();
     setNewMessage('');
+    if (userId) {
+      dispatch(sendMessageStart(+userId, newMessage));
+      dispatch(
+        sendMessageLocal(+userId, {
+          text: newMessage,
+          date: new Date(),
+          from: currentUserId,
+        })
+      );
+    }
   };
 
   const renderedAvatar = useMemo(() => (image ? null : <NoAvatar />), [
