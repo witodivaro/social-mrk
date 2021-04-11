@@ -1,5 +1,5 @@
 import './dialogue.styles.scss';
-import React, { useEffect, useMemo, useRef } from 'react';
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { createDialogueByIdSelector } from '../../../redux/messages/messages.selectors';
 import { selectCurrentUserId } from '../../../redux/user/user.selectors';
@@ -7,30 +7,38 @@ import Message from '../message/message.component';
 import FormInput from '../../form-input/form-input.component';
 import CustomButton from '../../custom-button/custom-button.component';
 import { ReactComponent as NoAvatar } from '../../../assets/images/no-avatar.svg';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { FaPaperPlane } from 'react-icons/fa';
+import { Message as MessageType } from '../../../types/redux/messages/Dialogue';
 
-const Dialogue = ({ match }) => {
+interface DialogueMatchProps {
+  userId?: string;
+}
+
+const Dialogue = ({ match }: RouteComponentProps<DialogueMatchProps>) => {
   const { userId } = match.params;
   const currentUserId = useSelector(selectCurrentUserId);
   const dialogue = useSelector(createDialogueByIdSelector(userId));
-  const messagesWrapperRef = useRef();
+  const messagesWrapperRef = useRef(null);
+  const [newMessage, setNewMessage] = useState('');
 
   const { messages, image, username } = dialogue || {
-    messages: [],
+    messages: [] as MessageType[],
     image: null,
     username: 'Wito Divaro',
   };
 
   useEffect(() => {
+    // @ts-ignore
     messagesWrapperRef.current.scrollTop =
+      // @ts-ignore
       messagesWrapperRef.current.scrollHeight;
   }, []);
 
   const renderedMessages = useMemo(
     () =>
       messages.length > 0 ? (
-        messages.map((message, index) => (
+        messages.map((message: MessageType, index: number) => (
           <Message
             key={`message ${index}`}
             message={message}
@@ -45,8 +53,9 @@ const Dialogue = ({ match }) => {
     [messages, currentUserId]
   );
 
-  const sendMessageHandler = (e) => {
+  const sendMessageHandler = (e: FormEvent) => {
     e.preventDefault();
+    setNewMessage('');
   };
 
   const renderedAvatar = useMemo(() => (image ? null : <NoAvatar />), [
@@ -69,8 +78,12 @@ const Dialogue = ({ match }) => {
         <FormInput
           placeholder="Отправьте сообщение.."
           className="dialogue__input"
+          value={newMessage}
+          onInput={(e: FormEvent<HTMLInputElement>) => {
+            setNewMessage(e.currentTarget.value);
+          }}
         />
-        <CustomButton aria-label="Отправить сообщение" inverted>
+        <CustomButton aria-label="Отправить сообщение" type="submit" inverted>
           <FaPaperPlane />
         </CustomButton>
       </form>

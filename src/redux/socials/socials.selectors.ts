@@ -52,3 +52,13 @@ export const selectAddFriendState = createSelector(
   selectSocials,
   (socials) => socials.addFriendState
 );
+
+export const selectUnsubscribeState = createSelector(
+  selectSocials,
+  (socials) => socials.unsubscribeState
+);
+
+export const selectRemoveFriendState = createSelector(
+  selectSocials,
+  (socials) => socials.removeFriendState
+);

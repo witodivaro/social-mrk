@@ -58,6 +58,13 @@
     margin-top: 10px;
     height: calc(100vh - 41px - 61px - 35px - 75px);
     overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     display: flex;
     flex-direction: column;

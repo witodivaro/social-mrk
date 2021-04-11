@@ -114,6 +114,20 @@ export const removeFriendFailure = (error: HandledNetworkError) => ({
   payload: error,
 });
 
+export const unsubscribeStart = (id: number) => ({
+  type: SocialsActionTypes.UNSUBSCRIBE_START,
+  payload: { id },
+});
+
+export const unsubscribeSuccess = () => ({
+  type: SocialsActionTypes.UNSUBSCRIBE_SUCCESS,
+});
+
+export const unsubscribeFailure = (error: HandledNetworkError) => ({
+  type: SocialsActionTypes.UNSUBSCRIBE_FAILURE,
+  payload: error,
+});
+
 export const addFriendStart = (id: number) => ({
   type: SocialsActionTypes.ADD_FRIEND_START,
   payload: { id },

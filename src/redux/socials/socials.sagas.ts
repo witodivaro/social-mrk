@@ -105,6 +105,21 @@ function* removeFriend({
   }
 }
 
+function* unsubscribe({
+  payload,
+}: AnyAction): Generator<AxiosPromise | StrictEffect, void, AxiosResponse> {
+  try {
+    const { id } = payload;
+    yield socialMrkAPI.unsubscribe(id);
+
+    yield put(SocialsActions.unsubscribeSuccess());
+  } catch (error) {
+    const handledNetworkErrors = getHandledNetworkErrors(error);
+
+    yield put(SocialsActions.unsubscribeFailure(handledNetworkErrors));
+  }
+}
+
 function* acceptFriendRequest({
   payload,
 }: AnyAction): Generator<AxiosPromise | StrictEffect, void, AxiosResponse> {
@@ -159,6 +174,10 @@ function* onAddFriendStart() {
   yield takeLatest(SocialsActionTypes.ADD_FRIEND_START, addFriend);
 }
 
+function* onUnsubscribeStart() {
+  yield takeLatest(SocialsActionTypes.UNSUBSCRIBE_START, unsubscribe);
+}
+
 function* onRemoveFriendStart() {
   yield takeLatest(SocialsActionTypes.REMOVE_FRIEND_START, removeFriend);
 }
@@ -183,6 +202,7 @@ export default function* socialsSagas() {
     call(onGetSubscriptionsStart),
     call(onGetFriendRequestsStart),
     call(onAddFriendStart),
+    call(onUnsubscribeStart),
     call(onRemoveFriendStart),
     call(onAcceptFriendRequestStart),
     call(onRejectFriendRequestStart),

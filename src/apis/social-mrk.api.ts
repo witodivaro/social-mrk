@@ -6,6 +6,7 @@ import getSubscriptions from './user-actions/get-subscriptions';
 import rejectFriendRequest from './user-actions/reject-friend-request';
 import removeFriend from './user-actions/remove-friend';
 import sendMessage from './user-actions/send-message';
+import unsubscribe from './user-actions/unsubscribe';
 import changeUser from './user-profile/change-user';
 import getUser from './user-profile/get-user';
 import getCurrentUser from './user-profile/my';
@@ -24,6 +25,7 @@ export default {
   sendMessage,
   addToFriends,
   removeFriend,
+  unsubscribe,
   rejectFriendRequest,
   getCurrentUser,
 };

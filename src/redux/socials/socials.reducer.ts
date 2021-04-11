@@ -19,6 +19,8 @@ interface SocialsState {
   getFriendRequestsState: string;
   getFriendRequestsError: null;
   addFriendState: string;
+  unsubscribeState: string;
+  removeFriendState: string;
 }
 
 const initialState: SocialsState = {
@@ -32,6 +34,8 @@ const initialState: SocialsState = {
   getFriendRequestsState: '',
   getFriendRequestsError: null,
   addFriendState: '',
+  unsubscribeState: '',
+  removeFriendState: '',
 };
 
 const socialsReducer = (state = initialState, { type, payload }: AnyAction) => {
@@ -168,6 +172,45 @@ const socialsReducer = (state = initialState, { type, payload }: AnyAction) => {
         subscriptions: subToFriends.from,
         friends: subToFriends.to,
       };
+
+    case SocialsActionTypes.UNSUBSCRIBE_START:
+      return {
+        ...state,
+        unsubscribeState: FETCH_STATES.FETCHING,
+      };
+
+    case SocialsActionTypes.UNSUBSCRIBE_FAILURE:
+      return {
+        ...state,
+        unsubscribeState: FETCH_STATES.FAILURE,
+      };
+
+    case SocialsActionTypes.UNSUBSCRIBE_SUCCESS:
+      return {
+        ...state,
+        unsubscribeState: FETCH_STATES.SUCCESS,
+      };
+
+    case SocialsActionTypes.REMOVE_FRIEND_START: {
+      return {
+        ...state,
+        removeFriendState: FETCH_STATES.FETCHING,
+      };
+    }
+
+    case SocialsActionTypes.REMOVE_FRIEND_SUCCESS: {
+      return {
+        ...state,
+        removeFriendState: FETCH_STATES.SUCCESS,
+      };
+    }
+
+    case SocialsActionTypes.REMOVE_FRIEND_FAILURE: {
+      return {
+        ...state,
+        removeFriendState: FETCH_STATES.FAILURE,
+      };
+    }
 
     default:
       return state;
