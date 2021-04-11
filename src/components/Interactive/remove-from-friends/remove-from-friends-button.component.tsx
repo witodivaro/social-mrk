@@ -1,11 +1,12 @@
 import { MouseEvent, useCallback, useEffect, useMemo, useState } from 'react';
-import { FaEnvelopeSquare } from 'react-icons/fa';
+import { FaEnvelopeSquare, FaUserPlus } from 'react-icons/fa';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import { addFriendStart } from '../../../redux/socials/socials.actions';
-import { selectAddFriendState } from '../../../redux/socials/socials.selectors';
+import { removeFriendStart } from '../../../redux/socials/socials.actions';
+import { selectRemoveFriendState } from '../../../redux/socials/socials.selectors';
 import CustomButton from '../../custom-button/custom-button.component';
 import { FETCH_STATES } from '../../../config/fetch-states';
 import ButtonSpinner from '../button-spinner/button-spinner.component.';
+import AddToFriendsButton from '../add-to-friends-button/add-to-friends-button.component';
 
 interface AddToFriendsProps {
   id?: number | string;
@@ -14,60 +15,59 @@ interface AddToFriendsProps {
   inverted?: boolean;
   loadingText?: string;
   successText?: string;
-  isSent?: boolean;
 }
 
-const AddToFriendsButton = ({
+const RemoveFromFriendsButton = ({
   id,
   inverted,
   className,
   children,
   loadingText,
   successText,
-  isSent,
 }: AddToFriendsProps) => {
   const dispatch = useAppDispatch();
-  const addFriendState = useAppSelector(selectAddFriendState);
+  const removeFriendState = useAppSelector(selectRemoveFriendState);
   const [componentFetchState, setComponentFetchState] = useState('');
 
   useEffect(() => {
     setComponentFetchState((prevComponentState) => {
       switch (prevComponentState) {
         case FETCH_STATES.FETCHING:
-          return addFriendState;
+          return removeFriendState;
 
         default:
           return prevComponentState;
       }
     });
-  }, [addFriendState, setComponentFetchState]);
+  }, [removeFriendState, setComponentFetchState]);
 
-  const addToFriendsHandler = useCallback(
+  const renoveFromFriendsHandler = useCallback(
     (e: MouseEvent) => {
       e.preventDefault();
 
       if (!id) return;
 
-      dispatch(addFriendStart(+id));
+      dispatch(removeFriendStart(+id));
       setComponentFetchState(FETCH_STATES.FETCHING);
     },
-    [id, addFriendStart]
+    [id, removeFriendStart]
   );
 
   const successButton = useMemo(
     () => (
-      <CustomButton inverted={inverted} className={className} disabled>
-        {successText || <FaEnvelopeSquare />}
-      </CustomButton>
+      <AddToFriendsButton
+        id={id}
+        className={className}
+        inverted={!inverted}
+        successText={successText ? 'Заявка отправлена' : ''}
+      >
+        {successText ? 'Добавить в друзья' : <FaUserPlus />}
+      </AddToFriendsButton>
     ),
     [successText, inverted, className, successText]
   );
 
   const renderedButton = useMemo(() => {
-    if (isSent) {
-      return successButton;
-    }
-
     switch (componentFetchState) {
       case FETCH_STATES.SUCCESS:
         return successButton;
@@ -82,22 +82,21 @@ const AddToFriendsButton = ({
           <CustomButton
             inverted={inverted}
             className={className}
-            onClick={addToFriendsHandler}
+            onClick={renoveFromFriendsHandler}
           >
             {children}
           </CustomButton>
         );
     }
   }, [
-    addToFriendsHandler,
+    renoveFromFriendsHandler,
     inverted,
     className,
     children,
     componentFetchState,
-    isSent,
   ]);
 
   return <>{renderedButton}</>;
 };
 
-export default AddToFriendsButton;
+export default RemoveFromFriendsButton;

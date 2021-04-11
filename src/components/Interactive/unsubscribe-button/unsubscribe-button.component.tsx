@@ -1,54 +1,56 @@
 import { MouseEvent, useCallback, useEffect, useMemo, useState } from 'react';
-import { FaEnvelopeSquare } from 'react-icons/fa';
+import { FaEnvelopeSquare, FaUserPlus } from 'react-icons/fa';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import { addFriendStart } from '../../../redux/socials/socials.actions';
-import { selectAddFriendState } from '../../../redux/socials/socials.selectors';
+import {
+  addFriendStart,
+  unsubscribeStart,
+} from '../../../redux/socials/socials.actions';
+import { selectUnsubscribeState } from '../../../redux/socials/socials.selectors';
 import CustomButton from '../../custom-button/custom-button.component';
 import { FETCH_STATES } from '../../../config/fetch-states';
 import ButtonSpinner from '../button-spinner/button-spinner.component.';
+import AddToFriendsButton from '../add-to-friends-button/add-to-friends-button.component';
 
-interface AddToFriendsProps {
+interface UnsubscribeProps {
   id?: number | string;
   children?: JSX.Element | string;
   className?: string;
   inverted?: boolean;
   loadingText?: string;
   successText?: string;
-  isSent?: boolean;
 }
 
-const AddToFriendsButton = ({
+const UnsubscribeButton = ({
   id,
   inverted,
   className,
   children,
   loadingText,
   successText,
-  isSent,
-}: AddToFriendsProps) => {
+}: UnsubscribeProps) => {
   const dispatch = useAppDispatch();
-  const addFriendState = useAppSelector(selectAddFriendState);
+  const unsubscribeState = useAppSelector(selectUnsubscribeState);
   const [componentFetchState, setComponentFetchState] = useState('');
 
   useEffect(() => {
     setComponentFetchState((prevComponentState) => {
       switch (prevComponentState) {
         case FETCH_STATES.FETCHING:
-          return addFriendState;
+          return unsubscribeState;
 
         default:
           return prevComponentState;
       }
     });
-  }, [addFriendState, setComponentFetchState]);
+  }, [unsubscribeState, setComponentFetchState]);
 
-  const addToFriendsHandler = useCallback(
+  const unsubscribeHandler = useCallback(
     (e: MouseEvent) => {
       e.preventDefault();
 
       if (!id) return;
 
-      dispatch(addFriendStart(+id));
+      dispatch(unsubscribeStart(+id));
       setComponentFetchState(FETCH_STATES.FETCHING);
     },
     [id, addFriendStart]
@@ -56,18 +58,19 @@ const AddToFriendsButton = ({
 
   const successButton = useMemo(
     () => (
-      <CustomButton inverted={inverted} className={className} disabled>
-        {successText || <FaEnvelopeSquare />}
-      </CustomButton>
+      <AddToFriendsButton
+        successText={successText ? 'Заявка отправлена' : ''}
+        id={id}
+        inverted
+        className={className}
+      >
+        {successText || <FaUserPlus />}
+      </AddToFriendsButton>
     ),
     [successText, inverted, className, successText]
   );
 
   const renderedButton = useMemo(() => {
-    if (isSent) {
-      return successButton;
-    }
-
     switch (componentFetchState) {
       case FETCH_STATES.SUCCESS:
         return successButton;
@@ -82,22 +85,15 @@ const AddToFriendsButton = ({
           <CustomButton
             inverted={inverted}
             className={className}
-            onClick={addToFriendsHandler}
+            onClick={unsubscribeHandler}
           >
             {children}
           </CustomButton>
         );
     }
-  }, [
-    addToFriendsHandler,
-    inverted,
-    className,
-    children,
-    componentFetchState,
-    isSent,
-  ]);
+  }, [unsubscribeHandler, inverted, className, children, componentFetchState]);
 
   return <>{renderedButton}</>;
 };
 
-export default AddToFriendsButton;
+export default UnsubscribeButton;

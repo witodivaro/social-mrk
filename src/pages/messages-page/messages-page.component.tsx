@@ -1,5 +1,4 @@
 import './messages-page.styles.scss';
-import React from 'react';
 import { Switch, Route } from 'react-router';
 import DialogueList from '../../components/Messages/dialogue-list/dialogue-list.component';
 import Dialogue from '../../components/Messages/dialogue/dialogue.component';

@@ -8,12 +8,15 @@ import { selectCurrentUserId } from '../../../redux/user/user.selectors';
 import {
   addFriendStart,
   removeFriendStart,
+  unsubscribeStart,
 } from '../../../redux/socials/socials.actions';
 import { UserFriend as UserFriendType } from '../../../types/redux/user/User';
 import AddToFriendsButton from '../../Interactive/add-to-friends-button/add-to-friends-button.component';
-import { FaTimes, FaUserPlus, FaUser } from 'react-icons/fa';
+import { FaTimes, FaUserPlus, FaUserAltSlash } from 'react-icons/fa';
 import { USER_RELATIONS } from '../../../config/user-relations';
-import colors from '../../../consts/colors';
+import { selectUnsubscribeState } from '../../../redux/socials/socials.selectors';
+import UnsubscribeButton from '../../Interactive/unsubscribe-button/unsubscribe-button.component';
+import RemoveFromFriendsButton from '../../Interactive/remove-from-friends/remove-from-friends-button.component';
 
 interface UserFriendsProps {
   user: UserFriendType;
@@ -23,11 +26,7 @@ const UserFriend = ({ user }: UserFriendsProps) => {
   const { id, image, username, relation } = user;
   const dispatch = useDispatch();
   const currentUserId = useSelector(selectCurrentUserId);
-
-  const addToFriendsHandler = (e: MouseEvent): void => {
-    e.preventDefault();
-    dispatch(addFriendStart(id));
-  };
+  const unsubscribeState = useSelector(selectUnsubscribeState);
 
   const removeFromFriendsHandler = (e: MouseEvent): void => {
     e.preventDefault();
@@ -56,15 +55,16 @@ const UserFriend = ({ user }: UserFriendsProps) => {
 
     if (relation === USER_RELATIONS.FRIEND) {
       return (
-        <CustomButton
-          className="friends__action"
-          onClick={removeFromFriendsHandler}
-        >
+        <RemoveFromFriendsButton id={id} className="friends__action">
           <FaTimes />
-        </CustomButton>
+        </RemoveFromFriendsButton>
       );
     } else if (relation === USER_RELATIONS.SUBSCRIPTION) {
-      return <FaUser color={colors.primary} />;
+      return (
+        <UnsubscribeButton id={id} className="friends__action" inverted>
+          <FaUserAltSlash />
+        </UnsubscribeButton>
+      );
     }
 
     return (
@@ -77,13 +77,7 @@ const UserFriend = ({ user }: UserFriendsProps) => {
         <FaUserPlus />
       </AddToFriendsButton>
     );
-  }, [
-    relation,
-    currentUserId,
-    id,
-    removeFromFriendsHandler,
-    addToFriendsHandler,
-  ]);
+  }, [relation, currentUserId, id, removeFromFriendsHandler]);
 
   return (
     <li className="friends__item">

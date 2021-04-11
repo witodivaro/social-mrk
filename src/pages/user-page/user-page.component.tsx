@@ -25,6 +25,8 @@ import { RouteComponentProps } from 'react-router';
 import AddToFriendsButton from '../../components/Interactive/add-to-friends-button/add-to-friends-button.component';
 import { FETCH_STATES } from '../../config/fetch-states';
 import { USER_RELATIONS } from '../../config/user-relations';
+import UnsubscribeButton from '../../components/Interactive/unsubscribe-button/unsubscribe-button.component';
+import RemoveFromFriendsButton from '../../components/Interactive/remove-from-friends/remove-from-friends-button.component';
 
 type MatchParams = { userId?: string };
 
@@ -85,9 +87,21 @@ const UserPage = ({ match }: UserPageProps) => {
             Отправить сообщение
           </CustomButton>
           {userPageUser.relation === USER_RELATIONS.SUBSCRIPTION ? (
-            <CustomButton disabled className="user-page__action">
+            <UnsubscribeButton
+              successText="Добавить в друзья"
+              id={userPageUser.profile.id}
+              className="user-page__action"
+            >
               Отписаться
-            </CustomButton>
+            </UnsubscribeButton>
+          ) : userPageUser.relation === USER_RELATIONS.FRIEND ? (
+            <RemoveFromFriendsButton
+              className="user-page__action"
+              successText="Добавить в друзья"
+              id={userPageUser.profile.id}
+            >
+              Удалить из друзей
+            </RemoveFromFriendsButton>
           ) : (
             <AddToFriendsButton
               successText="Заявка отправлена"

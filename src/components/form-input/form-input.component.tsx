@@ -3,7 +3,7 @@ import './form-input.styles.scss';
 
 interface FormInputProps {
   className?: string;
-  name: string;
+  name?: string;
   label?: string;
   errors?: string[];
   disabled?: boolean;
@@ -31,7 +31,13 @@ const FormInput = ({
 
   return (
     <div className={`form-input ${disabled ? 'disabled' : ''} ${className}`}>
-      <input id={name} name={name} disabled={disabled} {...props} />
+      <input
+        id={name}
+        name={name}
+        value={value}
+        disabled={disabled}
+        {...props}
+      />
       <label
         htmlFor={name}
         ref={labelRef}
