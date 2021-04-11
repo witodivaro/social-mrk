@@ -25,3 +25,8 @@ export const createDialogueByIdSelector = defaultMemoize(
       }
     )
 );
+
+export const selectLastMessages = createSelector(
+  selectMessages,
+  (messages) => messages.lastMessages
+);

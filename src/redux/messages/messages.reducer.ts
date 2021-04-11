@@ -1,110 +1,22 @@
 import { AnyAction } from 'redux';
-import { MessageActionTypes } from './messages.types';
+import { DialogueList, Message } from '../../types/redux/messages/Dialogue';
+import { MessagesActionTypes } from './messages.types';
+import { addNewMessage } from './messages.utils';
 
-const mockDialogues = {
-  1: {
-    image: null,
-    username: 'Wito Divaro',
-    messages: [
-      {
-        from: 1,
-        text:
-          'Все переплетено Все переплетено Все переплетено Все переплетеноВсе перепл Все переплетено Все переплетено Все переплетено Все переплетено Все переплетено',
-        date: new Date(),
-      },
-      {
-        from: 1,
-        text:
-          'Все переплетено Все переплетено Все переплетено Все переплетеноВсе перепл Все переплетено Все переплетено Все переплетено Все переплетено Все переплетено',
-        date: new Date(),
-      },
-      {
-        from: 1,
-        text:
-          'Все переплетено Все переплетено Все переплетено Все переплетеноВсе перепл Все переплетено Все переплетено Все переплетено Все переплетено Все переплетено',
-        date: new Date(),
-      },
-      {
-        from: 1,
-        text:
-          'Все переплетено Все переплетено Все переплетено Все переплетеноВсе перепл Все переплетено Все переплетено Все переплетено Все переплетено Все переплетено',
-        date: new Date(),
-      },
-      {
-        from: 1,
-        text:
-          'Все переплетено Все переплетено Все переплетено Все переплетеноВсе перепл Все переплетено Все переплетено Все переплетено Все переплетено Все переплетено',
-        date: new Date(),
-      },
-      {
-        from: 1,
-        text:
-          'Все переплетено Все переплетено Все переплетено Все переплетеноВсе перепл Все переплетено Все переплетено Все переплетено Все переплетено Все переплетено',
-        date: new Date(),
-      },
-      {
-        from: 1,
-        text:
-          'Все переплетено Все переплетено Все переплетено Все переплетеноВсе перепл Все переплетено Все переплетено Все переплетено Все переплетено Все переплетено',
-        date: new Date(),
-      },
-      {
-        from: 1,
-        text:
-          'Все переплетено Все переплетено Все переплетено Все переплетеноВсе перепл Все переплетено Все переплетено Все переплетено Все переплетено Все переплетено',
-        date: new Date(),
-      },
-      {
-        from: 1,
-        text:
-          'Все переплетено Все переплетено Все переплетено Все переплетеноВсе перепл Все переплетено Все переплетено Все переплетено Все переплетено Все переплетено',
-        date: new Date(),
-      },
-      {
-        from: 1,
-        text:
-          'Все переплетено Все переплетено Все переплетено Все переплетеноВсе перепл Все переплетено Все переплетено Все переплетено Все переплетено Все переплетено',
-        date: new Date(),
-      },
-      {
-        from: 1,
-        text:
-          'Все переплетено Все переплетено Все переплетено Все переплетеноВсе перепл Все переплетено Все переплетено Все переплетено Все переплетено Все переплетено',
-        date: new Date(),
-      },
-      {
-        from: 1,
-        text:
-          'Все переплетено Все переплетено Все переплетено Все переплетеноВсе перепл Все переплетено Все переплетено Все переплетено Все переплетено Все переплетено',
-        date: new Date(),
-      },
+interface MessagesState {
+  lastMessages: Message[];
+  dialogues: DialogueList;
+  sendMessageState: string;
+  fetchDialogueState: string;
+  fetchAllMessagesState: string;
+}
 
-      {
-        from: 1,
-        text: 'Все переплетено 2',
-        date: new Date(),
-      },
-      {
-        from: 20,
-        text: 'Я русский',
-        date: new Date(),
-      },
-      {
-        from: 20,
-        text: 'Да да я',
-        date: new Date(),
-      },
-      {
-        from: 1,
-        text: 'Да да ты',
-        date: new Date(),
-      },
-    ],
-  },
-};
-
-const initialState = {
-  dialogues: mockDialogues,
+const initialState: MessagesState = {
+  lastMessages: [],
+  dialogues: {},
+  sendMessageState: '',
+  fetchAllMessagesState: '',
+  fetchDialogueState: '',
 };
 
 const messagesReducer = (
@@ -112,6 +24,18 @@ const messagesReducer = (
   { type, payload }: AnyAction
 ) => {
   switch (type) {
+    case MessagesActionTypes.FETCH_LAST_MESSAGES_SUCCESS:
+      return {
+        ...state,
+        lastMessages: payload.lastMessages,
+      };
+
+    case MessagesActionTypes.SEND_MESSAGE_LOCAL:
+      return {
+        ...state,
+        dialogues: addNewMessage(state.dialogues, payload.id, payload.message),
+      };
+
     default:
       return state;
   }
